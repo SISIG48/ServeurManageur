@@ -1,1 +1,1 @@
-print("helo world")
+input("Are you okay mr Jon ?")
