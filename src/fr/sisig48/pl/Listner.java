@@ -1,0 +1,129 @@
+package fr.sisig48.pl;
+
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import com.earth2me.essentials.api.Economy;
+import com.earth2me.essentials.api.NoLoanPermittedException;
+import com.earth2me.essentials.api.UserDoesNotExistException;
+
+import fr.sisig48.pl.Menu.Interface;
+import fr.sisig48.pl.Menu.MenuPP;
+import fr.sisig48.pl.NetherStar.NetherStarMenu;
+import net.ess3.api.MaxMoneyException;
+
+
+
+public class Listner implements Listener {
+	
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		
+		NetherStarMenu.GiveMenu(player);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) {
+		Player player = event.getPlayer();
+		try {
+			Economy.divide(player.getName(), 2);
+			player.sendMessage("§4Vous ête mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
+		} catch (NoLoanPermittedException e) {
+			e.printStackTrace();
+		} catch (UserDoesNotExistException e) {
+			e.printStackTrace();
+		} catch (MaxMoneyException e) {
+			e.printStackTrace();
+		}
+		NetherStarMenu.GiveMenu(player);
+	}
+	
+	@EventHandler
+	public void OnIteract(PlayerInteractEvent event) {
+		
+		if(event.getPlayer() == null) return;
+		if(event.getItem() == null) return;
+
+		try {
+			if(event.getItem().getItemMeta().getCustomModelData() < 0 ) return;
+		} catch (Exception e) {return;}
+		Player player = event.getPlayer();
+		int it = event.getItem().getItemMeta().getCustomModelData();
+		event.setCancelled(NetherStarMenu.HasMenu(player, it, event.getItem()));
+	
+	}
+	
+	//@EventHandler
+	/*public void onPlayerMove(PlayerMoveEvent event) {
+		Player player = event.getPlayer();
+		Location LocP = ((PlayerMoveEvent) player).getFrom();
+		System.out.println("Player move : " + player.getName());
+		double x = LocP.getX();
+		double y = LocP.getY();
+		double z = LocP.getZ();
+		System.out.println(x + y + z);
+		if(x >= 48 && x <= 50) {
+			player.sendMessage("Vous devez être TP1");
+			if(y >= 64 && y <= 65) {
+				player.sendMessage("Vous devez être TP2");
+				if(z >= 260.300 && z <= 262.700) {
+					player.sendMessage("Vous devez être TP");
+				}
+			}
+		}
+	}*/	
+	
+	@EventHandler
+	public void onPlayerDropItem(PlayerDropItemEvent event) {
+		
+		Player player = event.getPlayer();
+		
+		//Verif du Menu
+		int it = event.getItemDrop().getItemStack().getItemMeta().getCustomModelData();
+		event.setCancelled(NetherStarMenu.HasMenu(player, it));
+		
+		
+	}
+
+
+	@EventHandler
+	public void OnClick(InventoryClickEvent event) {
+		
+		Inventory inv = event.getInventory();
+		
+		Player player = (Player) event.getWhoClicked();
+		
+		MenuPP.current = event.getCurrentItem();
+		ItemStack current = event.getCurrentItem();
+		if(current == null) return;
+		try {
+			if(Interface.GetActonIfInMainMenu(player, current, inv)) {
+				event.setCancelled(true);
+			} else {
+				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
+				if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
+					player.sendMessage("§4§l/!\\ Vous êtes en créatif, §4mecri de ne pas dupliqué votre §cétoile");
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	
+	}
+	
+	
+}
