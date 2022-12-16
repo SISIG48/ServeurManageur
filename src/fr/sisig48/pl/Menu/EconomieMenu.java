@@ -28,7 +28,7 @@ public class EconomieMenu {
 		ItemStack it;
 		it = Item.GiveOwnsPlayerHead(1, "Personelle", null, player.getName(), 124);
 		e.setItem(11, it);
-		it = Item.GiveItem(Material.GOLDEN_APPLE, 1, "Classement", "Obtener les diférent classement du serveur");
+		it = Item.GiveItem(Material.GOLDEN_APPLE, 1, "Classement", "Obtener les difÃ©rent classement du serveur");
 		e.setItem(15, it);
 		
 		
@@ -66,7 +66,7 @@ public class EconomieMenu {
 		
 		//Economie public
 		ItemStack it;
-		it = Item.GiveItem(Material.ENDER_CHEST, 1, "Argent", "Découvré le joueur avec le plus d'argent");
+		it = Item.GiveItem(Material.ENDER_CHEST, 1, "Argent", "DÃ©couvrÃ© le joueur avec le plus d'argent");
 		e.setItem(11, it);
 		
 		

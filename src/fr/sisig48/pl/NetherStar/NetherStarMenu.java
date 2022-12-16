@@ -12,7 +12,7 @@ public class NetherStarMenu {
 	public static Boolean HasMenu(Player player, int i, ItemStack current) {
 		String cun = current.getItemMeta().getDisplayName();
 		String cul = current.getItemMeta().getDisplayName();
-		if(i == 123 || cun == "§cMenu" && cul == "Menu du survival, " + player.getDisplayName()) {
+		if(i == 123 || cun == "Â§cMenu" && cul == "Menu du survival, " + player.getDisplayName()) {
 			player.closeInventory();
 			MenuPP.OpenMainMenu(player);
 			return true;
@@ -22,7 +22,7 @@ public class NetherStarMenu {
 	}
 	
 	public static void GiveMenu(Player player) {
-		Item.SetItem(8, Material.NETHER_STAR, 1, "§cMenu", "Menu du survival, " + player.getDisplayName() , player, true);
+		Item.SetItem(8, Material.NETHER_STAR, 1, "Â§cMenu", "Menu du survival, " + player.getDisplayName() , player, true);
 	}
 	
 	public static Boolean HasMenu(Player player, int i) {

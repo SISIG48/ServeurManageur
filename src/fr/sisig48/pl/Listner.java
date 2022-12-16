@@ -39,7 +39,7 @@ public class Listner implements Listener {
 		Player player = event.getPlayer();
 		try {
 			Economy.divide(player.getName(), 2);
-			player.sendMessage("§4Vous ête mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
+			player.sendMessage("Â§4Vous Â§te mort et Â§4Â§lavez perdu Â§2" + Economy.getMoney(player.getName()));
 		} catch (NoLoanPermittedException e) {
 			e.printStackTrace();
 		} catch (UserDoesNotExistException e) {
@@ -64,26 +64,7 @@ public class Listner implements Listener {
 		event.setCancelled(NetherStarMenu.HasMenu(player, it, event.getItem()));
 	
 	}
-	
-	//@EventHandler
-	/*public void onPlayerMove(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
-		Location LocP = ((PlayerMoveEvent) player).getFrom();
-		System.out.println("Player move : " + player.getName());
-		double x = LocP.getX();
-		double y = LocP.getY();
-		double z = LocP.getZ();
-		System.out.println(x + y + z);
-		if(x >= 48 && x <= 50) {
-			player.sendMessage("Vous devez être TP1");
-			if(y >= 64 && y <= 65) {
-				player.sendMessage("Vous devez être TP2");
-				if(z >= 260.300 && z <= 262.700) {
-					player.sendMessage("Vous devez être TP");
-				}
-			}
-		}
-	}*/	
+		
 	
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
@@ -114,7 +95,7 @@ public class Listner implements Listener {
 			} else {
 				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
 				if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
-					player.sendMessage("§4§l/!\\ Vous êtes en créatif, §4mecri de ne pas dupliqué votre §cétoile");
+					player.sendMessage("Â§4Â§l/!\\ Vous Â§tes en crÃ©atif, Â§4mecri de ne pas dupliquÃ© votre Â§cÃ©toile");
 				}
 			}
 			

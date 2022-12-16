@@ -5,7 +5,7 @@ import fr.sisig48.pl.Main;
 
 public class Uconfig extends Main {
 
-	public static finale
+	//public static final
 	public static String getConfig(String configPath) {
 		System.out.print(configPath);
 		String it = new Main().getConfig().getString(configPath);
