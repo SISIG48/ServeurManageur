@@ -11,7 +11,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="org.eclipse.jgit-6.4.0.202211300538-r.jar">
+	<classpathentry kind="lib" path="C:/Users/lamed/Desktop/SERVEUR LOCALE/plugins/EssentialsX-2.19.5-dev+8-3af9317.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
