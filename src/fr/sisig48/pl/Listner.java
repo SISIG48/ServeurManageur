@@ -43,7 +43,7 @@ public class Listner implements Listener {
 		Player player = event.getPlayer();
 		try {
 			Economy.divide(player.getName(), 2);
-			player.sendMessage("Â§4Vous Â§te mort et Â§4Â§lavez perdu Â§2" + Economy.getMoney(player.getName()));
+			player.sendMessage("§4Vous Â§te mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
 		} catch (NoLoanPermittedException e) {
 			e.printStackTrace();
 		} catch (UserDoesNotExistException e) {
@@ -99,7 +99,7 @@ public class Listner implements Listener {
 			} else {
 				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
 				if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
-					player.sendMessage("Â§4Â§l/!\\ Vous Â§tes en crÃ©atif, Â§4mecri de ne pas dupliquÃ© votre Â§cÃ©toile");
+					player.sendMessage("§4§l/!\\ Vous Â§tes en créatif, Â§4mecri de ne pas dupliquÃ© votre §cétoile");
 				}
 			}
 			
