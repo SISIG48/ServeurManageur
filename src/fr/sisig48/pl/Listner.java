@@ -25,6 +25,10 @@ import net.ess3.api.MaxMoneyException;
 
 public class Listner implements Listener {
 	
+	Main main;
+	public Listner(Main main) {
+		this.main = main;
+	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
