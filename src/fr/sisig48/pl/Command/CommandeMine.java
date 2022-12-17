@@ -3,6 +3,7 @@ package fr.sisig48.pl.Command;
 
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import org.bukkit.command.Command;
@@ -19,7 +20,7 @@ public class CommandeMine implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
 		
 		if(sender instanceof Player) {
-			
+			Location destination;
 			Player player = (Player)sender;
 			for (String e : arg) {
 				if (e.equals("set")) {
@@ -42,16 +43,32 @@ public class CommandeMine implements CommandExecutor {
 					player.sendMessage("§4You have missed send the type of set mine (§ein or out§4)");
 					return false;
 				}
+				
+				if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
+					if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
+					try {
+						destination = Spawn.GetMineInSpawnLocation();
+						Player p = Bukkit.getPlayer(e);
+						p.teleport(destination);
+						p.sendMessage("§aVous avez été tp a la §4mine");
+						player.sendMessage("§aVous avez tp : §4" + e);
+						return true;
+					} catch (IOException i) {i.printStackTrace();}
+				 }
+				
+			player.sendMessage("§4§l" + e + " §4etait inatendu");
 			}
 			
 			//Location destination = new Location(Bukkit.getWorld("IntheMine"), 0, 0, 0);
-			Location destination;
+
 			try {
 				destination = Spawn.GetMineInSpawnLocation();
 				player.teleport(destination);
+				player.sendMessage("§aVous avez été tp a la §4mine");
+				return true;
 			} catch (IOException e) {e.printStackTrace();}
 			
-			return true;
+			
 		} else {
 			System.err.println("Action impossible depuis la console");
 		}

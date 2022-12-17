@@ -33,9 +33,9 @@ public class Listner implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		
 		NetherStarMenu.GiveMenu(player);
 	}
+
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler

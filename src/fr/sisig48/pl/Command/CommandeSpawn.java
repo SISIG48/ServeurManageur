@@ -2,6 +2,7 @@ package fr.sisig48.pl.Command;
 
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,19 @@ public class CommandeSpawn implements CommandExecutor {
 					Spawn.SetSpawnLocation(loc);
 					return true;
 				}
+				
+				if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
+					if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
+					try {
+						Player p = Bukkit.getPlayer(e);
+						p.teleport(Spawn.GetSpawnLocation());
+						p.sendMessage("§aVous avez été tp au §4spawn");
+						player.sendMessage("§aVous avez tp : §4" + e);
+						return true;
+					} catch (IOException i) {i.printStackTrace();}
+				 }
+				
+			player.sendMessage("§4§l" + e + " §4etait inatendu");
 			}
 			try {
 				player.teleport(Spawn.GetSpawnLocation());
