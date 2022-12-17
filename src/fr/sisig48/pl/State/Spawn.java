@@ -22,8 +22,11 @@ public class Spawn {
 		return ULocation.StringToLocation(loc);
 	}
 	
-	public static void SetSpawnLocation(String location) {
-		
+	public static void SetSpawnLocation(String[] location) {
+		Uconfig.setConfig("location.spawn.x", location[0]);
+		Uconfig.setConfig("location.spawn.y", location[1]);
+		Uconfig.setConfig("location.spawn.z", location[2]);
+		Uconfig.setConfig("location.spawn.w", location[3]);
 		return;
 	}
 	
@@ -41,9 +44,11 @@ public class Spawn {
 		return ULocation.StringToLocation(loc);
 	}
 	
-	public static void SetMineInSpawnLocation(String location) {
-		
-		
+	public static void SetMineInSpawnLocation(String[] location) {
+		Uconfig.setConfig("location.mine.in.x", location[0]);
+		Uconfig.setConfig("location.mine.in.y", location[1]);
+		Uconfig.setConfig("location.mine.in.z", location[2]);
+		Uconfig.setConfig("location.mine.in.w", location[3]);
 		return;
 	}
 	
@@ -59,8 +64,11 @@ public class Spawn {
 		
 		return ULocation.StringToLocation(loc);
 	}
-	public static void SetMineOutSpawnLocation(String location) {
-		
+	public static void SetMineOutSpawnLocation(String[] location) {
+		Uconfig.setConfig("location.mine.out.x", location[0]);
+		Uconfig.setConfig("location.mine.out.y", location[1]);
+		Uconfig.setConfig("location.mine.out.z", location[2]);
+		Uconfig.setConfig("location.mine.out.w", location[3]);
 		
 		return;
 	}

@@ -1,10 +1,13 @@
 package fr.sisig48.pl;
 
 
+import java.util.ArrayList;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.sisig48.pl.Command.CommandeMine;
+import fr.sisig48.pl.Command.CommandeSpawn;
 import fr.sisig48.pl.Utils.Uconfig;
 
 
@@ -12,7 +15,7 @@ import fr.sisig48.pl.Utils.Uconfig;
 public class Main extends JavaPlugin {
 	
 	protected FileConfiguration config = getConfig();
-	
+	public static ArrayList <String>OnlinePlayer;
 	@Override
 	public void onEnable() {
 		

@@ -19,8 +19,31 @@ public class CommandeMine implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
 		
 		if(sender instanceof Player) {
+			
 			Player player = (Player)sender;
-			player.sendMessage("You have use : /mine");
+			for (String e : arg) {
+				if (e.equals("set")) {
+					if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
+					for (String i : arg) {
+						String x = String.valueOf(player.getLocation().getX());
+						String y = String.valueOf(player.getLocation().getY());
+						String z = String.valueOf(player.getLocation().getZ());
+						String w = player.getLocation().getWorld().getName().toString();
+						String[] loc = {x, y, z, w};
+						if (i.equals("in")) {
+							Spawn.SetMineInSpawnLocation(loc);
+							return true;
+						} else if (i.equals("out")) {
+							Spawn.SetMineOutSpawnLocation(loc);
+							return true;
+						}
+						
+					}
+					player.sendMessage("§4You have missed send the type of set mine (§ein or out§4)");
+					return false;
+				}
+			}
+			
 			//Location destination = new Location(Bukkit.getWorld("IntheMine"), 0, 0, 0);
 			Location destination;
 			try {
@@ -30,7 +53,7 @@ public class CommandeMine implements CommandExecutor {
 			
 			return true;
 		} else {
-		System.err.println("Action impossible depuis la console");
+			System.err.println("Action impossible depuis la console");
 		}
 		
 		return false;
