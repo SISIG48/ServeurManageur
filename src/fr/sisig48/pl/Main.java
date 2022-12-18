@@ -24,6 +24,8 @@ public class Main extends JavaPlugin {
 		
 		if(ServeurManageurUpdate.CheckUpdate()) {
 			System.err.println("--------- You need do UPDATE ---------");
+		} else {
+			System.err.println("--------- You dont need UPDATE ---------");
 		}
 		System.out.println("Le plugin MAIN c'est allume");
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
