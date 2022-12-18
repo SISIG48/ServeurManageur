@@ -45,8 +45,8 @@ public class ServeurManageurUpdate {
 
             // Compression
 
-            String source = "plugins\\ServeurManageur\\ServeurManageur-main";
-            String destination = "ServeurManageur.jar";
+            String source = "ServeurManageur-main";
+            String destination = "plugins\\ServeurManageur.jar";
 
             FileOutputStream fout = new FileOutputStream(destination);
             ZipOutputStream zout = new ZipOutputStream(fout);
