@@ -12,12 +12,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import org.bukkit.command.CommandSender;
+
 
 public class ServeurManageurUpdate {
 
-    public static Boolean DoUpdate() {
+    public static Boolean DoUpdate(CommandSender sender) {
 
         try {
+        	System.out.println("START UPDATE");
         	URL url = new URL("https://github.com/SISIG48/ServeurManageur/archive/refs/heads/main.zip");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream("plugins\\ServeurManageur.zip");
@@ -27,7 +30,8 @@ public class ServeurManageurUpdate {
             FileInputStream fin = new FileInputStream("plugins\\ServeurManageur.zip");
             ZipInputStream zin = new ZipInputStream(fin);
             ZipEntry ze = null;
-
+            System.out.println("END OF DOWNLOAD UPDATE");
+            System.out.println("START EXECUTION");
             while ((ze = zin.getNextEntry()) != null) {
                 if(ze.isDirectory()) {
                     File f = new File(ze.getName());
@@ -69,6 +73,7 @@ public class ServeurManageurUpdate {
             delta.delete();
             delta = new File("plugins\\ServeurManageur.zip");
             delta.delete();
+            System.out.println("END OF UPDATE");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
