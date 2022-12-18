@@ -12,12 +12,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import org.bukkit.command.CommandSender;
-
 
 public class ServeurManageurUpdate {
 
-    public static Boolean DoUpdate(CommandSender sender) {
+    public static Boolean DoUpdate() {
 
         try {
         	System.out.println("START UPDATE");
