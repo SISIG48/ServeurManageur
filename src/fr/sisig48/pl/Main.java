@@ -38,6 +38,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		System.out.println("Le plugin MAIN c'est coupe");
+		saveConfig();
 	}
 	
 	private void LoadConfig() {

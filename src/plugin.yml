@@ -10,5 +10,4 @@ commands:
   spawn:
     description: Go to the spawn
   re:
-  	description: Update plugin ServeurManageur
- 
+    description: Update plugin ServeurManageur
