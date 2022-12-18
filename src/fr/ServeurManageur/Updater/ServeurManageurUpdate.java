@@ -31,7 +31,7 @@ public class ServeurManageurUpdate {
             ZipInputStream zin = new ZipInputStream(fin);
             ZipEntry ze = null;
             System.out.println("END OF DOWNLOAD UPDATE");
-            System.out.println("START EXECUTION");
+            System.out.print("START EXECUTION");
             while ((ze = zin.getNextEntry()) != null) {
                 if(ze.isDirectory()) {
                     File f = new File(ze.getName());
@@ -46,7 +46,7 @@ public class ServeurManageurUpdate {
                 }
             }
             zin.close();
-
+            System.out.print(" 50 %");
             // Compression
 
             String source = "plugins\\ServeurManageur\\ServeurManageur-main";
@@ -68,6 +68,7 @@ public class ServeurManageurUpdate {
                 zout.closeEntry();
                 fin2.close();
             }
+            System.out.println(" 100 %");
             zout.close();
             File delta = new File("ServeurManageur-main");
             delta.delete();
