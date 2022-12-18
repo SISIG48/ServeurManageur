@@ -10,9 +10,10 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 public class CommandeRe implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
-		Player player = (Player) sender;
-		if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
+
 		if(sender instanceof Player) {
+			Player player = (Player) sender;
+			if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
 			if(ServeurManageurUpdate.DoUpdate()) {player.sendMessage("Maj effectuer"); return true;}
 			player.sendMessage("Maj non effectuer"); 
 			return false;
