@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.State.Spawn;
 
-
 public class CommandeMine implements CommandExecutor {
 
 	@Override
@@ -55,7 +54,6 @@ public class CommandeMine implements CommandExecutor {
 						return true;
 					} catch (IOException i) {i.printStackTrace();}
 				 }
-				
 			player.sendMessage("§4§l" + e + " §4etait inatendu");
 			}
 			

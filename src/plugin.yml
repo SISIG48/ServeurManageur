@@ -1,4 +1,4 @@
-name: pl
+name: ServeurManageur
 version: 1.0.2
 author: Sisig48
 main: fr.sisig48.pl.Main
@@ -9,4 +9,6 @@ commands:
     description: Go to the mine
   spawn:
     description: Go to the spawn
+  re:
+  	description: Update plugin ServeurManageur
  
