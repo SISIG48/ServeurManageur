@@ -1,5 +1,5 @@
 name: ServeurManageur
-version: 1.0.2.0
+version: 1.0.2.1
 author: Sisig48
 main: fr.sisig48.pl.Main
 softdepend: ['Multiverse-Core']
