@@ -5,24 +5,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OnlinePlayer {
 	public static ArrayList <String>OnlinePlayer = new ArrayList<String>();
 	public static void ReadUsercache() throws IOException {
 		try {
 			@SuppressWarnings("resource")
-			BufferedReader reader = new BufferedReader(new FileReader("usercache.json"));
+			BufferedReader reader = new BufferedReader(new FileReader("ops.json"));
 			String strCurrentLine;
-			int po;
-			int ps;
-			int pe;
 			while ((strCurrentLine = reader.readLine()) != null) {
-				po = strCurrentLine.indexOf("uuid");
-				
-				ps = po + 7;
-				pe = po + 43;
-				if(strCurrentLine.substring(ps, pe) != null) OnlinePlayer.add(strCurrentLine.substring(ps, pe));
-
+				Pattern p = Pattern.compile("\\w{8}-(\\w{4}-){3}\\w{12}");
+				Matcher m = p.matcher(strCurrentLine);
+				while (m.find()) {
+					OnlinePlayer.add(m.group());
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
