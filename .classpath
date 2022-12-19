@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="spigot.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/lamed/Desktop/SERVEUR LOCALE/plugins/EssentialsX-2.19.5-dev+8-3af9317.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="spigot.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lamed/Desktop/SERVEUR LOCALE/plugins/EssentialsX-2.19.5-dev+8-3af9317.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
