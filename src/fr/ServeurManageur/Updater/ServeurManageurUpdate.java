@@ -17,6 +17,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import org.bukkit.Bukkit;
+
 
 public class ServeurManageurUpdate {
 
@@ -95,7 +97,7 @@ public class ServeurManageurUpdate {
             fos.close();
             File delta = new File("plugins\\ServeurManageur-main");
             delta.delete();
-            
+            Bukkit.dispatchCommand(null, "rl");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
