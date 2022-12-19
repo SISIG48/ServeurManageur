@@ -20,6 +20,12 @@ public class OnlinePlayer {
 				Matcher m = p.matcher(strCurrentLine);
 				while (m.find()) {
 					OnlinePlayer.add(m.group());
+					System.out.println(m.group());
+					System.out.println(m.group());
+					System.out.println(m.group());
+					System.out.println(m.group());
+					System.out.println(m.group());
+					System.out.println(m.group());
 				}
 			}
 		} catch (FileNotFoundException e) {
