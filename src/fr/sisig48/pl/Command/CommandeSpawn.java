@@ -23,7 +23,7 @@ public class CommandeSpawn implements CommandExecutor {
 					String y = String.valueOf(player.getLocation().getY());
 					String z = String.valueOf(player.getLocation().getZ());
 					String w = player.getLocation().getWorld().getName().toString();
-					String[] loc = {x, y, z, w};
+					String[] loc = {x, y, z, w, "135", "0"};
 					Spawn.SetSpawnLocation(loc);
 					return true;
 				}

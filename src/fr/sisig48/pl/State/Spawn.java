@@ -17,7 +17,7 @@ public class Spawn {
 		String y = Uconfig.getConfig("location.spawn.y");
 		String z = Uconfig.getConfig("location.spawn.z");
 		String w = Uconfig.getConfig("location.spawn.w");
-		String[] loc = {x, y, z, w};
+		String[] loc = {x, y, z, w, "135", "0"};
 		
 		return ULocation.StringToLocation(loc);
 	}
