@@ -18,11 +18,12 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 
 
 public class ServeurManageurUpdate {
 
-    public static Boolean DoUpdate() {
+    public static Boolean DoUpdate(CommandSender sender) {
 
         try {
         	URL url = new URL("https://github.com/SISIG48/ServeurManageur/archive/refs/heads/main.zip");
@@ -97,7 +98,7 @@ public class ServeurManageurUpdate {
             fos.close();
             File delta = new File("plugins\\ServeurManageur-main");
             delta.delete();
-            Bukkit.dispatchCommand(null, "rl");
+            Bukkit.dispatchCommand(sender, "rl");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
