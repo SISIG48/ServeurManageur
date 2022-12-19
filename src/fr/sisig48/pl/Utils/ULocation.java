@@ -11,7 +11,9 @@ public class ULocation {
 		double x = Double.valueOf(e[0]);
 		double y = Double.valueOf(e[1]);
 		double z = Double.valueOf(e[2]);
-		Location loc = new Location(Bukkit.getWorld(e[3]), x, y, z);
+		float s = Float.valueOf(e[4]);
+		float a = Float.valueOf(e[5]);
+		Location loc = new Location(Bukkit.getWorld(e[3]), x, y, z, s, a);
 		/*System.out.println(Arrays.asList(Bukkit.getWorlds()) + " " + Bukkit.getWorld(e[3]));
 		System.out.println(loc.toString());
 		System.out.println(e[0] + e[1] + e[2] + e[3]);*/
