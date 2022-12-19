@@ -23,7 +23,7 @@ public class Item {
 		ItemMeta Meta = i.getItemMeta(); 
 		Meta.setDisplayName(name);
 		if(lore != null) {
-			lore = "ยง8" + lore;
+			lore = "ง8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
 		i.setItemMeta(Meta);
@@ -40,7 +40,7 @@ public class Item {
 		Meta.setOwner(player);
 		Meta.setCustomModelData(Code);
 		if(lore != null) {
-			lore = "ยง8" + lore;
+			lore = "ง8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
 		i.setItemMeta(Meta);
@@ -57,7 +57,7 @@ public class Item {
 		customM.setUnbreakable(Unbreakable);
 		customM.setDisplayName(Name);
 		if(LoreD != null) {
-			LoreD = "ยง8" + LoreD;
+			LoreD = "ง8" + LoreD;
 			customM.setLore(Arrays.asList(LoreD));
 		}
 		customM.setCustomModelData(123);

@@ -28,8 +28,10 @@ public class CommandeMine implements CommandExecutor {
 						String x = String.valueOf(player.getLocation().getX());
 						String y = String.valueOf(player.getLocation().getY());
 						String z = String.valueOf(player.getLocation().getZ());
+						String ya = String.valueOf(player.getLocation().getYaw());
+						String pi = String.valueOf(player.getLocation().getPitch());
 						String w = player.getLocation().getWorld().getName().toString();
-						String[] loc = {x, y, z, w};
+						String[] loc = {x, y, z, w, ya, pi};
 						if (i.equals("in")) {
 							Spawn.SetMineInSpawnLocation(loc);
 							return true;
