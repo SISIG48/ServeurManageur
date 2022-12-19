@@ -17,9 +17,10 @@ public class OnlinePlayer {
 			int ps;
 			int pe;
 			while ((strCurrentLine = reader.readLine()) != null) {
-				po = strCurrentLine.indexOf("UUID");
+				po = strCurrentLine.indexOf("uuid");
+				
 				ps = po + 7;
-				pe = po + 35;
+				pe = po + 43;
 				if(strCurrentLine.substring(ps, pe) != null) OnlinePlayer.add(strCurrentLine.substring(ps, pe));
 
 			}
