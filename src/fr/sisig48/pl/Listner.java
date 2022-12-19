@@ -16,6 +16,7 @@ import com.earth2me.essentials.api.Economy;
 import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
+import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.MenuPP;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
@@ -33,6 +34,7 @@ public class Listner implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		ServeurManageurUpdate.SendMaj();
 		NetherStarMenu.GiveMenu(player);
 	}
 

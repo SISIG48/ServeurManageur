@@ -44,7 +44,7 @@ public class Main extends JavaPlugin {
 		getCommand("spawn").setExecutor(new CommandeSpawn());
 		getCommand("re").setExecutor(new CommandeRe());
 		new Uconfig(this);
-		
+		ServeurManageurUpdate.SendMaj();
 	}
 
 	@Override
