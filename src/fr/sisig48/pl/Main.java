@@ -3,6 +3,8 @@ package fr.sisig48.pl;
 
 
 
+import java.io.IOException;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,6 +12,7 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Command.CommandeMine;
 import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
+import fr.sisig48.pl.Utils.OnlinePlayer;
 import fr.sisig48.pl.Utils.Uconfig;
 
 
@@ -17,7 +20,6 @@ import fr.sisig48.pl.Utils.Uconfig;
 public class Main extends JavaPlugin {
 	
 	protected FileConfiguration config = getConfig();
-	
 	@Override
 	public void onEnable() {
 		
@@ -27,7 +29,15 @@ public class Main extends JavaPlugin {
 		} else {
 			System.err.println("--------- You dont need UPDATE ---------");
 		}
-		System.out.println("Le plugin MAIN c'est allume");
+		
+		try {
+			OnlinePlayer.ReadUsercache();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		LoadConfig();
 		getCommand("mine").setExecutor(new CommandeMine());

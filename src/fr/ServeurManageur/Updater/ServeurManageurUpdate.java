@@ -13,6 +13,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -20,9 +21,11 @@ import java.util.zip.ZipOutputStream;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
+import fr.sisig48.pl.Utils.OnlinePlayer;
+
 
 public class ServeurManageurUpdate {
-
+	public static int NeedUpdate;
     public static Boolean DoUpdate(CommandSender sender) {
 
         try {
@@ -134,12 +137,23 @@ public class ServeurManageurUpdate {
             byte[] remoteFileBytes = Files.readAllBytes(Paths.get("plugins\\ServeurManageur.zip"));
             byte[] localFileBytes = url.openStream().readAllBytes();
             if (Arrays.equals(remoteFileBytes, localFileBytes)) {
+            	NeedUpdate = 0;
             	return false;
             }
     	} catch (Exception e) {
     	    e.printStackTrace();
     	}
-	    return true;
+	    NeedUpdate = 1;
+    	return true;
+    }
+    
+    public static void SendMaj() {
+    	for (String e : OnlinePlayer.OnlinePlayer) {
+    		if(NeedUpdate == 0) return;
+    		if(Bukkit.getPlayer(UUID.fromString(e)).isOnline() && Bukkit.getPlayer(UUID.fromString(e)).isOp()) {
+    			Bukkit.getPlayer(UUID.fromString(e)).sendMessage("§4You need update plugin </re>");
+    		}
+    	}
     }
 
 }
