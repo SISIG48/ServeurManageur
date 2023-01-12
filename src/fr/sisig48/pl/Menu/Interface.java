@@ -74,7 +74,12 @@ public class Interface {
 			
 			
 			case ENDER_CHEST :
-			
+			try {
+				player.sendMessage(EconomieMenu.OpenMenuEcoPublicMoney(players).toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				break;
 			
 			default:

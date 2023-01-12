@@ -1,7 +1,10 @@
 package fr.sisig48.pl.Menu;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -77,6 +80,67 @@ public class EconomieMenu {
 	}
 	
 	public static void OpenMenuEcoPublicMoney(Player player) throws Exception{
+		int first = 0;
+		int second = 0;
+		int three = 0;
+		String firstNAME = "";
+		String secondNAME = "";
+		String threeNAME = "";
+		for (Player e : Bukkit.getOnlinePlayers()) {
+			double mo = EconomieESS.getMoney(e);
+			if (mo > three) {
+				if (mo > second) {
+					if (mo > first) {
+						three = second;
+						threeNAME = secondNAME;
+						second = first;
+						secondNAME = firstNAME;
+						first = (int) mo ;
+						firstNAME =e.getDisplayName();
+					} else {
+						three = second;
+						threeNAME = secondNAME;
+						second = (int) mo;
+						secondNAME = e.getDisplayName();
+					}
+				} else {
+					three = (int) mo;
+					threeNAME = e.getDisplayName();
+				}
+			}
+		}
+		
+		
+		for (OfflinePlayer e : Bukkit.getOfflinePlayers()) {
+			double mo = EconomieESS.getMoney(e);
+			if (mo > three) {
+				if (mo > second) {
+					if (mo > first) {
+						three = second;
+						threeNAME = secondNAME;
+						second = first;
+						secondNAME = firstNAME;
+						first = (int) mo ;
+						firstNAME =e.getName();
+					} else {
+						three = second;
+						threeNAME = secondNAME;
+						second = (int) mo;
+						secondNAME = e.getName();
+					}
+				} else {
+					three = (int) mo;
+					threeNAME = e.getName();
+				}
+			}
+			
+			
+		}
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(3, String.valueOf(three) + "," + threeNAME);
+		list.add(2, String.valueOf(second) + "," + secondNAME);
+		list.add(1, String.valueOf(first) + "," + firstNAME);
+		return;
 		
 		
 		

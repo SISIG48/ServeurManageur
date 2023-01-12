@@ -101,7 +101,7 @@ public class Listner implements Listener {
 			} else {
 				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
 				if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
-					player.sendMessage("§4§l/!\\ Vous Â§tes en créatif, Â§4mecri de ne pas dupliquÃ© votre §cétoile");
+					player.sendMessage("§4§l/!\\ Vous Â§tes en créatif, §4merci de ne pas dupliqué votre §cétoile");
 				}
 			}
 			
