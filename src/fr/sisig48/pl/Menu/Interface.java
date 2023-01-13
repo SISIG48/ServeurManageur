@@ -32,15 +32,16 @@ public class Interface {
 	}
 	
 	public static Boolean GetActonIfInMainMenu(Player players, ItemStack current, Inventory inv) {
-		
 		if(players == null) {return false;}
 		player = players;
 		if(current == null) {return false;}
+		if(current.getItemMeta().getCustomModelData() == 124) return false;
 		if(inventory == null) {
 			player.closeInventory();
 			return false;  
 		}
 		if(!inventory.contains(inv)) return GetActonIfInMenuEco(current, player);;
+		
 		switch(current.getType()) {
 			
 			case PAPER :
@@ -74,7 +75,7 @@ public class Interface {
 			
 			
 			case ENDER_CHEST :
-			if(current.getItemMeta().getCustomModelData() == 124) break;
+			
 			try {
 				EconomieMenu.OpenMenuEcoPublicMoney(players);
 			} catch (Exception e) {
