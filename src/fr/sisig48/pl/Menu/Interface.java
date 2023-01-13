@@ -35,7 +35,7 @@ public class Interface {
 		if(players == null) {return false;}
 		player = players;
 		if(current == null) {return false;}
-		if(current.getItemMeta().getCustomModelData() == 124) return false;
+		if(current.getItemMeta().getCustomModelData() == 125) return true;
 		if(inventory == null) {
 			player.closeInventory();
 			return false;  
