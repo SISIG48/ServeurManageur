@@ -26,6 +26,22 @@ public class Item {
 			lore = "§8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
+		Meta.setCustomModelData(123);
+		i.setItemMeta(Meta);
+		return i;
+	}
+	
+	public static ItemStack GiveItem(Material material, int stack, String name, String lore, int code) {
+
+		
+		i = new ItemStack(material, stack);
+		ItemMeta Meta = i.getItemMeta(); 
+		Meta.setDisplayName(name);
+		if(lore != null) {
+			lore = "§8" + lore;
+			Meta.setLore(Arrays.asList(lore));
+		}
+		Meta.setCustomModelData(code);
 		i.setItemMeta(Meta);
 		return i;
 	}
@@ -61,6 +77,24 @@ public class Item {
 			customM.setLore(Arrays.asList(LoreD));
 		}
 		customM.setCustomModelData(123);
+		item.setItemMeta(customM);
+		player.getInventory().setItem(Position, item);
+		player.updateInventory();
+		
+	}
+	
+	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String LoreD, Player player, Boolean Unbreakable, int code) {
+		
+		System.out.println(Position);
+		ItemStack item = new ItemStack(typeMaterial, Nombre);
+		ItemMeta customM = item.getItemMeta();
+		customM.setUnbreakable(Unbreakable);
+		customM.setDisplayName(Name);
+		if(LoreD != null) {
+			LoreD = "§8" + LoreD;
+			customM.setLore(Arrays.asList(LoreD));
+		}
+		customM.setCustomModelData(code);
 		item.setItemMeta(customM);
 		player.getInventory().setItem(Position, item);
 		player.updateInventory();

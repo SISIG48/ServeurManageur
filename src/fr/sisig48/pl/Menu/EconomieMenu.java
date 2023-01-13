@@ -49,7 +49,7 @@ public class EconomieMenu {
 		
 		//Economie personelle
 		ItemStack it;
-		it = Item.GiveItem(Material.ENDER_CHEST, 1, "Compte en banque", "Vous avez " + EconomieESS.getMoney(player) + "$");
+		it = Item.GiveItem(Material.ENDER_CHEST, 1, "Compte en banque", "Vous avez " + EconomieESS.getMoney(player) + "$", 124);
 		e.setItem(11, it);
 		
 		

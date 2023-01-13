@@ -74,6 +74,7 @@ public class Interface {
 			
 			
 			case ENDER_CHEST :
+			if(current.getItemMeta().getCustomModelData() == 124) break;
 			try {
 				EconomieMenu.OpenMenuEcoPublicMoney(players);
 			} catch (Exception e) {
