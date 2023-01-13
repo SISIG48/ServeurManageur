@@ -1,7 +1,5 @@
 package fr.sisig48.pl.Menu;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -83,9 +81,10 @@ public class EconomieMenu {
 		int first = 0;
 		int second = 0;
 		int three = 0;
-		String firstNAME = "";
-		String secondNAME = "";
-		String threeNAME = "";
+		String firstNAME = "noob";
+		String secondNAME = "noob";
+		String threeNAME = "noob";
+		/*
 		for (Player e : Bukkit.getOnlinePlayers()) {
 			double mo = EconomieESS.getMoney(e);
 			if (mo > three) {
@@ -96,22 +95,23 @@ public class EconomieMenu {
 						second = first;
 						secondNAME = firstNAME;
 						first = (int) mo ;
-						firstNAME =e.getDisplayName();
+						firstNAME =e.getCustomName();
 					} else {
 						three = second;
 						threeNAME = secondNAME;
 						second = (int) mo;
-						secondNAME = e.getDisplayName();
+						secondNAME = e.getCustomName();
 					}
 				} else {
 					three = (int) mo;
-					threeNAME = e.getDisplayName();
+					threeNAME = e.getCustomName();
 				}
 			}
 		}
-		
+		*/
 		
 		for (OfflinePlayer e : Bukkit.getOfflinePlayers()) {
+			if (threeNAME == e.getName() || secondNAME == e.getName() || firstNAME == e.getName()) break;
 			double mo = EconomieESS.getMoney(e);
 			if (mo > three) {
 				if (mo > second) {
@@ -136,10 +136,29 @@ public class EconomieMenu {
 			
 			
 		}
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(3, String.valueOf(three) + "," + threeNAME);
-		list.add(2, String.valueOf(second) + "," + secondNAME);
-		list.add(1, String.valueOf(first) + "," + firstNAME);
+		
+		String[] name = {firstNAME, secondNAME, threeNAME};
+		int[] money = {first, second, three};
+		
+		Inventory e = Bukkit.createInventory(player, 27, "Economie publique - Classement");
+		player.openInventory(e);
+		Interface.inventory.add(e);
+		player.sendMessage(threeNAME);
+		player.sendMessage(secondNAME);
+		player.sendMessage(firstNAME);
+		//Economie public
+		ItemStack it;
+		it = Item.GiveOwnsPlayerHead(1, "§e#1 §f- §a"+ name[0] + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent," + money[0], name[0], 0);
+		e.setItem(11, it);
+		it = Item.GiveOwnsPlayerHead(1, "§e#2 §f- §a"+ name[1] + " §f- §4" + money[1], "C'est le deuxième joueur qui a le plus d'argent," + money[1], name[1], 0);
+		e.setItem(13, it);
+		it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[2] + " §f- §4" + money[2], "C'est le troisième joueur qui a le plus d'argent," + money[2], name[2], 0);
+		e.setItem(15, it);
+		
+		//Verre exterieur
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null);
+		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
+		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 		return;
 		
 		
