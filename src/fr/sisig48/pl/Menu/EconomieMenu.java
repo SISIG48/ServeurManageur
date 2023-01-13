@@ -143,9 +143,6 @@ public class EconomieMenu {
 		Inventory e = Bukkit.createInventory(player, 27, "Economie publique - Classement");
 		player.openInventory(e);
 		Interface.inventory.add(e);
-		player.sendMessage(threeNAME);
-		player.sendMessage(secondNAME);
-		player.sendMessage(firstNAME);
 		//Economie public
 		ItemStack it;
 		it = Item.GiveOwnsPlayerHead(1, "§e#1 §f- §a"+ name[0] + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent," + money[0], name[0], 0);

@@ -92,14 +92,14 @@ public class ServeurManageurUpdate {
                 zis.close();
             }
 
-            String sourceDir = "plugins\\ServeurManageur-main\\";
-            String zipFile = "plugins\\ServeurManageur-main\\ServeurManageur-main.zip";
+            String sourceDir = "plugins/ServeurManageur-main/";
+            String zipFile = "plugins/ServeurManageur-main/ServeurManageur-main.zip";
             fos = new FileOutputStream(zipFile);
             ZipOutputStream zos = new ZipOutputStream(fos);
             addDirToZipArchive(zos, sourceDir, null);
             zos.close();
             fos.close();
-            File delta = new File("plugins\\ServeurManageur-main");
+            File delta = new File("plugins/ServeurManageur-main");
             delta.delete();
             Bukkit.dispatchCommand(sender, "rl");
             return true;
@@ -134,7 +134,7 @@ public class ServeurManageurUpdate {
     public static Boolean CheckUpdate() {
     	try {
     		URL url = new URL("https://github.com/SISIG48/ServeurManageur/archive/refs/heads/main.zip");
-            byte[] remoteFileBytes = Files.readAllBytes(Paths.get("plugins\\ServeurManageur.zip"));
+            byte[] remoteFileBytes = Files.readAllBytes(Paths.get("plugins/ServeurManageur.zip"));
             byte[] localFileBytes = url.openStream().readAllBytes();
             if (Arrays.equals(remoteFileBytes, localFileBytes)) {
             	NeedUpdate = 0;
