@@ -45,7 +45,7 @@ public class Listner implements Listener {
 		Player player = event.getPlayer();
 		try {
 			Economy.divide(player.getName(), 2);
-			player.sendMessage("§4Vous Â§te mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
+			player.sendMessage("§4Vous ête mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
 		} catch (NoLoanPermittedException e) {
 			e.printStackTrace();
 		} catch (UserDoesNotExistException e) {
