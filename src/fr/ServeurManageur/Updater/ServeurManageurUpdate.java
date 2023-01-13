@@ -31,14 +31,14 @@ public class ServeurManageurUpdate {
         try {
         	URL url = new URL("https://github.com/SISIG48/ServeurManageur/archive/refs/heads/main.zip");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream("plugins\\ServeurManageur.zip");
+            FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur.zip");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
             
             
-            File zipfile = new File("plugins\\ServeurManageur.zip");
-            File folder = new File("plugins\\");
+            File zipfile = new File("plugins/ServeurManageur.zip");
+            File folder = new File("plugins/");
             ZipInputStream zis = new ZipInputStream(
                     new BufferedInputStream(
                             new FileInputStream(zipfile.getCanonicalFile())));
