@@ -151,6 +151,7 @@ public class ServeurManageurUpdate {
     	for (String e : OnlinePlayer.OnlinePlayer) {
     		if(NeedUpdate == 0 || e == null) return;
     		System.out.println(UUID.fromString(e));
+    		if(Bukkit.getPlayer(UUID.fromString(e)) == null) break;
     		if(Bukkit.getPlayer(UUID.fromString(e)).isOnline() && Bukkit.getPlayer(UUID.fromString(e)).isOp()) {
     			Bukkit.getPlayer(UUID.fromString(e)).sendMessage("§4You need update plugin </re>");
     		}
