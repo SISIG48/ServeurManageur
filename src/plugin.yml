@@ -1,5 +1,5 @@
 name: ServeurManageur
-version: 1.0.3
+version: 1.0.4
 author: Sisig48
 main: fr.sisig48.pl.Main
 softdepend: ['Multiverse-Core']
@@ -11,3 +11,7 @@ commands:
     description: Go to the spawn
   re:
     description: Update plugin ServeurManageur
+    permission: admin.command
+  config:
+    description: config file
+    permission: admin.command
