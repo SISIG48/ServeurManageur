@@ -1,0 +1,8 @@
+CustomModel;Type;Name;Category;Zone;Description
+123;#;#;#;#;#
+124;Exception;HEAD;Menu;MenuEco;Go to the personelle economy
+125;Exception;#;#;#;Don't check this CustomModelData in Plugin and Cancel Action
+126;Exception;HEAD;Menu;MenuPP;Go to the profile
+127;Exception;ITEM_FRAME;Menu;MenuPP;Go to the tp menu
+127;Exception;ENDER_PEARL;Menu;MenuTP;Go to the spawn
+127;Exception;WOODEN_PICKAXE;Menu;MenuTP;Go to the mine
