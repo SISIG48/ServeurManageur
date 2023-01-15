@@ -21,44 +21,44 @@ public class CommandeMine implements CommandExecutor {
 		if(sender instanceof Player) {
 			Location destination;
 			Player player = (Player)sender;
-			for (String e : arg) {
-				if (e.equals("set")) {
-					if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
-					for (String i : arg) {
-						String x = String.valueOf(player.getLocation().getX());
-						String y = String.valueOf(player.getLocation().getY());
-						String z = String.valueOf(player.getLocation().getZ());
-						String ya = String.valueOf(player.getLocation().getYaw());
-						String pi = String.valueOf(player.getLocation().getPitch());
-						String w = player.getLocation().getWorld().getName().toString();
-						String[] loc = {x, y, z, w, ya, pi};
-						if (i.equals("in")) {
-							Spawn.SetMineInSpawnLocation(loc);
-							return true;
-						} else if (i.equals("out")) {
-							Spawn.SetMineOutSpawnLocation(loc);
-							return true;
-						}
-						
+			if (player.isOp()) {
+				for (String e : arg) {
+					if (e.equals("set")) {
+						for (String i : arg) {
+							String x = String.valueOf(player.getLocation().getX());
+							String y = String.valueOf(player.getLocation().getY());
+							String z = String.valueOf(player.getLocation().getZ());
+							String ya = String.valueOf(player.getLocation().getYaw());
+							String pi = String.valueOf(player.getLocation().getPitch());
+							String w = player.getLocation().getWorld().getName().toString();
+							String[] loc = {x, y, z, w, ya, pi};
+							if (i.equals("in")) {
+								Spawn.SetMineInSpawnLocation(loc);
+								return true;
+								} else if (i.equals("out")) {
+								Spawn.SetMineOutSpawnLocation(loc);
+								return true;
+							}
+							
 					}
 					player.sendMessage("§4You have missed send the type of set mine (§ein or out§4)");
 					return false;
+					}
+					
+					if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
+						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You can't do this command"); return false;}
+						try {
+							destination = Spawn.GetMineInSpawnLocation();
+							Player p = Bukkit.getPlayer(e);
+							p.teleport(destination);
+							p.sendMessage("§aVous avez été tp a la §4mine");
+							player.sendMessage("§aVous avez tp : §4" + e);
+							return true;
+						} catch (IOException i) {i.printStackTrace();}
+					 }
+				player.sendMessage("§4§l" + e + " §4etait inatendu");
 				}
-				
-				if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
-					if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
-					try {
-						destination = Spawn.GetMineInSpawnLocation();
-						Player p = Bukkit.getPlayer(e);
-						p.teleport(destination);
-						p.sendMessage("§aVous avez été tp a la §4mine");
-						player.sendMessage("§aVous avez tp : §4" + e);
-						return true;
-					} catch (IOException i) {i.printStackTrace();}
-				 }
-			player.sendMessage("§4§l" + e + " §4etait inatendu");
 			}
-			
 			//Location destination = new Location(Bukkit.getWorld("IntheMine"), 0, 0, 0);
 
 			try {

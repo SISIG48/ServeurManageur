@@ -36,6 +36,8 @@ public class Listner implements Listener {
 		Player player = event.getPlayer();
 		ServeurManageurUpdate.SendMaj();
 		NetherStarMenu.GiveMenu(player);
+		if(player.isO)
+		
 	}
 
 	
@@ -58,7 +60,7 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void OnIteract(PlayerInteractEvent event) {
-		
+		if(!event.getItem().getItemMeta().hasCustomModelData()) return;
 		if(event.getPlayer() == null) return;
 		if(event.getItem() == null) return;
 
@@ -74,7 +76,7 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		
+		if(!event.getItemDrop().getItemStack().getItemMeta().hasCustomModelData()) return;
 		Player player = event.getPlayer();
 		
 		//Verif du Menu
@@ -95,6 +97,7 @@ public class Listner implements Listener {
 		MenuPP.current = event.getCurrentItem();
 		ItemStack current = event.getCurrentItem();
 		if(current == null) return;
+		if(!current.getItemMeta().hasCustomModelData()) return;
 		try {
 			if(Interface.GetActonIfInMainMenu(player, current, inv)) {
 				event.setCancelled(true);

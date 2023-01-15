@@ -5,10 +5,13 @@ package fr.sisig48.pl;
 
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
+import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandeMine;
 import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
@@ -39,26 +42,31 @@ public class Main extends JavaPlugin {
 		
 		
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
-		LoadConfig();
+		reloadConfig();
+		
 		getCommand("mine").setExecutor(new CommandeMine());
 		getCommand("spawn").setExecutor(new CommandeSpawn());
 		getCommand("re").setExecutor(new CommandeRe());
+		getCommand("config").setExecutor(new CommandConfig());
+		
 		new Uconfig(this);
 		ServeurManageurUpdate.SendMaj();
 	}
 
 	@Override
 	public void onDisable() {
-		System.out.println("Le plugin MAIN c'est coupe");
+		reloadConfig();
 		saveConfig();
+		
+		
+		for(Player e : Bukkit.getOnlinePlayers()) {
+			
+			if(!e.isOp()) {
+				e.kickPlayer("§4Serveur do a rapid-restart §aPleas WAIT");
+			}
+		}
 	}
 	
-	private void LoadConfig() {
-		saveDefaultConfig();
-		//getConfig().options().copyDefaults(true);
-		//getServer().getPluginManager().registerEvents(this , this);
-		//saveConfig();
-	}
 	
 	
 }

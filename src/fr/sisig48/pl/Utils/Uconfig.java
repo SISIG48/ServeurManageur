@@ -8,8 +8,10 @@ import fr.sisig48.pl.Main;
 public class Uconfig {
 	
 	static FileConfiguration config;
+	private static Main main;
 	public Uconfig(Main main) {
 		config = main.getConfig();
+		Uconfig.main = main;
 	}
 
 
@@ -23,4 +25,18 @@ public class Uconfig {
 		config.set(configPath, it);
 		return;
 	}
+	
+	public static void saveConfig() {
+		main.saveConfig();
+		main.reloadConfig();
+		return;
+	}
+	
+	public static void reloadConfig() {
+		main.reloadConfig();
+		main.saveConfig();
+		return;
+	}
+	
+	
 }

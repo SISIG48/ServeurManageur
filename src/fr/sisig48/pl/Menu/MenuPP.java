@@ -31,6 +31,10 @@ public class MenuPP {
 		
 		it = Item.GiveItem(Material.PAPER, 1, "§6Economie", "Voir votre economie, et celle du serveur");
 		e.setItem(21, it);
+		it = Item.GiveOwnsPlayerHead(1, "§6Profile", "Voir votre profile et vos statistique", player.getName(), 126);
+		e.setItem(22, it);
+		it = Item.GiveItem(Material.ITEM_FRAME, 1, "§6Téléporteur", "Téléportez vous a des point de téléportation", 127);
+		e.setItem(30, it);
 		
 		player.openInventory(e);
 		

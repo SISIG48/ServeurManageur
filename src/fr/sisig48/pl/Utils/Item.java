@@ -64,10 +64,8 @@ public class Item {
 	}
 	
 	
-	
 	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String LoreD, Player player, Boolean Unbreakable) {
 		
-		System.out.println(Position);
 		ItemStack item = new ItemStack(typeMaterial, Nombre);
 		ItemMeta customM = item.getItemMeta();
 		customM.setUnbreakable(Unbreakable);
@@ -85,7 +83,6 @@ public class Item {
 	
 	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String LoreD, Player player, Boolean Unbreakable, int code) {
 		
-		System.out.println(Position);
 		ItemStack item = new ItemStack(typeMaterial, Nombre);
 		ItemMeta customM = item.getItemMeta();
 		customM.setUnbreakable(Unbreakable);
@@ -101,5 +98,7 @@ public class Item {
 		
 	}
 
-
+	
+	
+	
 }

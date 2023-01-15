@@ -29,13 +29,13 @@ public class EconomieESS {
 	
 	@SuppressWarnings("deprecation")
 	public static double getMoney(Player player) throws Exception {
-		if(player.getName() == null) return 9999;
+		if(player.getName() == null) return -1;
 		return Economy.getMoney(player.getName());
 	}
 
 	@SuppressWarnings("deprecation")
 	public static double getMoney(OfflinePlayer e) throws UserDoesNotExistException {
-		if(e.getName() == null) return 9999;
+		if(e.getName() == null) return -1;
 		return Economy.getMoney(e.getName());		
 	} 
 	
