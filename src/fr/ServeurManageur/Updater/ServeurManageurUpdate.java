@@ -5,18 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+
 
 import fr.sisig48.pl.Utils.OnlinePlayer;
 
@@ -46,13 +42,13 @@ public class ServeurManageurUpdate {
     	try {
     		URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur-d.jar");
+            FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur/ServeurManageur.jar");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
             boolean isSame = false;
             String jar1 = "/plugins/ServeurManageur.jar";
-    		String jar2 = "/plugins/ServeurManageur-d.jar";
+    		String jar2 = "/plugins/ServeurManageur/ServeurManageur.jar";
     		
     		try {
     			File file1 = new File(jar1);
