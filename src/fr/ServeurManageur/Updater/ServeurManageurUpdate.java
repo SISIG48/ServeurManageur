@@ -1,14 +1,15 @@
 package fr.ServeurManageur.Updater;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Enumeration;
 import java.util.UUID;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -49,35 +50,35 @@ public class ServeurManageurUpdate {
             boolean isSame = false;
             String jar1 = "/plugins/ServeurManageur.jar";
     		String jar2 = "/plugins/ServeurManageur/ServeurManageur.jar";
-    		
-    		try {
-    			File file1 = new File(jar1);
-    			File file2 = new File(jar2);
-    			
-    			FileInputStream fis1 = new FileInputStream(file1);
-    			FileInputStream fis2 = new FileInputStream(file2);
-    			
-    			int bytes1, bytes2 = 0;
-    			
-    			while((bytes1 = fis1.read()) != -1  && (bytes2 = fis2.read()) != -1) {
-    				if(bytes1 != bytes2) {
-    					isSame = false;
-    					break;
-    				}
-    			}
-    			
-    			if(bytes1 == -1 && bytes2 == -1) {
-    				isSame = true;
-    			}
-    			
-    			fis1.close();
-    			fis2.close();
-    			
-    		} catch (FileNotFoundException e) {
-    			e.printStackTrace();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
+    		JarFile jarFile1 = new JarFile(jar1);
+			JarFile jarFile2 = new JarFile(jar2);
+			
+			if (jarFile1.size() != jarFile2.size()) {
+				return false;
+			}
+			
+			Enumeration<JarEntry> entries1 = jarFile1.entries();
+			Enumeration<JarEntry> entries2 = jarFile2.entries();
+			
+			while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
+				JarEntry entry1 = entries1.nextElement();
+				JarEntry entry2 = entries2.nextElement();
+				
+				if (!entry1.getName().equals(entry2.getName())) {
+					isSame = false;
+				}
+				
+				if (entry1.getSize() != entry2.getSize()) {
+					isSame = false;
+				}
+				
+				InputStream is1 = jarFile1.getInputStream(entry1);
+				InputStream is2 = jarFile2.getInputStream(entry2);
+				
+				if (!isStreamsEqual(is1, is2)) {
+					isSame = false;
+				}
+			}    		
             
             if(isSame) {
             	NeedUpdate = 0;
@@ -97,6 +98,20 @@ public class ServeurManageurUpdate {
     	
     }
     
+    public static boolean isStreamsEqual(InputStream is1, InputStream is2) throws IOException {
+    	int b1 = 0, b2 = 0;
+    	
+    	while (b1 != -1 && b2 != -1) {
+    		b1 = is1.read();
+    		b2 = is2.read();
+    		
+    		if (b1 != b2) {
+    			return false;
+    		}
+    	}
+    	
+    	return b1 == -1 && b2 == -1;
+    }
     public static void SendMaj() {
     	for (String e : OnlinePlayer.OnlinePlayer) {
     		if(NeedUpdate == 0 || e == null) break;
