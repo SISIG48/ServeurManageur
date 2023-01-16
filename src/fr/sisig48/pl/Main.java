@@ -29,8 +29,10 @@ public class Main extends JavaPlugin {
 		
 		if(ServeurManageurUpdate.CheckUpdate()) {
 			System.err.println("--------- You need do UPDATE ---------");
+			ServeurManageurUpdate.NeedUpdate = 1;
 		} else {
 			System.err.println("--------- You dont need UPDATE ---------");
+			ServeurManageurUpdate.NeedUpdate = 0;
 		}
 		
 		try {

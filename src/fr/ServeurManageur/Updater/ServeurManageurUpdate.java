@@ -47,7 +47,6 @@ public class ServeurManageurUpdate {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
-            boolean isSame = false;
             String jar1 = "/plugins/ServeurManageur.jar";
     		String jar2 = "/plugins/ServeurManageur/ServeurManageur.jar";
     		JarFile jarFile1 = new JarFile(jar1);
@@ -55,41 +54,34 @@ public class ServeurManageurUpdate {
 			
 			if (jarFile1.size() != jarFile2.size()) {
 				return false;
+			} else {
+			
+				Enumeration<JarEntry> entries1 = jarFile1.entries();
+				Enumeration<JarEntry> entries2 = jarFile2.entries();
+				
+				while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
+					JarEntry entry1 = entries1.nextElement();
+					JarEntry entry2 = entries2.nextElement();
+					
+					if (!entry1.getName().equals(entry2.getName())) {
+						return false;
+					
+					}
+					if (entry1.getSize() != entry2.getSize()) {
+						return false;
+					}
+					InputStream is1 = jarFile1.getInputStream(entry1);
+					InputStream is2 = jarFile2.getInputStream(entry2);
+						
+					if (!isStreamsEqual(is1, is2)) {
+						return false;
+							
+					}
+					
+					
+				}    		
 			}
-			
-			Enumeration<JarEntry> entries1 = jarFile1.entries();
-			Enumeration<JarEntry> entries2 = jarFile2.entries();
-			
-			while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
-				JarEntry entry1 = entries1.nextElement();
-				JarEntry entry2 = entries2.nextElement();
-				
-				if (!entry1.getName().equals(entry2.getName())) {
-					isSame = false;
-				}
-				
-				if (entry1.getSize() != entry2.getSize()) {
-					isSame = false;
-				}
-				
-				InputStream is1 = jarFile1.getInputStream(entry1);
-				InputStream is2 = jarFile2.getInputStream(entry2);
-				
-				if (!isStreamsEqual(is1, is2)) {
-					isSame = false;
-				}
-			}    		
-            
-            if(isSame) {
-            	NeedUpdate = 0;
-          		return false;
-            } else {
-            	NeedUpdate = 1;
-            	return true;
-            }
-            
 
-            
     	} catch (Exception e) {
     	    e.printStackTrace();
     	}
