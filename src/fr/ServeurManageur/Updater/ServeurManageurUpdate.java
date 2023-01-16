@@ -22,7 +22,7 @@ public class ServeurManageurUpdate {
     public static Boolean DoUpdate(CommandSender sender) {
 
         try {
-        	URL url = new URL("https://github.com/SISIG48/ServeurManageur/raw/main/ServeurManageur.jar");
+        	URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur.jar");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -40,7 +40,7 @@ public class ServeurManageurUpdate {
 
     public static Boolean CheckUpdate() {
     	try {
-    		URL url = new URL("https://github.com/SISIG48/ServeurManageur/raw/main/ServeurManageur.jar");
+    		URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur-d.jar");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
