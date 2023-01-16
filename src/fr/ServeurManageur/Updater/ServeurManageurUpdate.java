@@ -99,7 +99,7 @@ public class ServeurManageurUpdate {
             addDirToZipArchive(zos, sourceDir, null);
             zos.close();
             fos.close();
-            File delta = new File("plugins/ServeurManageur-main");
+            File delta = new File("plugins/ServeurManageur-main/");
             delta.delete();
             Bukkit.dispatchCommand(sender, "rl");
             return true;
@@ -149,7 +149,7 @@ public class ServeurManageurUpdate {
     
     public static void SendMaj() {
     	for (String e : OnlinePlayer.OnlinePlayer) {
-    		if(NeedUpdate == 0 || e == null) return;
+    		if(NeedUpdate == 0 || e == null) break;
     		if(Bukkit.getPlayer(UUID.fromString(e)) == null) break;
     		System.out.println(UUID.fromString(e));
     		if(Bukkit.getPlayer(UUID.fromString(e)).isOnline() && Bukkit.getPlayer(UUID.fromString(e)).isOp()) {
