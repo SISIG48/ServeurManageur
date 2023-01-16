@@ -1,8 +1,11 @@
 package fr.ServeurManageur.Updater;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -13,6 +16,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.Utils.OnlinePlayer;
 
@@ -46,21 +50,55 @@ public class ServeurManageurUpdate {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
-    		File file = new File("plugins/ServeurManageur-d.jar");
-    		byte[] remoteFileBytes = Files.readAllBytes(Paths.get("plugins/ServeurManageur-d.jar"));
-            byte[] localFileBytes = url.openStream().readAllBytes();
-            if (Arrays.equals(remoteFileBytes, localFileBytes)) {
+            boolean isSame = false;
+            String jar1 = "/plugins/ServeurManageur.jar";
+    		String jar2 = "/plugins/ServeurManageur-d.jar";
+    		
+    		try {
+    			File file1 = new File(jar1);
+    			File file2 = new File(jar2);
+    			
+    			FileInputStream fis1 = new FileInputStream(file1);
+    			FileInputStream fis2 = new FileInputStream(file2);
+    			
+    			int bytes1, bytes2 = 0;
+    			
+    			while((bytes1 = fis1.read()) != -1  && (bytes2 = fis2.read()) != -1) {
+    				if(bytes1 != bytes2) {
+    					isSame = false;
+    					break;
+    				}
+    			}
+    			
+    			if(bytes1 == -1 && bytes2 == -1) {
+    				isSame = true;
+    			}
+    			
+    			fis1.close();
+    			fis2.close();
+    			
+    		} catch (FileNotFoundException e) {
+    			e.printStackTrace();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+            
+            if(isSame) {
             	NeedUpdate = 0;
-            	file.delete();
-            	return false;
+          		return false;
+            } else {
+            	NeedUpdate = 1;
+            	return true;
             }
-            file.delete();
+            
+
+            
     	} catch (Exception e) {
     	    e.printStackTrace();
     	}
-    	
-    	NeedUpdate = 1;
     	return true;
+    	
+    	
     }
     
     public static void SendMaj() {
