@@ -54,33 +54,33 @@ public class ServeurManageurUpdate {
 			
 			if (jarFile1.size() != jarFile2.size()) {
 				return false;
-			} else {
+			}
 			
-				Enumeration<JarEntry> entries1 = jarFile1.entries();
-				Enumeration<JarEntry> entries2 = jarFile2.entries();
+			Enumeration<JarEntry> entries1 = jarFile1.entries();
+			Enumeration<JarEntry> entries2 = jarFile2.entries();
+			
+			while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
+				JarEntry entry1 = entries1.nextElement();
+				JarEntry entry2 = entries2.nextElement();
+					
+				if (!entry1.getName().equals(entry2.getName())) {
+					return false;
 				
-				while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
-					JarEntry entry1 = entries1.nextElement();
-					JarEntry entry2 = entries2.nextElement();
-					
-					if (!entry1.getName().equals(entry2.getName())) {
-						return false;
-					
-					}
-					if (entry1.getSize() != entry2.getSize()) {
-						return false;
-					}
-					InputStream is1 = jarFile1.getInputStream(entry1);
-					InputStream is2 = jarFile2.getInputStream(entry2);
+				}
+				if (entry1.getSize() != entry2.getSize()) {
+					return false;
+				}
+				InputStream is1 = jarFile1.getInputStream(entry1);
+				InputStream is2 = jarFile2.getInputStream(entry2);
 						
-					if (!isStreamsEqual(is1, is2)) {
-						return false;
-							
-					}
+				if (!isStreamsEqual(is1, is2)) {
+					return false;
+						
+				}
 					
 					
 				}    		
-			}
+			
 
     	} catch (Exception e) {
     	    e.printStackTrace();
