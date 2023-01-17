@@ -51,7 +51,7 @@ public class ServeurManageurUpdate {
     		String jar2 = "plugins/ServeurManageur/ServeurManageur.jar";
     		JarFile jarFile1 = new JarFile(jar1);
 			JarFile jarFile2 = new JarFile(jar2);
-			Bukkit.getPlayer("SISIG48").sendMessage(jarFile1.size() +" - Jar GIT Zize :" + jarFile2.size());	
+			Bukkit.getPlayer("SISIG48").sendMessage("§eJar loale zize : §a" + jarFile1.size() + "§e| Jar GIT Zize : §a" + jarFile2.size());	
 			if (jarFile1.size() != jarFile2.size()) {
 				return true;
 			}
@@ -69,10 +69,10 @@ public class ServeurManageurUpdate {
 				if (entry1.getSize() != entry2.getSize()) {
 					return true;
 				}		
-				Bukkit.getPlayer("SISIG48").sendMessage("! NO MAJ");	
+				
 					
 				}    		
-			
+		Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
 
     	} catch (Exception e) {
     		Bukkit.getPlayer("SISIG48").sendMessage("§4ERR VERIF");	
