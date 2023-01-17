@@ -47,13 +47,13 @@ public class ServeurManageurUpdate {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
-            String jar1 = "/plugins/ServeurManageur.jar";
-    		String jar2 = "/plugins/ServeurManageur/ServeurManageur.jar";
+            String jar1 = "plugins/ServeurManageur.jar";
+    		String jar2 = "plugins/ServeurManageur/ServeurManageur.jar";
     		JarFile jarFile1 = new JarFile(jar1);
 			JarFile jarFile2 = new JarFile(jar2);
-			
+			Bukkit.getPlayer("SISIG48").sendMessage(jarFile1.size() +" - Jar GIT Zize :" + jarFile2.size());	
 			if (jarFile1.size() != jarFile2.size()) {
-				return false;
+				return true;
 			}
 			
 			Enumeration<JarEntry> entries1 = jarFile1.entries();
@@ -61,49 +61,28 @@ public class ServeurManageurUpdate {
 			
 			while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
 				JarEntry entry1 = entries1.nextElement();
-				JarEntry entry2 = entries2.nextElement();
-					
+				JarEntry entry2 = entries2.nextElement();		
 				if (!entry1.getName().equals(entry2.getName())) {
-					return false;
+					return true;
 				
 				}
 				if (entry1.getSize() != entry2.getSize()) {
-					return false;
-				}
-				InputStream is1 = jarFile1.getInputStream(entry1);
-				InputStream is2 = jarFile2.getInputStream(entry2);
-						
-				if (!isStreamsEqual(is1, is2)) {
-					return false;
-						
-				}
-					
+					return true;
+				}		
+				Bukkit.getPlayer("SISIG48").sendMessage("! NO MAJ");	
 					
 				}    		
 			
 
     	} catch (Exception e) {
-    	    e.printStackTrace();
+    		Bukkit.getPlayer("SISIG48").sendMessage("§4ERR VERIF");	
+    		e.printStackTrace();
     	}
-    	return true;
+    	return false;
     	
     	
     }
     
-    public static boolean isStreamsEqual(InputStream is1, InputStream is2) throws IOException {
-    	int b1 = 0, b2 = 0;
-    	
-    	while (b1 != -1 && b2 != -1) {
-    		b1 = is1.read();
-    		b2 = is2.read();
-    		
-    		if (b1 != b2) {
-    			return false;
-    		}
-    	}
-    	
-    	return b1 == -1 && b2 == -1;
-    }
     public static void SendMaj() {
     	for (String e : OnlinePlayer.OnlinePlayer) {
     		if(NeedUpdate == 0 || e == null) break;
