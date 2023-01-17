@@ -10,7 +10,9 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 public class CommandeRe implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
-
+		if(arg[0] == "get") {
+			sender.sendMessage("§aDetecteur auto de maj : §e" + String.valueOf(ServeurManageurUpdate.NeedUpdate));
+		}
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You need are OP to execute this command"); return false;}
