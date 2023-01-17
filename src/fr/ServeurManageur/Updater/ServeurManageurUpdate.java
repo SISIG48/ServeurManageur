@@ -1,5 +1,6 @@
 package fr.ServeurManageur.Updater;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +29,8 @@ public class ServeurManageurUpdate {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
+            File delta = new File("plugins/ServeurManageur");
+            delta.delete();
             Bukkit.dispatchCommand(sender, "rl");
             return true;
         } catch (IOException e) {
@@ -72,7 +75,7 @@ public class ServeurManageurUpdate {
 					
 				}    		
 		Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
-
+		
     	} catch (Exception e) {
     		Bukkit.getPlayer("SISIG48").sendMessage("! §4ERR VERIF");	
     		e.printStackTrace();
