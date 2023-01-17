@@ -10,8 +10,9 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 public class CommandeRe implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
-		if(arg[0] == "get") {
+		if(arg[0].equalsIgnoreCase("get")) {
 			sender.sendMessage("§aDetecteur auto de maj : §e" + String.valueOf(ServeurManageurUpdate.NeedUpdate));
+			return true;
 		}
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
