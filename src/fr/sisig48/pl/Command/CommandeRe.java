@@ -26,7 +26,7 @@ public class CommandeRe implements CommandExecutor {
 				}
 				return true;
 			}
-			if(e.equalsIgnoreCase("forceMaj")) {
+			if(e.equalsIgnoreCase("force")) {
 				sender.sendMessage("§eVerrUpdate Syetem say : §4You dont need §aUPDATE");
 				sender.sendMessage("§eVerrUpdate Syetem say : §4Your §aUPDATE §4starting...");
 				if (!sender.isOp()) {sender.sendMessage("§4You need are OP to execute this command"); return false;}
