@@ -13,7 +13,7 @@ import java.util.jar.JarFile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-
+import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.Utils.OnlinePlayer;
 
@@ -86,12 +86,13 @@ public class ServeurManageurUpdate {
     }
     
     public static void SendMaj() {
-    	for (String e : OnlinePlayer.OnlinePlayer) {
-    		if(NeedUpdate == 0 || e == null) break;
-    		if(Bukkit.getPlayer(UUID.fromString(e)) == null) break;
-    		System.out.println(UUID.fromString(e));
-    		if(Bukkit.getPlayer(UUID.fromString(e)).isOnline() && Bukkit.getPlayer(UUID.fromString(e)).isOp()) {
-    			Bukkit.getPlayer(UUID.fromString(e)).sendMessage("§4You need update plugin </re>");
+    	for (Player e : Bukkit.getOnlinePlayers()) {
+    		if(NeedUpdate == 0 || e == null || e.getUniqueId() == null) break;
+    		System.out.println("UUID : " + e.getUniqueId() + " Name : " + e.getName());
+    		
+    		if(e.isOp()) {
+    			e.sendMessage("§4You need update plugin </re>");
+    			
     		}
     	}
     }

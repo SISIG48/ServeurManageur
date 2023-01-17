@@ -34,14 +34,14 @@ public class Main extends JavaPlugin {
 			System.err.println("--------- You dont need UPDATE ---------");
 			ServeurManageurUpdate.NeedUpdate = 0;
 		}
-		
+		/*
 		try {
 			OnlinePlayer.ReadUsercache();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		reloadConfig();
@@ -64,7 +64,7 @@ public class Main extends JavaPlugin {
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
 			if(!e.isOp()) {
-				e.kickPlayer("§4Serveur do a rapid-restart §aPleas WAIT");
+				e.kickPlayer("§4Serveur do a rapid-restart §aPlease WAIT");
 			}
 		}
 	}
