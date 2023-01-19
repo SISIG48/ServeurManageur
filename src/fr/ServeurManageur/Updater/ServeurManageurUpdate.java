@@ -63,28 +63,34 @@ public class ServeurManageurUpdate {
 			}
 			Enumeration<JarEntry> entries1 = jarFile1.entries();
 			Enumeration<JarEntry> entries2 = jarFile2.entries();
-			jarFile1.close();
-			jarFile2.close();
+			
 			while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
 				JarEntry entry1 = entries1.nextElement();
 				JarEntry entry2 = entries2.nextElement();		
 				if (!entry1.getName().equals(entry2.getName())) {
+					jarFile1.close();
+					jarFile2.close();
 					return true;
 				
 				}
 				if (entry1.getSize() != entry2.getSize()) {
+					jarFile1.close();
+					jarFile2.close();
 					return true;
 				}		
 				
 					
-				}    		
+				}  
+				
 		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
-		
+		jarFile1.close();
+		jarFile2.close();
     	} catch (Exception e) {
     		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §4ERR VERIF");	
     		logs.add("Err Tchecking Update : Erreur de vérification");
     		e.printStackTrace();
     	}
+    	
     	return false;
     	
     	
