@@ -7,11 +7,19 @@ api-version: 1.13
 commands:
   mine:
     description: Go to the mine
+    usage: /mine
   spawn:
     description: Go to the spawn
+    usage: /spawn
   re:
     description: Update plugin ServeurManageur
     permission: admin.command
+    usage: /re <get|force|reload>
   config:
     description: config file
     permission: admin.command
+    usage: /config [<save|reload>|<get|set> [CONFIG PATH]]
+  bug:
+    description: report nug
+    permission: admin.command
+    usage: /bug [bug...]

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import fr.sisig48.pl.logs;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Item;
 import fr.sisig48.pl.Utils.Uconfig;
@@ -99,12 +100,14 @@ public class Interface {
 			case ITEM_FRAME:
 				if(current.getItemMeta().getCustomModelData() != 127) break;
 				MenuTP.OpenMenuTP(players);
+				logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuTP");
 				break;
 			
 				
 			case ENDER_PEARL:
 				if(current.getItemMeta().getCustomModelData() != 127) break;
 				try {
+					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Teleported to spawn");
 					if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) ) {
 						player.teleport(Spawn.GetMineOutSpawnLocation());
 						player.sendMessage("§aVous avez été tp au §4spawn");
@@ -124,6 +127,7 @@ public class Interface {
 			try {
 				player.teleport(Spawn.GetMineInSpawnLocation());
 				player.sendMessage("§aVous avez été tp a la §4mine");
+				logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Teleported to mine");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

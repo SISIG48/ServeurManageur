@@ -15,13 +15,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.sisig48.pl.Utils.OnlinePlayer;
+import fr.sisig48.pl.logs;
 
 
 public class ServeurManageurUpdate {
 	public static int NeedUpdate;
     public static Boolean DoUpdate(CommandSender sender) {
-
+    	logs.add("Maj start by : " + sender.getName());
         try {
         	URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
@@ -32,16 +32,20 @@ public class ServeurManageurUpdate {
             File delta = new File("plugins/ServeurManageur");
             delta.delete();
             Bukkit.dispatchCommand(sender, "rl");
+            logs.add("Maj end");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logs.add("Maj err");
         return false;
-    
+        
     }
     
 
-    public static Boolean CheckUpdate() {
+    @SuppressWarnings("resource")
+	public static Boolean CheckUpdate() {
+    	logs.add("Start Tchecking Update from : https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
     	try {
     		URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
@@ -53,14 +57,14 @@ public class ServeurManageurUpdate {
     		String jar2 = "plugins/ServeurManageur/ServeurManageur.jar";
     		JarFile jarFile1 = new JarFile(jar1);
 			JarFile jarFile2 = new JarFile(jar2);
-			Bukkit.getPlayer("SISIG48").sendMessage("! §eJar loale zize : §a" + jarFile1.size() + " §e| Jar GIT Zize : §a" + jarFile2.size());	
+			if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §eJar loale zize : §a" + jarFile1.size() + " §e| Jar GIT Zize : §a" + jarFile2.size());	
 			if (jarFile1.size() != jarFile2.size()) {
 				return true;
 			}
-			
 			Enumeration<JarEntry> entries1 = jarFile1.entries();
 			Enumeration<JarEntry> entries2 = jarFile2.entries();
-			
+			jarFile1.close();
+			jarFile2.close();
 			while (entries1.hasMoreElements() && entries2.hasMoreElements()) {
 				JarEntry entry1 = entries1.nextElement();
 				JarEntry entry2 = entries2.nextElement();		
@@ -74,10 +78,11 @@ public class ServeurManageurUpdate {
 				
 					
 				}    		
-		Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
+		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
 		
     	} catch (Exception e) {
-    		Bukkit.getPlayer("SISIG48").sendMessage("! §4ERR VERIF");	
+    		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §4ERR VERIF");	
+    		logs.add("Err Tchecking Update : Erreur de vérification");
     		e.printStackTrace();
     	}
     	return false;

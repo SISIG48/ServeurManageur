@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Economie.EconomieESS;
 import fr.sisig48.pl.Utils.Item;
 
@@ -22,6 +23,7 @@ public class EconomieMenu {
 	public static ItemStack current;
 	
 	public static void OpenMenuEco(Player player) throws Exception {
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuEco");
 		Inventory e = Bukkit.createInventory(player, 27, "Economie");
 		player.openInventory(e);
 		Interface.inventory.add(e);
@@ -44,7 +46,7 @@ public class EconomieMenu {
 	
 	
 	public static void OpenMenuEcoPerso(Player player) throws Exception {
-		
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuEcoPerso");
 		Inventory e = Bukkit.createInventory(player, 27, "Economie personelle");
 		player.openInventory(e);
 		Interface.inventory.add(e);
@@ -62,7 +64,7 @@ public class EconomieMenu {
 	}
 	
 	public static void OpenMenuEcoPublic(Player player) throws Exception {
-		
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuEcoPublic");
 		Inventory e = Bukkit.createInventory(player, 27, "Economie publique");
 		player.openInventory(e);
 		Interface.inventory.add(e);
@@ -80,6 +82,7 @@ public class EconomieMenu {
 	}
 	
 	public static void OpenMenuEcoPublicMoney(Player player) throws Exception{
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuEcoPublicMoney");
 		int first = 0;
 		int second = 0;
 		int three = 0;

@@ -7,14 +7,13 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-
-
+import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Utils.Item;
 
 public class MenuPP {
 
 	public static void OpenMainMenu(Player player) {
-		
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to menuPP");
 		Inventory e = Bukkit.createInventory(player, 54, "Menu du survival");
 		Interface.inventory.add(e);
 		

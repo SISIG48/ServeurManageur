@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import fr.sisig48.pl.logs;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Uconfig;
 
@@ -15,7 +16,7 @@ public class CommandeSpawn implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
-		
+		logs.add("Command exucted by : " + sender.getName() + " Command : /sapwn");
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.isOp()) {
@@ -52,9 +53,12 @@ public class CommandeSpawn implements CommandExecutor {
 				if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) ) {
 					player.teleport(Spawn.GetMineOutSpawnLocation());
 					player.sendMessage("§aVous avez été tp au §4spawn");
+					return true;
 				} else {
 					player.teleport(Spawn.GetSpawnLocation());
+					logs.add(String.valueOf(Spawn.GetSpawnLocation()));
 					player.sendMessage("§aVous avez été tp au §4spawn");
+					return true;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

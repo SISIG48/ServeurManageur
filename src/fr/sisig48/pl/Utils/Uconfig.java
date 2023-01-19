@@ -4,6 +4,7 @@ package fr.sisig48.pl.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import fr.sisig48.pl.Main;
+import fr.sisig48.pl.logs;
 
 public class Uconfig {
 	
@@ -17,6 +18,7 @@ public class Uconfig {
 
 	//public static final
 	public static String getConfig(String configPath) {
+		logs.add("Config get for : " + configPath + " Respond : " + config.getString(configPath));
 		return config.getString(configPath);
 	}
 	

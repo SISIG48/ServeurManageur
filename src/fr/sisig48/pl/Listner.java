@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -37,10 +38,26 @@ public class Listner implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		try {
+			logs.PlayerConect(player);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ServeurManageurUpdate.SendMaj();
 		NetherStarMenu.GiveMenu(player);
 		
 		
+	}
+	
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		try {
+			logs.PlayerLeave(player);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -48,6 +65,7 @@ public class Listner implements Listener {
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Respawn");
 		try {
 			player.teleport(Spawn.GetSpawnLocation());
 			Economy.divide(player.getName(), 2);
@@ -67,14 +85,15 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void OnIteract(PlayerInteractEvent event) {
+		if(event.getItem() == null) return;
 		if(!event.getItem().getItemMeta().hasCustomModelData()) return;
 		if(event.getPlayer() == null) return;
 		if(event.getItem() == null) return;
-
+		Player player = event.getPlayer();
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuEcoPublic");
 		try {
 			if(event.getItem().getItemMeta().getCustomModelData() < 0 ) return;
 		} catch (Exception e) {return;}
-		Player player = event.getPlayer();
 		int it = event.getItem().getItemMeta().getCustomModelData();
 		event.setCancelled(NetherStarMenu.HasMenu(player, it, event.getItem()));
 	
@@ -103,8 +122,9 @@ public class Listner implements Listener {
 		
 		MenuPP.current = event.getCurrentItem();
 		ItemStack current = event.getCurrentItem();
-		if(current == null) return;
+		if(current == null || current.getItemMeta() == null) return;
 		if(!current.getItemMeta().hasCustomModelData()) return;
+		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Click whith : " + String.valueOf(current.getType()));
 		try {
 			if(Interface.GetActonIfInMainMenu(player, current, inv)) {
 				event.setCancelled(true);
@@ -112,6 +132,7 @@ public class Listner implements Listener {
 				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
 				if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
 					player.sendMessage("§4§l/!\\ Vous Â§tes en créatif, §4merci de ne pas dupliqué votre §cétoile");
+					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Risk of duplication (GAMEMODE 1 ERROR) Target : Nether Start Menu");
 				}
 			}
 			
