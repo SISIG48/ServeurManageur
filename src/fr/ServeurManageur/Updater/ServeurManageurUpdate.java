@@ -3,9 +3,11 @@ package fr.ServeurManageur.Updater;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.UUID;
 import java.util.jar.JarEntry;
@@ -20,7 +22,8 @@ import fr.sisig48.pl.logs;
 
 public class ServeurManageurUpdate {
 	public static int NeedUpdate;
-    public static Boolean DoUpdate(CommandSender sender) {
+
+	public static Boolean DoUpdate(CommandSender sender) {
     	logs.add("Maj start by : " + sender.getName());
         try {
         	URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
@@ -29,8 +32,22 @@ public class ServeurManageurUpdate {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
-            File delta = new File("plugins/ServeurManageur");
+            File delta = new File("plugins/ServeurManageur/ServeurManageur.jar");
             delta.delete();
+            
+            File source = new File("plugins/ServeurManageur.jar");
+            File dest = new File("plugins/ServeurManageur/note.txt");
+
+            try (JarFile jar = new JarFile(source)) {
+                JarEntry entry = jar.getJarEntry("note.txt");
+                try (InputStream is = jar.getInputStream(entry)) {
+                    Files.copy(is, dest.toPath());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            
             Bukkit.dispatchCommand(sender, "rl");
             logs.add("Maj end");
             return true;
@@ -42,6 +59,19 @@ public class ServeurManageurUpdate {
         
     }
     
+	public static void Note() {
+		File source = new File("plugins/ServeurManageur.jar");
+        File dest = new File("plugins/ServeurManageur/note.txt");
+
+        try (JarFile jar = new JarFile(source)) {
+            JarEntry entry = jar.getJarEntry("note.txt");
+            try (InputStream is = jar.getInputStream(entry)) {
+                Files.copy(is, dest.toPath());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
     @SuppressWarnings("resource")
 	public static Boolean CheckUpdate() {

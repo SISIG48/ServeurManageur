@@ -1,6 +1,8 @@
 package fr.sisig48.pl;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -94,6 +96,21 @@ public class logs {
         bufWriter.write(content);
         bufWriter.close();
         MyFile.close();
+	}
+	
+	public static String[] ReadFile(String file) throws IOException {
+		FileReader MyFile= new FileReader("plugins/ServeurManageur/" + file);
+	    BufferedReader br = new BufferedReader(MyFile);
+	    StringBuffer sb = new StringBuffer();    
+	    String line;
+	    while((line = br.readLine()) != null) {
+	        // ajoute la ligne au buffer
+	        sb.append(line);      
+	        sb.append("\\");     
+	      }
+	    MyFile.close();    
+	    add("Reading : plugins/ServeurManageur/" + file + " Result : " +sb.toString());
+		return sb.toString().split("\\\\");
 	}
 	
 }

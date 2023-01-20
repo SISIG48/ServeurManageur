@@ -16,10 +16,11 @@ commands:
     permission: admin.command
     usage: /re <get|force|reload>
   config:
-    description: config file
+    description: Config file
     permission: admin.command
     usage: /config [<save|reload>|<get|set> [CONFIG PATH]]
   bug:
-    description: report nug
+    description: Report bug
     permission: admin.command
     usage: /bug [bug...]
+  

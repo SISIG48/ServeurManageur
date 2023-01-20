@@ -37,7 +37,6 @@ public class Main extends JavaPlugin {
 		try {
 			OnlinePlayer.ReadUsercache();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		*/
@@ -51,6 +50,7 @@ public class Main extends JavaPlugin {
 		getCommand("bug").setExecutor(new CommandBug());
 		new Uconfig(this);
 		ServeurManageurUpdate.SendMaj();
+		ServeurManageurUpdate.Note();
 	}
 
 	@Override

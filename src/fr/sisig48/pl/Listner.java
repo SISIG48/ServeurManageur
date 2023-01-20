@@ -38,6 +38,15 @@ public class Listner implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		player.sendMessage("§aBienvenu sur le serveur");
+		player.sendMessage("§eSi tu a un problème contact le staff sur le §4discord §eou");
+		player.sendMessage("§eexécute la command §4/bug [arg...]");
+		if(player.isOp()) {
+			player.sendMessage("");
+			player.sendMessage("§4Vous ête administrateur sur ce serveur :");
+			player.sendMessage("  §e- /help ServeurManageur pour obtenir la list des command disponible");
+		}
+		
 		try {
 			logs.PlayerConect(player);
 		} catch (IOException e) {

@@ -30,13 +30,11 @@ public class Uconfig {
 	
 	public static void saveConfig() {
 		main.saveConfig();
-		main.reloadConfig();
 		return;
 	}
 	
 	public static void reloadConfig() {
 		main.reloadConfig();
-		main.saveConfig();
 		return;
 	}
 	

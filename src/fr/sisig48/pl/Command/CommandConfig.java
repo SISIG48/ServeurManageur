@@ -19,7 +19,6 @@ public class CommandConfig implements CommandExecutor {
 			sender.sendMessage("§4Unknown command");
 			return true;
 		}
-		sender.sendMessage(String.valueOf(arg.length));
 		if(arg.length < 1) return false;
 		logs.add("Command exucted by : " + sender.getName() + " Command : /config");
 		if(sender instanceof Player) {
@@ -44,8 +43,16 @@ public class CommandConfig implements CommandExecutor {
 				case "set":
 					
 					if(arg.length < 3) return false;
-					Uconfig.setConfig(arg[1], arg[2]);
-					player.sendMessage("§aConfig \"" + arg[1] + "\" has set to \"" + arg[2] + "\"");
+					
+					String msg = "";
+					int i = 2;
+					while(0 != (arg.length - i)) {
+						if(1 != (arg.length - i)) msg = msg + arg[i] + " ";
+						if(1 == (arg.length - i)) msg = msg + arg[i];
+						i++;
+					}
+					Uconfig.setConfig(arg[1], msg);
+					player.sendMessage("§aConfig \"" + arg[1] + "\" has set to \"" + msg + "\"");
 					break;
 			}
 			return true;
