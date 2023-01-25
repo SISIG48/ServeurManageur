@@ -60,7 +60,7 @@ public class Friends {
 		}
 		for(OfflinePlayer temp : listFriends) System.out.println(player.getName()+" - "+temp.getName() + "-" + friend);
 		if(nl == 0) nl++;
-		if(nl == data.line.size()) nl--;
+		if(nl >= data.line.size()) nl--;
 		data.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + friend);
 		data.line.remove(nl + 1);		
 	}
