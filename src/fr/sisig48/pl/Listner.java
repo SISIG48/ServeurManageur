@@ -3,6 +3,8 @@ package fr.sisig48.pl;
 import java.io.IOException;
 
 import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +25,7 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.MenuPP;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
+import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.State.Spawn;
 import net.ess3.api.MaxMoneyException;
 
@@ -55,6 +58,17 @@ public class Listner implements Listener {
 		}
 		ServeurManageurUpdate.SendMaj();
 		NetherStarMenu.GiveMenu(player);
+		Friends f = new Friends(player);
+		int i = 0;
+		for(OfflinePlayer p : f.get()) {
+			if(p.isOnline()) {
+				i++;
+				p.getPlayer().sendMessage("§e"+ player.getName() + "§a c'est connecter");
+			}
+			
+		}
+		if(i != 0) player.sendMessage("§aVous avez §e" + i + " §aamis en ligne");
+			
 		
 		
 	}

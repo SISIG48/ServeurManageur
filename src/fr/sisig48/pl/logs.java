@@ -17,7 +17,7 @@ public class logs {
 		SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	    Date date = new Date();
 	    
-	    String content = "Logs - At : " + s.format(date) + " - Logs : " + info;
+	    String content = "Logs - At : " + s.format(date) + " - Logs : " + String.valueOf(info);
 	    FileWriter MyFile;
 		try {
 			MyFile = new FileWriter("plugins/ServeurManageur/logs.txt", true);

@@ -14,7 +14,7 @@ commands:
   re:
     description: Update plugin ServeurManageur
     permission: admin.command
-    usage: /re <get|force|reload>
+    usage: /re <get|force|reload|news>
   config:
     description: Config file
     permission: admin.command
@@ -23,4 +23,6 @@ commands:
     description: Report bug
     permission: admin.command
     usage: /bug [bug...]
-  
+  friends:
+    description: Manage your friends
+    usage: /friends [add|remove|accept] <PLAYER_NAME>

@@ -62,7 +62,8 @@ public class ServeurManageurUpdate {
 	public static void Note() {
 		File source = new File("plugins/ServeurManageur.jar");
         File dest = new File("plugins/ServeurManageur/note.txt");
-
+        dest.delete();
+        
         try (JarFile jar = new JarFile(source)) {
             JarEntry entry = jar.getJarEntry("note.txt");
             try (InputStream is = jar.getInputStream(entry)) {

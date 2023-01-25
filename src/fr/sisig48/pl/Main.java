@@ -3,6 +3,7 @@ package fr.sisig48.pl;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,9 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Command.CommandBug;
 import fr.sisig48.pl.Command.CommandConfig;
+import fr.sisig48.pl.Command.CommandFriends;
 import fr.sisig48.pl.Command.CommandeMine;
 import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
+import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Utils.Uconfig;
 
 
@@ -23,7 +26,6 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		logs.add("Plugin Starting");
-		
 		if(ServeurManageurUpdate.CheckUpdate()) {
 			System.err.println("--------- You need do UPDATE ---------");
 			logs.add("End Tchecking Update : Maj detetect");
@@ -40,7 +42,7 @@ public class Main extends JavaPlugin {
 			e.printStackTrace();
 		}
 		*/
-		
+
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		reloadConfig();
 		getCommand("mine").setExecutor(new CommandeMine());
@@ -48,16 +50,19 @@ public class Main extends JavaPlugin {
 		getCommand("re").setExecutor(new CommandeRe());
 		getCommand("config").setExecutor(new CommandConfig());
 		getCommand("bug").setExecutor(new CommandBug());
+		getCommand("friends").setExecutor(new CommandFriends());
 		new Uconfig(this);
 		ServeurManageurUpdate.SendMaj();
 		ServeurManageurUpdate.Note();
+		Friends.load();
+		
 	}
 
 	@Override
 	public void onDisable() {
 		reloadConfig();
 		saveConfig();
-		
+		Friends.saveAll();
 		
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
