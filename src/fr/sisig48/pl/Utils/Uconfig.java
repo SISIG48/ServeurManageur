@@ -25,6 +25,7 @@ public class Uconfig {
 	
 	public static void setConfig(String configPath, String it) {
 		config.set(configPath, it);
+		save();
 		return;
 	}
 	
@@ -36,6 +37,10 @@ public class Uconfig {
 	public static void reloadConfig() {
 		main.reloadConfig();
 		return;
+	}
+	
+	private static void save() {
+		main.saveConfig();
 	}
 	
 	

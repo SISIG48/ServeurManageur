@@ -2,6 +2,7 @@ package fr.sisig48.pl.Sociale;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -126,6 +127,8 @@ class data {
 	static ArrayList<String> line = new ArrayList<String>();
 
 	static void reload() throws IOException {
+		File file = new File("plugins/ServeurManageur/data/friends.txt");
+		if(!file.exists()) file.createNewFile();
 		
 	    FileReader MyFileR = new FileReader("plugins/ServeurManageur/data/friends.txt");
 	    BufferedReader br = new BufferedReader(MyFileR);
@@ -158,6 +161,8 @@ class data {
 	
 	
 	static void save() throws IOException {
+		File file = new File("plugins/ServeurManageur/data/friends.txt");
+		if(!file.exists()) file.createNewFile();
 		FileWriter MyFileW = new FileWriter("plugins/ServeurManageur/data/friends.txt");
 	    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
 	    for(String e : line) {    

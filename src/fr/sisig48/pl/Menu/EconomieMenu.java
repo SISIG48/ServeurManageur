@@ -286,7 +286,7 @@ public class EconomieMenu {
 		ItemStack it;
 		if(pl.get().size() >= 1) {
 			it = Item.GiveOwnsPlayerHead(1, "§e#1 §f- §a"+ name[0] + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent", name[0], 125);
-			if(name[0].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[0] + " §8(MOI)" + " §f- §4" + money[0], "C'est le troisième joueur qui a le plus d'argent", name[0], 125);
+			if(name[0].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#1 §f- §a"+ name[0] + " §8(MOI)" + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent", name[0], 125);
 			e.setItem(11, it);
 			it = Item.GiveOwnsPlayerHead(1, "§e#2 §f- §a"+ name[1] + " §f- §4" + money[1], "C'est le deuxième joueur qui a le plus d'argent", name[1], 125);
 			if(name[1].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[1] + " §8(MOI)" + " §f- §4" + money[1], "C'est le troisième joueur qui a le plus d'argent", name[1], 125);
