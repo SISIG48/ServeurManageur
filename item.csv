@@ -6,3 +6,5 @@ CustomModel;Type;Name;Category;Zone;Description
 127;Exception;ITEM_FRAME;Menu;MenuPP;Go to the tp menu
 127;Exception;ENDER_PEARL;Menu;MenuTP;Go to the spawn
 127;Exception;WOODEN_PICKAXE;Menu;MenuTP;Go to the mine
+128;Exception;ENDER_CHEST;Menu;MenuEcoFriends;Go to the EcoFriendMoney menu
+128;Exception;HEAD | BARRIER;Menu;MenuEco;Go to EcoFriends menu

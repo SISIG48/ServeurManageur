@@ -34,9 +34,11 @@ public class CommandeMine implements CommandExecutor {
 							String[] loc = {x, y, z, w, ya, pi};
 							if (i.equals("in")) {
 								Spawn.SetMineInSpawnLocation(loc);
+								player.sendMessage("§ein mine set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 								return true;
 								} else if (i.equals("out")) {
 								Spawn.SetMineOutSpawnLocation(loc);
+								player.sendMessage("§eout mine set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 								return true;
 							}
 							
@@ -45,7 +47,7 @@ public class CommandeMine implements CommandExecutor {
 					return false;
 					}
 					
-					if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
+					if (Bukkit.getPlayer(e) != null & Bukkit.getPlayer(e).isOnline()) {
 						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You can't do this command"); return false;}
 						try {
 							destination = Spawn.GetMineInSpawnLocation();

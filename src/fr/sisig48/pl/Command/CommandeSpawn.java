@@ -31,10 +31,11 @@ public class CommandeSpawn implements CommandExecutor {
 						String w = player.getLocation().getWorld().getName().toString();
 						String[] loc = {x, y, z, w, ya, pi};
 						Spawn.SetSpawnLocation(loc);
+						player.sendMessage("§espawn set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 						return true;
 					}
 					
-					if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
+					if (Bukkit.getPlayer(e) != null & Bukkit.getPlayer(e).isOnline()) {
 						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You can't do this command"); return false;}
 						try {
 							Player p = Bukkit.getPlayer(e);
@@ -50,7 +51,7 @@ public class CommandeSpawn implements CommandExecutor {
 			}
 			try {
 
-				if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) ) {
+				if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) & !Uconfig.getConfig("location.spawn.w").equals(Uconfig.getConfig("location.mine.in.w"))) {
 					player.teleport(Spawn.GetMineOutSpawnLocation());
 					player.sendMessage("§aVous avez été tp au §4spawn");
 					return true;

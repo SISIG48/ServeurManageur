@@ -32,20 +32,8 @@ public class ServeurManageurUpdate {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
-            File delta = new File("plugins/ServeurManageur/ServeurManageur.jar");
-            delta.delete();
             
-            File source = new File("plugins/ServeurManageur.jar");
-            File dest = new File("plugins/ServeurManageur/note.txt");
-
-            try (JarFile jar = new JarFile(source)) {
-                JarEntry entry = jar.getJarEntry("note.txt");
-                try (InputStream is = jar.getInputStream(entry)) {
-                    Files.copy(is, dest.toPath());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Note();
             
             
             Bukkit.dispatchCommand(sender, "rl");

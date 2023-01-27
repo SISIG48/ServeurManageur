@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -60,6 +59,7 @@ public class Listner implements Listener {
 		NetherStarMenu.GiveMenu(player);
 		Friends f = new Friends(player);
 		int i = 0;
+		
 		for(OfflinePlayer p : f.get()) {
 			if(p.isOnline()) {
 				i++;

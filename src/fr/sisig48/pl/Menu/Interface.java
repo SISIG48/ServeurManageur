@@ -73,6 +73,12 @@ public class Interface {
 						break;
 					case 125:
 						break;
+					case 128 : try {
+						EconomieMenu.OpenMenuEcoFriends(players);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					default:
 						break;
 				}
@@ -86,10 +92,23 @@ public class Interface {
 				break;
 			
 			
+			case BARRIER :
+				try {
+					EconomieMenu.OpenMenuEcoFriends(players);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				break;
 			case ENDER_CHEST :
 			
 			try {
-				EconomieMenu.OpenMenuEcoPublicMoney(players);
+				switch(current.getItemMeta().getCustomModelData()) {
+					case 123 : EconomieMenu.OpenMenuEcoPublicMoney(players);
+					case 128 : EconomieMenu.OpenMenuEcoFriendsMoney(players);
+						
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				player.sendMessage("§4Error, contact the §adev-staff");

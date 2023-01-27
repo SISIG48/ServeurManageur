@@ -2,8 +2,9 @@ package fr.sisig48.pl;
 
 
 
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,10 @@ import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Utils.Uconfig;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 
 
@@ -42,7 +47,8 @@ public class Main extends JavaPlugin {
 			e.printStackTrace();
 		}
 		*/
-
+		
+		
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		reloadConfig();
 		getCommand("mine").setExecutor(new CommandeMine());
@@ -55,7 +61,7 @@ public class Main extends JavaPlugin {
 		ServeurManageurUpdate.SendMaj();
 		ServeurManageurUpdate.Note();
 		Friends.load();
-		
+		StartsendInfo();
 	}
 
 	@Override
@@ -73,6 +79,24 @@ public class Main extends JavaPlugin {
 		logs.add("Plugin Stoping");
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	private static void StartsendInfo(){
+		try {
+			
+			for(Player p : Bukkit.getOnlinePlayers()) {
+				if(!p.isOp()) break;
+				for(String e : logs.ReadFile("note.txt")) {
+					p.sendMessage(e);
+				}
+				TextComponent msgl = new TextComponent("§e[§e§lCLIQUE POUR REJOIDRE§e]");
+				msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eREJOIDRE").create()));
+				msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/5RwetHwxsS"));
+				p.spigot().sendMessage(msgl);
+			}
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

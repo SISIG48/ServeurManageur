@@ -28,9 +28,9 @@ public class Friends {
 	public void add(Player friends) {
 		if(!listFriends.contains(friends)) {
 			listFriends.add(friends);
-			for(OfflinePlayer temp : listFriends) System.out.println(player.getName()+" - "+temp.getName());
 			((CommandSender) player).sendMessage("§aVous avez ajouter §4" + friends.getName() + "§a dans vos amis");
 		}
+		logs.add("Friends : " + friends.getName() + " Added for " + player.getName());
 	}
 	
 	public void remove(OfflinePlayer friends) {
@@ -38,7 +38,6 @@ public class Friends {
 
 		 if(friends.isOnline()) ((CommandSender) friends).sendMessage("§e" + player.getName() + " §4vous a suprimé de ces amis");
 		 
-		 System.out.println("Friends : " + friends.getName() + " Removed for " + player.getName());
 		 logs.add("Friends : " + friends.getName() + " Removed for " + player.getName());
 		 return;
 	}
@@ -58,16 +57,16 @@ public class Friends {
 			friend = friend + "/" + String.valueOf(u.getUniqueId());
 			
 		}
-		for(OfflinePlayer temp : listFriends) System.out.println(player.getName()+" - "+temp.getName() + "-" + friend);
-		if(nl == 0) nl++;
-		if(nl >= data.line.size()) nl--;
 		data.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + friend);
-		data.line.remove(nl + 1);		
+		data.line.remove(nl + 1);
+		logs.add("Friends : save for " + player.getName());
+		
 	}
 	
 	public static void saveAll() {
 		try {
 			data.save();
+			logs.add("Friends : Saving all player ");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,6 +76,7 @@ public class Friends {
 	public static void reload() {
 			try {
 				data.reload();
+				logs.add("Friends : Reloading");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,34 +85,34 @@ public class Friends {
 	
 	private void loadP() {
 		if(data.line == null) reload();
+		logs.add("Friends : load profile " + player.getName());
 		int con = 0;
 		int i = 0;
-		int re = 0;
+		int re = 1;
 		for(String e : data.line) {
 			i++;
 			String[] l = e.split("\\s*:\\/?\\s*");
-			System.out.println(l[0] + " for " + String.valueOf(player.getUniqueId()));
-				if(l.length > 1 && !l[0].equalsIgnoreCase("?Friends") && l[0].equals(String.valueOf(player.getUniqueId()))) {
+				if(l.length > 1 & !l[0].equalsIgnoreCase("?Friends") & l[0].equals(String.valueOf(player.getUniqueId()))) {
 				
 					for(String f : l[1].split("\\s*\\/\\s*")) {
 					listFriends.add(Bukkit.getOfflinePlayer(UUID.fromString(f)));
 						
 					}
 				
-				re = i;
+				
 				con++;
 			}
-			if (l[0].equals(String.valueOf(player.getUniqueId()))) con++;
-			if (!l[0].equalsIgnoreCase("?Friends")) System.out.println("CON : /" + con);
+			if (l[0].equals(String.valueOf(player.getUniqueId()))) {
+				con++;
+				re = i;
+			}
 		}
 		if(con == 0) {
 			logs.add("Initialisation d'un compte \"friend\" pour \"UUID :" + player.getUniqueId() + " Name : " + player.getName() + "\"");
-			System.out.println("Initialisation d'un compte \"friend\" pour \"UUID :" + player.getUniqueId() + " Name : " + player.getName() + "\"");
 			data.line.add(String.valueOf(player.getUniqueId()) + ":");
 			re = data.line.indexOf(String.valueOf(player.getUniqueId()) + ":");
-			for(String temp : data.line) System.out.println(temp);
 		}
-		this.nl = re;
+		this.nl = re - 1;
 		return;
 	}
 	
@@ -141,7 +141,7 @@ class data {
 	    for(String li : sb.toString().split("\\\\;\\\\")) line.add(li);
 	    int i = 0;
 	    int rs = line.size() -1;
-	    while(rs != 0 && i < rs && !line.contains("?friends")) {
+	    while(rs != 0 & i < rs & !line.contains("?friends")) {
 	    	rs = line.size() -1;
 	    	if(line.get(i).contains("?Friends")) {
 	    		line.remove(i);
