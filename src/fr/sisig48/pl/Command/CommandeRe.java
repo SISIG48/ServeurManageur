@@ -42,15 +42,6 @@ public class CommandeRe implements CommandExecutor {
 				sender.sendMessage("§eVerrUpdate Syetem say : §4Your §aUPDATE §4ending | §4FAILED"); 
 				return true;
 			}
-			
-			if(arg[0].equalsIgnoreCase("v") & arg.length == 2) {
-				logs.add("Command exucted by : " + sender.getName() + " Command : /re v " + arg[1]);
-				if (!sender.isOp()) {sender.sendMessage("§4You need are OP to execute this command"); return true;}
-				if(ServeurManageurUpdate.DoSpecificUpdate(sender, arg[1])) {sender.sendMessage("§eSyetem say : §4Your §aUPDATE §4ending | §aSUCCESS"); return true;}
-				sender.sendMessage("§eSyetem say : §4Your §aUPDATE §4ending | §4FAILED"); 
-				return true;
-			}
-			
 			if(arg[0].equalsIgnoreCase("news")) {
 				try {
 					String[] news = logs.ReadFile("note.txt");

@@ -47,29 +47,6 @@ public class ServeurManageurUpdate {
         
     }
     
-	public static Boolean DoSpecificUpdate(CommandSender sender, String version) {
-    	logs.add("Maj start by : " + sender.getName());
-        try {
-        	URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/old/data/ServeurManageur%20"+ version +".jar?raw=true");
-            ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur.jar");
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-            fos.close();
-            rbc.close();
-            
-            Note();
-            
-            
-            Bukkit.dispatchCommand(sender, "rl");
-            logs.add("Maj end");
-            return true;
-        } catch (IOException e) {
-        }
-        logs.add("Maj err");
-        return false;
-        
-    }
-	
 	public static void Note() {
 		File source = new File("plugins/ServeurManageur.jar");
         File dest = new File("plugins/ServeurManageur/note.txt");
