@@ -13,10 +13,12 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Command.CommandBug;
 import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandFriends;
+import fr.sisig48.pl.Command.CommandJobs;
 import fr.sisig48.pl.Command.CommandeMine;
 import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
 import fr.sisig48.pl.Sociale.Friends;
+import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.Utils.Uconfig;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -57,10 +59,12 @@ public class Main extends JavaPlugin {
 		getCommand("config").setExecutor(new CommandConfig());
 		getCommand("bug").setExecutor(new CommandBug());
 		getCommand("friends").setExecutor(new CommandFriends());
+		getCommand("jobs").setExecutor(new CommandJobs());
 		new Uconfig(this);
 		ServeurManageurUpdate.SendMaj();
 		ServeurManageurUpdate.Note();
 		Friends.load();
+		PlayerJobs.load();
 		StartsendInfo();
 	}
 
@@ -69,7 +73,7 @@ public class Main extends JavaPlugin {
 		reloadConfig();
 		saveConfig();
 		Friends.saveAll();
-		
+		PlayerJobs.saveAll();
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
 			if(!e.isOp()) {

@@ -58,15 +58,15 @@ public class Friends {
 			friend = friend + "/" + String.valueOf(u.getUniqueId());
 			
 		}
-		data.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + friend);
-		data.line.remove(nl + 1);
+		Friendsdata.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + friend);
+		Friendsdata.line.remove(nl + 1);
 		logs.add("Friends : save for " + player.getName());
 		
 	}
 	
 	public static void saveAll() {
 		try {
-			data.save();
+			Friendsdata.save();
 			logs.add("Friends : Saving all player ");
 			
 		} catch (IOException e) {
@@ -76,7 +76,7 @@ public class Friends {
 	
 	public static void reload() {
 			try {
-				data.reload();
+				Friendsdata.reload();
 				logs.add("Friends : Reloading");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -85,12 +85,12 @@ public class Friends {
 	}
 	
 	private void loadP() {
-		if(data.line == null) reload();
+		if(Friendsdata.line == null) reload();
 		logs.add("Friends : load profile " + player.getName());
 		int con = 0;
 		int i = 0;
 		int re = 1;
-		for(String e : data.line) {
+		for(String e : Friendsdata.line) {
 			i++;
 			String[] l = e.split("\\s*:\\/?\\s*");
 				if(l.length > 1 & !l[0].equalsIgnoreCase("?Friends") & l[0].equals(String.valueOf(player.getUniqueId()))) {
@@ -110,8 +110,8 @@ public class Friends {
 		}
 		if(con == 0) {
 			logs.add("Initialisation d'un compte \"friend\" pour \"UUID :" + player.getUniqueId() + " Name : " + player.getName() + "\"");
-			data.line.add(String.valueOf(player.getUniqueId()) + ":");
-			re = data.line.indexOf(String.valueOf(player.getUniqueId()) + ":");
+			Friendsdata.line.add(String.valueOf(player.getUniqueId()) + ":");
+			re = Friendsdata.line.indexOf(String.valueOf(player.getUniqueId()) + ":");
 		}
 		this.nl = re - 1;
 		return;
@@ -122,7 +122,7 @@ public class Friends {
 	}
 }
 
-class data {
+class Friendsdata {
 	
 	static ArrayList<String> line = new ArrayList<String>();
 
@@ -144,7 +144,7 @@ class data {
 	    for(String li : sb.toString().split("\\\\;\\\\")) line.add(li);
 	    int i = 0;
 	    int rs = line.size() -1;
-	    while(rs != 0 & i < rs & !line.contains("?friends")) {
+	    while(rs != 0 & i < rs & !line.contains("?Friends")) {
 	    	rs = line.size() -1;
 	    	if(line.get(i).contains("?Friends")) {
 	    		line.remove(i);

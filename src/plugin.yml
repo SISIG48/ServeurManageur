@@ -26,3 +26,6 @@ commands:
   friends:
     description: Manage your friends
     usage: /friends [add|remove|accept] <PLAYER_NAME>
+  jobs:
+    description: Manage your jobs
+    usage: /jobs [add|remove]
