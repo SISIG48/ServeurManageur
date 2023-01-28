@@ -159,7 +159,7 @@ class data {
 	
 	
 	
-	
+	//test GITHUB
 	static void save() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/friends.txt");
 		if(!file.exists()) file.createNewFile();
