@@ -21,6 +21,7 @@ public class PlayerJobs {
 	}
 
 	public void add(Jobs jobs) {
+		remove();
 		this.jobs = jobs;
 	}
 	
