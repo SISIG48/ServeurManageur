@@ -150,16 +150,17 @@ public class EconomieMenu {
 						second = first;
 						secondNAME = firstNAME;
 						first = (int) mo ;
-						if(e.getName().equalsIgnoreCase(player.getName())) firstNAME =e.getName() + " §8(MOI)"; else firstNAME =e.getName();
+						firstNAME =e.getName();
+						
 					} else {
 						three = second;
 						threeNAME = secondNAME;
 						second = (int) mo;
-						if(e.getName().equalsIgnoreCase(player.getName())) secondNAME =e.getName() + " §8(MOI)"; else secondNAME = e.getName();
+						secondNAME = e.getName();
 					}
 				} else {
 					three = (int) mo;
-					if(e.getName().equalsIgnoreCase(player.getName())) threeNAME =e.getName() + " §8(MOI)"; else threeNAME = e.getName();
+					threeNAME = e.getName();
 				}
 			}
 			
@@ -175,12 +176,13 @@ public class EconomieMenu {
 		//Economie public
 		ItemStack it;
 		it = Item.GiveOwnsPlayerHead(1, "§e#1 §f- §a"+ name[0] + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent", name[0], 125);
-		if(name[0].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[0] + " §8(MOI)" + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent", name[0], 125);
+		if(name[0].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#1 §f- §a"+ name[0] + " §8(MOI)" + " §f- §4" + money[0], "C'est le joueur qui a le plus d'argent", name[0], 125);
 		e.setItem(11, it);
 		it = Item.GiveOwnsPlayerHead(1, "§e#2 §f- §a"+ name[1] + " §f- §4" + money[1], "C'est le deuxième joueur qui a le plus d'argent", name[1], 125);
-		if(name[1].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[1] + " §8(MOI)" + " §f- §4" + money[1], "C'est le deuxième joueur qui a le plus d'argent", name[1], 125);
+		if(name[1].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#2 §f- §a"+ name[1] + " §8(MOI)" + " §f- §4" + money[1], "C'est le deuxième joueur qui a le plus d'argent", name[1], 125);
 		e.setItem(13, it);
 		it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[2] + " §f- §4" + money[2], "C'est le troisième joueur qui a le plus d'argent", name[2], 125);
+		if(name[1].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[2] + " §8(MOI)" + " §f- §4" + money[2], "C'est le troisieme joueur qui a le plus d'argent", name[2], 125);
 		e.setItem(15, it);
 		
 		//Verre exterieur

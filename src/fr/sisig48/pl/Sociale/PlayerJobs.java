@@ -15,6 +15,7 @@ public class PlayerJobs {
 	private int nl;
 	private OfflinePlayer player;
 	private Jobs jobs;
+	private Jobs Tjobs;
 	public PlayerJobs(OfflinePlayer player) {
 		this.player = player;
 		loadP();
@@ -23,6 +24,8 @@ public class PlayerJobs {
 	public void add(Jobs jobs) {
 		remove();
 		this.jobs = jobs;
+		if(this.jobs != this.Tjobs) this.Tjobs = jobs;
+		
 	}
 	
 	public void remove() {
@@ -40,8 +43,9 @@ public class PlayerJobs {
 	
 	public void close() {
 		String jobs = "/" + String.valueOf(this.jobs.getJobs());
-
-		dataJobs.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + jobs);
+		String Tjobs = "/" + String.valueOf(this.Tjobs.getJobs());
+		if(this.jobs != this.Tjobs) dataJobs.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + Tjobs);
+		else dataJobs.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + jobs);
 		dataJobs.line.remove(nl + 1);
 		logs.add("Jobs : save for " + player.getName());
 		
@@ -78,7 +82,14 @@ public class PlayerJobs {
 			
 			String[] l = e.split("\\s*:\\/?\\s*");
 				if(l.length > 1 & !l[0].equalsIgnoreCase("?Jobs") & l[0].equals(String.valueOf(player.getUniqueId()))) {
-					for(String f : l[1].split("\\s*\\/\\s*")) jobs = Jobs.valueOf(f);
+					for(String f : l[1].split("\\s*\\/\\s*")) {
+						jobs = Jobs.valueOf(f);
+						Tjobs = jobs;
+						if(!jobs.isEnable()) {
+							jobs = Jobs.NOT;
+							player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : " + Tjobs.getName());
+						}
+					}
 					con++;
 			}
 			if (l[0].equals(String.valueOf(player.getUniqueId()))) {

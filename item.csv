@@ -8,3 +8,5 @@ CustomModel;Type;Name;Category;Zone;Description
 127;Exception;WOODEN_PICKAXE;Menu;MenuTP;Go to the mine
 128;Exception;ENDER_CHEST;Menu;MenuEcoFriends;Go to the EcoFriendMoney menu
 128;Exception;HEAD | BARRIER;Menu;MenuEco;Go to EcoFriends menu
+129;Exception;HEAD;Interface;JobsMenu;
+129-150;Detect;PAPER;Interface;JobsMenu;

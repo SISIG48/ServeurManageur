@@ -3,9 +3,11 @@ package fr.sisig48.pl;
 
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +21,7 @@ import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
+import fr.sisig48.pl.State.JobsPNJ;
 import fr.sisig48.pl.Utils.Uconfig;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -66,6 +69,13 @@ public class Main extends JavaPlugin {
 		Friends.load();
 		PlayerJobs.load();
 		StartsendInfo();
+		String uuid = "location.pnj.jobs.uuid";
+		if(Uconfig.getConfig(uuid) != null) {
+			Entity e = Bukkit.getEntity(UUID.fromString(Uconfig.getConfig(uuid)));
+			e.teleport(JobsPNJ.getLoc());
+			e.setCustomName(Uconfig.getConfig("location.pnj.jobs.name"));
+				
+		}
 	}
 
 	@Override
@@ -78,6 +88,9 @@ public class Main extends JavaPlugin {
 			
 			if(!e.isOp()) {
 				e.kickPlayer("§4Serveur do a rapid-restart §aPlease WAIT");
+			} else {
+				e.sendMessage("§6Attention certain bug son lié a ce reload,");
+				e.sendMessage("§6nous vous avons garder la conection car vous ête §aOP");
 			}
 		}
 		logs.add("Plugin Stoping");

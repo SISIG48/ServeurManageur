@@ -12,9 +12,7 @@ import fr.sisig48.pl.logs;
 public class EconomieESS {
 
 
-	public static double Ballance;
-	
-	
+	//private static double Ballance;
 	public static boolean HasEnought(Player player, double price) throws Exception {
 		
 		double Money = getMoney(player);
@@ -35,5 +33,7 @@ public class EconomieESS {
 		logs.add("Player : UUID : " + e.getUniqueId() + " | Name :" + e.getName() + " Resquet to com.earth2me.essentials.api.Economy <get money> [Offline player] Respond : " + String.valueOf(Economy.getMoney(e.getName())));
 		return Economy.getMoney(e.getName());		
 	} 
+	
+	
 	
 }

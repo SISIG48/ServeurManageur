@@ -31,6 +31,7 @@ public class Uconfig {
 	
 	public static void saveConfig() {
 		main.saveConfig();
+		
 		return;
 	}
 	
@@ -42,6 +43,7 @@ public class Uconfig {
 	private static void save() {
 		main.saveConfig();
 	}
+	
 	
 	
 }

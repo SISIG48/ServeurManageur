@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Menu.Jobs.JobsMenu;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Item;
 import fr.sisig48.pl.Utils.Uconfig;
@@ -46,8 +47,8 @@ public class Interface {
 			player.closeInventory();
 			return false;  
 		}
+		if(JobsMenu.TcheckJobsMenuAction(players, current)) return true;
 		if(!inventory.contains(inv)) return GetActonIfInMenuEco(current, player);
-		
 		switch(current.getType()) {
 			
 			case PAPER :
@@ -106,7 +107,9 @@ public class Interface {
 			try {
 				switch(current.getItemMeta().getCustomModelData()) {
 					case 123 : EconomieMenu.OpenMenuEcoPublicMoney(players);
+					break;
 					case 128 : EconomieMenu.OpenMenuEcoFriendsMoney(players);
+					break;
 						
 				}
 			} catch (Exception e) {
@@ -155,10 +158,11 @@ public class Interface {
 				break;
 				
 			default:
+				JobsMenu.TcheckJobsMenuAction(players, current);
 				return true;
 				
 		}
-		
+		JobsMenu.TcheckJobsMenuAction(players, current);
 		return true;
 		
 		

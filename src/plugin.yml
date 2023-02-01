@@ -28,4 +28,5 @@ commands:
     usage: /friends [add|remove|accept] <PLAYER_NAME>
   jobs:
     description: Manage your jobs
+    permission: admin.command
     usage: /jobs [add|remove]

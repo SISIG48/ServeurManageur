@@ -8,12 +8,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import fr.sisig48.pl.Economie.EconomieESS;
-
 public class Item {
 
 	private static ItemStack i;
-	final static Double Ballance = EconomieESS.Ballance;
+	
 	
 	
 	public static ItemStack GiveItem(Material material, int stack, String name, String lore) {

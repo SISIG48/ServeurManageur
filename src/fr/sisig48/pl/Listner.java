@@ -1,6 +1,7 @@
 package fr.sisig48.pl;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
@@ -9,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -23,9 +25,11 @@ import com.earth2me.essentials.api.UserDoesNotExistException;
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.MenuPP;
+import fr.sisig48.pl.Menu.Jobs.JobsMenu;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.State.Spawn;
+import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.MaxMoneyException;
 
 
@@ -100,20 +104,31 @@ public class Listner implements Listener {
 		} catch (MaxMoneyException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		NetherStarMenu.GiveMenu(player);
 	}
 	
 	@EventHandler
+	public void OnEntityInteract(PlayerInteractEntityEvent event) {
+		try {
+			if (event.getRightClicked().getUniqueId().equals(UUID.fromString(Uconfig.getConfig("location.pnj.jobs.uuid")))) {
+				//EXE
+				JobsMenu.OpenJobsMenu(event.getPlayer());
+				event.setCancelled(true);
+			}
+		} catch (Exception e1) {}
+	}
+	
+	@EventHandler
 	public void OnIteract(PlayerInteractEvent event) {
+		
+		if(event.getPlayer() == null) return;
+		
+		Player player = event.getPlayer();
+		
 		if(event.getItem() == null) return;
 		if(!event.getItem().getItemMeta().hasCustomModelData()) return;
-		if(event.getPlayer() == null) return;
-		if(event.getItem() == null) return;
-		Player player = event.getPlayer();
-		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuEcoPublic");
 		try {
 			if(event.getItem().getItemMeta().getCustomModelData() < 0 ) return;
 		} catch (Exception e) {return;}
@@ -147,24 +162,24 @@ public class Listner implements Listener {
 		ItemStack current = event.getCurrentItem();
 		if(current == null || current.getItemMeta() == null) return;
 		if(!current.getItemMeta().hasCustomModelData()) return;
+		
 		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Click whith : " + String.valueOf(current.getType()));
 		try {
 			if(Interface.GetActonIfInMainMenu(player, current, inv)) {
 				event.setCancelled(true);
 			} else {
 				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
-				if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
-					player.sendMessage("§4§l/!\\ Vous Â§tes en créatif, §4merci de ne pas dupliqué votre §cétoile");
-					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Risk of duplication (GAMEMODE 1 ERROR) Target : Nether Start Menu");
+				if(player.getGameMode() == GameMode.CREATIVE) {
+					player.kickPlayer(("§4§l/!\\ Nous avons detecter une duplication"));
+					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Risk of duplication (CHEAT ERROR) Target : Nether Start Menu");
 				}
+
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	
 	}
-	
 	
 }
