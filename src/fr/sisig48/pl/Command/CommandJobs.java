@@ -46,6 +46,9 @@ public class CommandJobs implements CommandExecutor {
 				for(Jobs jo : Jobs.All) jo.getFile().delete();
 				Bukkit.dispatchCommand(sender, "rl");
 				return true;
+			case "test" :
+				sender.sendMessage(String.valueOf(new PlayerJobs(Bukkit.getPlayer(sender.getName())).getXp()));
+				return true;
 			}
 			
 		}

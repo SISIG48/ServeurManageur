@@ -74,8 +74,9 @@ public class Main extends JavaPlugin {
 			Entity e = Bukkit.getEntity(UUID.fromString(Uconfig.getConfig(uuid)));
 			e.teleport(JobsPNJ.getLoc());
 			e.setCustomName(Uconfig.getConfig("location.pnj.jobs.name"));
-				
 		}
+		for(Player player : Bukkit.getOnlinePlayers()) if(!new PlayerJobs(player.getPlayer()).get().isEnable()) player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : §a" + new PlayerJobs(player.getPlayer()).get().getName() + " §6nous vous avons attribué un jobs fictif : Chaumage");
+
 	}
 
 	@Override

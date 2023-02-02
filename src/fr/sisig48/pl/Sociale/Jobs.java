@@ -146,7 +146,6 @@ public enum Jobs {
     			enable = Boolean.valueOf(temp[1]);
     			break;
     		case "Price" :
-    			System.out.println(String.valueOf(temp[1]) + "///////");
     			prix = Integer.valueOf(temp[1]);
     			break;
     		}

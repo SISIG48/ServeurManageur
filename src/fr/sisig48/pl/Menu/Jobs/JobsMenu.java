@@ -30,7 +30,8 @@ public class JobsMenu {
 		JobsInventory.add(e);
 		PlayerJobs pj = new PlayerJobs(player);
 		ItemStack it;
-		it = Item.GiveOwnsPlayerHead(1, "§aMon métier", "Votre métier est : §4" + pj.get().getJobs().getName(), player.getName(), 125);
+		String[] lore = {"Votre métier est : §4" + pj.get().getJobs().getName(), "Votre xp : §4" + String.valueOf(pj.getXp())};
+		it = Item.GiveOwnsPlayerHead(1, "§aMon métier", lore, player.getName(), 125);
 		e.setItem(11, it);
 
 		it = Item.GiveItem(Material.IRON_PICKAXE, 1, "§aChanger de métier", "Changé mon métier", 129);

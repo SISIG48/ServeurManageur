@@ -1,5 +1,6 @@
 package fr.sisig48.pl.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Material;
@@ -61,6 +62,24 @@ public class Item {
 		return i;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public static ItemStack GiveOwnsPlayerHead(int stack, String name, String[] lores, String player, int Code) {
+		
+		
+		i = new ItemStack(Material.PLAYER_HEAD, stack);
+		SkullMeta Meta = (SkullMeta) i.getItemMeta();
+		Meta.setDisplayName(name);
+		Meta.setOwner(player);
+		Meta.setCustomModelData(Code);
+		if(lores.length > 0) {
+			ArrayList<String> lo = new ArrayList<String>();
+			for(String lore : lores) lo.add("§8" + lore);
+			Meta.setLore(lo);
+		}
+		i.setItemMeta(Meta);
+		return i;
+	}
+	
 	
 	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String LoreD, Player player, Boolean Unbreakable) {
 		
@@ -71,6 +90,24 @@ public class Item {
 		if(LoreD != null) {
 			LoreD = "§8" + LoreD;
 			customM.setLore(Arrays.asList(LoreD));
+		}
+		customM.setCustomModelData(123);
+		item.setItemMeta(customM);
+		player.getInventory().setItem(Position, item);
+		player.updateInventory();
+		
+	}
+	
+	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String[] lores, Player player, Boolean Unbreakable) {
+		
+		ItemStack item = new ItemStack(typeMaterial, Nombre);
+		ItemMeta customM = item.getItemMeta();
+		customM.setUnbreakable(Unbreakable);
+		customM.setDisplayName(Name);
+		if(lores.length > 0) {
+			ArrayList<String> lo = new ArrayList<String>();
+			for(String lore : lores) lo.add("§8" + lore);
+			customM.setLore(lo);
 		}
 		customM.setCustomModelData(123);
 		item.setItemMeta(customM);

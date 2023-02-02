@@ -16,6 +16,8 @@ public class PlayerJobs {
 	private OfflinePlayer player;
 	private Jobs jobs;
 	private Jobs Tjobs;
+	private int xp;
+	private int Txp;
 	public PlayerJobs(OfflinePlayer player) {
 		this.player = player;
 		loadP();
@@ -36,14 +38,17 @@ public class PlayerJobs {
 		return jobs;
 	}
 	
+	public int getXp() {
+		return xp;
+	}
 	
 	public void save() {
 		close();
 	}
 	
 	public void close() {
-		String jobs = "/" + String.valueOf(this.jobs.getJobs());
-		String Tjobs = "/" + String.valueOf(this.Tjobs.getJobs());
+		String jobs = "/" + String.valueOf(this.jobs.getJobs()) + "/" + String.valueOf(xp);
+		String Tjobs = "/" + String.valueOf(this.Tjobs.getJobs()) + "/" + String.valueOf(Txp);
 		if(this.jobs != this.Tjobs) dataJobs.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + Tjobs);
 		else dataJobs.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + jobs);
 		dataJobs.line.remove(nl + 1);
@@ -72,37 +77,45 @@ public class PlayerJobs {
 	}
 	
 	private void loadP() {
+		xp = 0;
+		Txp = 0;
 		if(dataJobs.line == null) reload();
 		logs.add("Jobs : load profile " + player.getName());
 		int con = 0;
 		int i = 0;
 		int re = 1;
-		for(String e : dataJobs.line) {
+		ArrayList<String> line = dataJobs.line;
+		for(String e : line) {
 			i++;
-			
 			String[] l = e.split("\\s*:\\/?\\s*");
-				if(l.length > 1 & !l[0].equalsIgnoreCase("?Jobs") & l[0].equals(String.valueOf(player.getUniqueId()))) {
-					for(String f : l[1].split("\\s*\\/\\s*")) {
-						jobs = Jobs.valueOf(f);
-						Tjobs = jobs;
-						if(!jobs.isEnable()) {
-							jobs = Jobs.NOT;
-							player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : " + Tjobs.getName());
-						}
+			String[] f = null;
+			System.out.println(e);
+			if((l.length > 1 && !l[0].equalsIgnoreCase("?Jobs") && l[0].equals(String.valueOf(player.getUniqueId()))) && (f = l[1].split("\\s*\\/\\s*")).length >= 2) {
+					jobs = Jobs.valueOf(f[0]);
+					Tjobs = jobs;
+					System.out.println(f[1]);
+					Txp = Integer.valueOf(f[1]);
+					xp = Txp;
+					if(!jobs.isEnable()) {
+						jobs = Jobs.NOT;
+						xp = 0;
 					}
 					con++;
-			}
+					
+				}
+				
 			if (l[0].equals(String.valueOf(player.getUniqueId()))) {
 				con++;
 				re = i;
 			}
-		}
+}
 		if(con == 0) {
 			logs.add("Initialisation d'un compte \"Jobs\" pour \"UUID :" + player.getUniqueId() + " Name : " + player.getName() + "\"");
 			dataJobs.line.add(String.valueOf(player.getUniqueId()) + ":");
 			re = dataJobs.line.indexOf(String.valueOf(player.getUniqueId()) + ":");
 		}
 		this.nl = re - 1;
+		save();
 		return;
 	}
 	
@@ -131,7 +144,8 @@ class dataJobs {
 	    while((r = br.readLine()) != null) {
 	        // ajoute la ligne au buffer
 	        sb.append(r);      
-	        sb.append("\\;\\");     
+	        sb.append("\\;\\");  
+	        
 	      }
 	    MyFileR.close();
 	    for(String li : sb.toString().split("\\\\;\\\\")) line.add(li);
