@@ -9,7 +9,7 @@ import fr.sisig48.pl.logs;
 public class Uconfig {
 	
 	static FileConfiguration config;
-	private static Main main;
+	protected static Main main;
 	public Uconfig(Main main) {
 		config = main.getConfig();
 		Uconfig.main = main;

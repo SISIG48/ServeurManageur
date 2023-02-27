@@ -11,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import fr.sisig48.pl.Automating.Mine;
 import fr.sisig48.pl.State.Spawn;
 
 public class CommandeMine implements CommandExecutor {
@@ -36,9 +37,15 @@ public class CommandeMine implements CommandExecutor {
 								Spawn.SetMineInSpawnLocation(loc);
 								player.sendMessage("§ein mine set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 								return true;
-								} else if (i.equals("out")) {
+							} else if (i.equals("out")) {
 								Spawn.SetMineOutSpawnLocation(loc);
 								player.sendMessage("§eout mine set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
+								return true;
+							} else if (i.equals("zone1")) {
+								Mine.SetFillMineAt(player);
+								return true;
+							} else if (i.equals("zone2")) {
+								Mine.SetFillMineTo(player);
 								return true;
 							}
 							
