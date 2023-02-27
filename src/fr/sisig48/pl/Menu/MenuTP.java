@@ -22,7 +22,7 @@ public class MenuTP {
 		it = Item.GiveItem(Material.DEEPSLATE_GOLD_ORE, 1, "§aMine", "Téléportation vers la mine", 127);
 		e.setItem(22, it);
 		
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(27, it); e.setItem(28, it); e.setItem(29, it); e.setItem(30, it); e.setItem(31, it); e.setItem(32, it); e.setItem(33, it); e.setItem(34, it); e.setItem(35, it);
 	}

@@ -30,3 +30,6 @@ commands:
     description: Manage your jobs
     permission: admin.command
     usage: /jobs [add|remove]
+  menu:
+    description: Open Menu
+    usage: /jobs menu

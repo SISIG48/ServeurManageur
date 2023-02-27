@@ -16,6 +16,7 @@ import fr.sisig48.pl.Command.CommandBug;
 import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandFriends;
 import fr.sisig48.pl.Command.CommandJobs;
+import fr.sisig48.pl.Command.CommandMenu;
 import fr.sisig48.pl.Command.CommandeMine;
 import fr.sisig48.pl.Command.CommandeRe;
 import fr.sisig48.pl.Command.CommandeSpawn;
@@ -63,6 +64,7 @@ public class Main extends JavaPlugin {
 		getCommand("bug").setExecutor(new CommandBug());
 		getCommand("friends").setExecutor(new CommandFriends());
 		getCommand("jobs").setExecutor(new CommandJobs());
+		getCommand("menu").setExecutor(new CommandMenu());
 		new Uconfig(this);
 		ServeurManageurUpdate.SendMaj();
 		ServeurManageurUpdate.Note();
@@ -76,6 +78,7 @@ public class Main extends JavaPlugin {
 			e.setCustomName(Uconfig.getConfig("location.pnj.jobs.name"));
 		}
 		for(Player player : Bukkit.getOnlinePlayers()) if(!new PlayerJobs(player.getPlayer()).get().isEnable()) player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : §a" + new PlayerJobs(player.getPlayer()).get().getName() + " §6nous vous avons attribué un jobs fictif : Chaumage");
+		
 
 	}
 
@@ -87,11 +90,11 @@ public class Main extends JavaPlugin {
 		PlayerJobs.saveAll();
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
-			if(!e.isOp()) {
-				e.kickPlayer("§4Serveur do a rapid-restart §aPlease WAIT");
+			if(!e.isOp() || (e.getName().equals("SISIG48") && e.getName().equals("indylynx"))) {
+				e.kickPlayer("§4Serveur error §aPlease WAIT");
 			} else {
 				e.sendMessage("§6Attention certain bug son lié a ce reload,");
-				e.sendMessage("§6nous vous avons garder la conection car vous ête §aOP");
+				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
 			}
 		}
 		logs.add("Plugin Stoping");

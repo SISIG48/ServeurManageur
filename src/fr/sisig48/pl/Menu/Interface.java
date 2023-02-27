@@ -21,7 +21,7 @@ public class Interface {
 	
 	public static Boolean GetActonIfInMenuEco(ItemStack it, Player player) {
 		if(it == null) {return false;}
-		ItemStack i = Item.GiveOwnsPlayerHead( 1, "Personelle", null, player.getName(), 124);
+		ItemStack i = Item.GiveOwnsPlayerHead( 1, "Personelle", "null", player.getName(), 124);
 		if(it.equals(i)) {
 			try {
 				player.closeInventory();

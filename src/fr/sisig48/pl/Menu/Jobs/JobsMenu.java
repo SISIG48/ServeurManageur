@@ -50,15 +50,22 @@ public class JobsMenu {
 	}
 	
 	public static void OpenUnitChangeJobsMenu(Player player, Jobs job, int i) {
+		JobsInventory.clear();
 		Inventory e = Bukkit.createInventory(player, 27, job.getName());
 		player.openInventory(e);
 		JobsInventory.add(e);
 		//PlayerJobs pj = new PlayerJobs(player);
 		ItemStack it = null;
 		try {
-			if(Economy.getMoneyExact(player.getUniqueId()).doubleValue() >= Double.valueOf(job.getPrice() - 1)) it = Item.GiveItem(Material.GREEN_WOOL, 1, "§aAccepter §6Prix : " + job.getPrice(), "§4§lAttention l'xp actuele sera suprimé", i);
-			else it = Item.GiveItem(Material.GREEN_WOOL, 1, "§aAccepter §4§lPrix : " + job.getPrice() + ", §4vous n'avez pas assez", "§4§lAttention l'xp actuele sera suprimé", 125);
-			if(new PlayerJobs(player).get() == job) it = Item.GiveItem(Material.ORANGE_WOOL, 1, "§aAccepter §4§lPrix : " + job.getPrice() + ", §6c'est déja votre métier", "§4§lAction imposible", 125);;
+			if(Economy.getMoneyExact(player.getUniqueId()).doubleValue() >= Double.valueOf(job.getPrice() - 1) && player.getInventory().contains(job.getItemCost().getType(), job.getItemCost().getAmount())) {
+				String[] lores = {"§6Prix : " + job.getPrice(), "§6Cost : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(), "§4§lAttention l'xp actuele sera suprimé"};
+				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "§aAccepter", lores, i);
+			}
+			else {
+				String[] lores = {"§4Prix : " + job.getPrice(), "§4Cost : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(), "§4§lvous n'avez pas assez"};
+				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "§aAccepter", lores, 125);
+			}
+			if(new PlayerJobs(player).get() == job) it = Item.GiveItem(Material.ORANGE_WOOL, 1, "§6C'est déja votre métier", "§4§lAction imposible", 125);;
 		} catch (UserDoesNotExistException e1) {
 			e1.printStackTrace();
 		}
@@ -111,12 +118,11 @@ public class JobsMenu {
 			}
 		}
 
-		
 	}
 	
-	@SuppressWarnings("incomplete-switch")
+	@SuppressWarnings({"incomplete-switch", "unchecked"})
 	public static boolean TcheckJobsMenuAction(Player player, ItemStack current) {
-		
+			ArrayList<String> JobPaper = (ArrayList<String>) JobsPaper.clone();
 			switch(current.getType()) {
 			case IRON_PICKAXE :
 				if(current.getItemMeta().getCustomModelData() == 129) {
@@ -129,7 +135,7 @@ public class JobsMenu {
 				}
 			case PAPER :
 				if(current.getItemMeta().getCustomModelData() > 128 && current.getItemMeta().getCustomModelData() < 151) {
-					for(String t : JobsPaper) {
+					for(String t : JobPaper) {
 						String[] ts = t.split("\\/");
 						if(current.getItemMeta().getCustomModelData() == Integer.valueOf(ts[1])) OpenUnitChangeJobsMenu(player, Jobs.valueOf(ts[0]), Integer.valueOf(ts[1]));
 					}
@@ -137,7 +143,7 @@ public class JobsMenu {
 				}
 			case GREEN_WOOL :
 				if(current.getItemMeta().getCustomModelData() > 128 && current.getItemMeta().getCustomModelData() < 151) {
-					for(String t : JobsPaper) {
+					for(String t : JobPaper) {
 						String[] ts = t.split("\\/");
 						if(current.getItemMeta().getCustomModelData() == Integer.valueOf(ts[1])) {
 							PlayerJobs pj = new PlayerJobs(player);
@@ -145,19 +151,39 @@ public class JobsMenu {
 							pj.close();
 							try {
 								Economy.subtract(player.getUniqueId(), BigDecimal.valueOf(pj.get().getPrice()));
-							} catch (NoLoanPermittedException | ArithmeticException | UserDoesNotExistException
-									| MaxMoneyException e) {
-								// TODO Auto-generated catch block
+								ItemStack x = Jobs.valueOf(ts[0]).getItemCost();
+								int i = 0;
+								while(i < player.getInventory().getSize()) {
+									if(player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getType() == x.getType()) {
+										int amount = player.getInventory().getItem(i).getAmount() - x.getAmount();
+										int iamount = x.getAmount();
+										x.setAmount(amount);
+										player.getInventory().setItem(i, x);
+										player.updateInventory();
+										x.setAmount(iamount);
+										OpenChangeJobsMenu(player);
+										return true;
+									}
+									i++;
+								}
+								
+							} catch (NoLoanPermittedException e) {
+								e.printStackTrace();
+							} catch (ArithmeticException e) {
+								e.printStackTrace();
+							} catch (UserDoesNotExistException e) {
+								e.printStackTrace();
+							} catch (MaxMoneyException e) {
 								e.printStackTrace();
 							}
-							OpenChangeJobsMenu(player);
+							
 						}
 					}
 					return true;
 				}
 			case RED_WOOL :
 				if(current.getItemMeta().getCustomModelData() > 128 && current.getItemMeta().getCustomModelData() < 151) {
-					for(String t : JobsPaper) {
+					for(String t : JobPaper) {
 						String[] ts = t.split("\\/");
 						if(current.getItemMeta().getCustomModelData() == Integer.valueOf(ts[1])) OpenChangeJobsMenu(player);
 					}

@@ -24,7 +24,7 @@ public class MenuPP {
 		e.setItem(4, it);
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null");
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(45, it); e.setItem(46, it); e.setItem(47, it); e.setItem(48, it); e.setItem(49, it); e.setItem(50, it); e.setItem(51, it); e.setItem(52, it); e.setItem(53, it);
 		

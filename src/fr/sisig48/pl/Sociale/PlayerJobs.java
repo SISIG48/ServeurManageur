@@ -27,7 +27,6 @@ public class PlayerJobs {
 		remove();
 		this.jobs = jobs;
 		if(this.jobs != this.Tjobs) this.Tjobs = jobs;
-		
 	}
 	
 	public void remove() {
@@ -89,11 +88,10 @@ public class PlayerJobs {
 			i++;
 			String[] l = e.split("\\s*:\\/?\\s*");
 			String[] f = null;
-			System.out.println(e);
+			
 			if((l.length > 1 && !l[0].equalsIgnoreCase("?Jobs") && l[0].equals(String.valueOf(player.getUniqueId()))) && (f = l[1].split("\\s*\\/\\s*")).length >= 2) {
 					jobs = Jobs.valueOf(f[0]);
 					Tjobs = jobs;
-					System.out.println(f[1]);
 					Txp = Integer.valueOf(f[1]);
 					xp = Txp;
 					if(!jobs.isEnable()) {
@@ -105,6 +103,16 @@ public class PlayerJobs {
 				}
 				
 			if (l[0].equals(String.valueOf(player.getUniqueId()))) {
+				if(l.length == 1) {
+					Tjobs = Jobs.NOT;
+					jobs = Jobs.NOT;
+					xp = 0;
+					Txp = 0;
+					save();
+				} else if (l[1].split("\\s*\\/\\s*").length == 1) {
+					xp = 0;
+					Txp = 0;
+				}
 				con++;
 				re = i;
 			}
@@ -113,6 +121,8 @@ public class PlayerJobs {
 			logs.add("Initialisation d'un compte \"Jobs\" pour \"UUID :" + player.getUniqueId() + " Name : " + player.getName() + "\"");
 			dataJobs.line.add(String.valueOf(player.getUniqueId()) + ":");
 			re = dataJobs.line.indexOf(String.valueOf(player.getUniqueId()) + ":");
+			jobs = Jobs.NOT;
+			Tjobs = Jobs.NOT;
 		}
 		this.nl = re - 1;
 		save();
@@ -142,13 +152,12 @@ class dataJobs {
 	    String r;
 	    line = new ArrayList<String>();
 	    while((r = br.readLine()) != null) {
-	        // ajoute la ligne au buffer
 	        sb.append(r);      
-	        sb.append("\\;\\");  
-	        
-	      }
+	        sb.append("\\;\\");
+	    }
 	    MyFileR.close();
-	    for(String li : sb.toString().split("\\\\;\\\\")) line.add(li);
+	    for(String li : sb.toString().split("\\\\;\\\\")) if(!line.contains(li)) line.add(li);
+	    
 	    int i = 0;
 	    int rs = line.size() -1;
 	    while(rs != 0 & i < rs & !line.contains("?Jobs")) {
@@ -172,9 +181,10 @@ class dataJobs {
 		if(!file.exists()) file.createNewFile();
 		FileWriter MyFileW = new FileWriter("plugins/ServeurManageur/data/jobs.txt");
 	    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
+
 	    for(String e : line) {    
 	    	bufWriter.write(e);
-	    	bufWriter.newLine();
+		    bufWriter.newLine();
 	    }
         bufWriter.close();
         MyFileW.close();

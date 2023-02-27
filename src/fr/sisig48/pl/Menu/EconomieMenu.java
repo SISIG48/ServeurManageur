@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.earth2me.essentials.api.Economy;
+
 import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Economie.EconomieESS;
 import fr.sisig48.pl.Sociale.Friends;
@@ -32,7 +34,7 @@ public class EconomieMenu {
 		
 		//Economie personelle
 		ItemStack it;
-		it = Item.GiveOwnsPlayerHead(1, "Personelle", null, player.getName(), 124);
+		it = Item.GiveOwnsPlayerHead(1, "Personelle", "null", player.getName(), 124);
 		e.setItem(11, it);
 		Friends pl = new Friends(player);
 		
@@ -44,7 +46,7 @@ public class EconomieMenu {
 		
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 	}
@@ -64,7 +66,7 @@ public class EconomieMenu {
 		
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 	}
@@ -82,7 +84,7 @@ public class EconomieMenu {
 		
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 	}
@@ -100,7 +102,7 @@ public class EconomieMenu {
 		
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 	}
@@ -140,6 +142,7 @@ public class EconomieMenu {
 		*/
 		///give @p skull 1 3 {display:{Name:"1"},SkullOwner:{Id:"00684a88-5cc8-4713-9e91-7b1906",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFiYzJiY2ZiMmJkMzc1OWU2YjFlODZmYzdhNzk1ODVlMTEyN2RkMzU3ZmMyMDI4OTNmOWRlMjQxYmM5ZTUzMCJ9fX0="}]}}}
 		for (OfflinePlayer e : Bukkit.getOfflinePlayers()) {
+			if(!Economy.playerExists(e.getUniqueId())) break;
 			if (threeNAME == e.getName() || secondNAME == e.getName() || firstNAME == e.getName()) break;
 			double mo = EconomieESS.getMoney(e);
 			if (mo >= three) {
@@ -186,7 +189,7 @@ public class EconomieMenu {
 		e.setItem(15, it);
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 		return;
@@ -301,7 +304,7 @@ public class EconomieMenu {
 			e.setItem(13, it);
 		}
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
 		return;

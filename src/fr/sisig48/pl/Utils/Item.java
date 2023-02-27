@@ -14,14 +14,14 @@ public class Item {
 	private static ItemStack i;
 	
 	
-	
+
 	public static ItemStack GiveItem(Material material, int stack, String name, String lore) {
 
 		
 		i = new ItemStack(material, stack);
 		ItemMeta Meta = i.getItemMeta(); 
 		Meta.setDisplayName(name);
-		if(lore != null) {
+		if(lore != null && !lore.equalsIgnoreCase("null")) {
 			lore = "§8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
@@ -30,15 +30,32 @@ public class Item {
 		return i;
 	}
 	
+
 	public static ItemStack GiveItem(Material material, int stack, String name, String lore, int code) {
 
 		
 		i = new ItemStack(material, stack);
 		ItemMeta Meta = i.getItemMeta(); 
 		Meta.setDisplayName(name);
-		if(lore != null) {
+		if(lore != null && !lore.equalsIgnoreCase("null")) {
 			lore = "§8" + lore;
 			Meta.setLore(Arrays.asList(lore));
+		}
+		Meta.setCustomModelData(code);
+		i.setItemMeta(Meta);
+		return i;
+	}
+	
+public static ItemStack GiveItemLore(Material material, int stack, String name, String[] lores, int code) {
+
+		
+		i = new ItemStack(material, stack);
+		ItemMeta Meta = i.getItemMeta(); 
+		Meta.setDisplayName(name);
+		if(lores.length > 0) {
+			ArrayList<String> lo = new ArrayList<String>();
+			for(String lore : lores) lo.add("§8" + lore);
+			Meta.setLore(lo);
 		}
 		Meta.setCustomModelData(code);
 		i.setItemMeta(Meta);
@@ -54,7 +71,7 @@ public class Item {
 		Meta.setDisplayName(name);
 		Meta.setOwner(player);
 		Meta.setCustomModelData(Code);
-		if(lore != null) {
+		if(lore != null && !lore.equalsIgnoreCase("null")) {
 			lore = "§8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
@@ -80,14 +97,14 @@ public class Item {
 		return i;
 	}
 	
-	
+
 	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String LoreD, Player player, Boolean Unbreakable) {
 		
 		ItemStack item = new ItemStack(typeMaterial, Nombre);
 		ItemMeta customM = item.getItemMeta();
 		customM.setUnbreakable(Unbreakable);
 		customM.setDisplayName(Name);
-		if(LoreD != null) {
+		if(LoreD != null && !LoreD.equalsIgnoreCase("null")) {
 			LoreD = "§8" + LoreD;
 			customM.setLore(Arrays.asList(LoreD));
 		}
@@ -116,13 +133,14 @@ public class Item {
 		
 	}
 	
+
 	public static void SetItem(int Position, Material typeMaterial, int Nombre, String Name,String LoreD, Player player, Boolean Unbreakable, int code) {
 		
 		ItemStack item = new ItemStack(typeMaterial, Nombre);
 		ItemMeta customM = item.getItemMeta();
 		customM.setUnbreakable(Unbreakable);
 		customM.setDisplayName(Name);
-		if(LoreD != null) {
+		if(LoreD != null && !LoreD.equalsIgnoreCase("null")) {
 			LoreD = "§8" + LoreD;
 			customM.setLore(Arrays.asList(LoreD));
 		}
