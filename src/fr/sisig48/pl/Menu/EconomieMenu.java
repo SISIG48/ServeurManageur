@@ -46,9 +46,7 @@ public class EconomieMenu {
 		
 		
 		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
+		GrayExGlass(e, 27);
 	}
 	
 	
@@ -65,10 +63,7 @@ public class EconomieMenu {
 		e.setItem(11, it);
 		
 		
-		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
+		GrayExGlass(e, 27);
 	}
 	
 	public static void OpenMenuEcoPublic(Player player) throws Exception {
@@ -83,10 +78,7 @@ public class EconomieMenu {
 		e.setItem(11, it);
 		
 		
-		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
+		GrayExGlass(e, 27);
 	}
 	
 	public static void OpenMenuEcoFriends(Player player) throws Exception {
@@ -101,10 +93,7 @@ public class EconomieMenu {
 		e.setItem(11, it);
 		
 		
-		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
+		GrayExGlass(e, 27);
 	}
 	
 	public static void OpenMenuEcoPublicMoney(Player player) throws Exception{
@@ -188,10 +177,7 @@ public class EconomieMenu {
 		if(name[1].equalsIgnoreCase(player.getName())) it = Item.GiveOwnsPlayerHead(1, "§e#3 §f- §a"+ name[2] + " §8(MOI)" + " §f- §4" + money[2], "C'est le troisieme joueur qui a le plus d'argent", name[2], 125);
 		e.setItem(15, it);
 		
-		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
+		GrayExGlass(e, 27);
 		return;
 		
 		
@@ -303,17 +289,20 @@ public class EconomieMenu {
 			it = Item.GiveItem(Material.BARRIER, 1, "§4Vous n'avez pas d'amis", "§l§e[/firend add <PLAYER_NAME>] §8pour ajouter des amis", 125);
 			e.setItem(13, it);
 		}
-		//Verre exterieur
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);
+		GrayExGlass(e, 27);
 		return;
 		
 		
 		
 	}
 
-	
+	private static void GrayExGlass(Inventory e, int in) {
+		ItemStack it;
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
+		e.setItem(in - 9, it); e.setItem(in - 8, it); e.setItem(in - 7, it); e.setItem(in - 6, it); e.setItem(in - 5, it); e.setItem(in - 4, it); e.setItem(in - 3, it); e.setItem(in - 2, it); e.setItem(in - 1, it);
+		
+	}
 	
 	
 }

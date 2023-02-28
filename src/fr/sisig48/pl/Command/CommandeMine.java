@@ -16,6 +16,7 @@ import fr.sisig48.pl.State.Spawn;
 
 public class CommandeMine implements CommandExecutor {
 
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
 		
@@ -50,12 +51,15 @@ public class CommandeMine implements CommandExecutor {
 							}
 							
 					}
-					player.sendMessage("§4You have missed send the type of set mine (§ein or out§4)");
+					player.sendMessage("§4You have missed send the type of set mine (§ein or out§4) or (§ezone1 or zone2§4)");
 					return false;
+					} else if(e.equals("reload") || e.equals("rl")) {
+						Mine.FillMine();
+						return true;
 					}
 					
-					if (Bukkit.getPlayer(e) != null & Bukkit.getPlayer(e).isOnline()) {
-						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You can't do this command"); return false;}
+					if ((Bukkit.getPlayer(e) != null) && Bukkit.getPlayer(e).isOnline()) {
+						if (!player.isOp()) {player.sendMessage("§4You can't do this command"); return true;}
 						try {
 							destination = Spawn.GetMineInSpawnLocation();
 							Player p = Bukkit.getPlayer(e);

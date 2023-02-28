@@ -29,12 +29,16 @@ public class CommandJobs implements CommandExecutor {
 		playerJobs.saveAll();
 		sender.sendMessage(playerJobs.get().getName());*/
 		if(arg.length >= 1) {
+			PlayerJobs p = new PlayerJobs(Bukkit.getPlayer(sender.getName()));
 			switch(arg[0]) {
 			case "set" :
-				PlayerJobs p = new PlayerJobs(Bukkit.getPlayer(sender.getName()));
 				p.add(Jobs.valueOf(arg[1]));
 				p.close();
 				sender.sendMessage("§aYou have set : §4" + p.get().getName());
+				return true;
+			case "setXp" :
+				p.setXp(Integer.valueOf(arg[1]));
+				p.close();
 				return true;
 			case "rl" :
 				PlayerJobs.reload();

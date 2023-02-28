@@ -44,9 +44,7 @@ public class JobsMenu {
 		it = Item.GiveItem(Material.GOLDEN_APPLE, 1, "Autre Joueur", "Afficher les métier des autre joueur", 129);
 		e.setItem(15, it);
 		
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);	
+		GrayExGlass(e, 27);
 	}
 	
 	public static void OpenUnitChangeJobsMenu(Player player, Jobs job, int i) {
@@ -54,15 +52,15 @@ public class JobsMenu {
 		Inventory e = Bukkit.createInventory(player, 27, job.getName());
 		player.openInventory(e);
 		JobsInventory.add(e);
-		//PlayerJobs pj = new PlayerJobs(player);
+		PlayerJobs pj = new PlayerJobs(player);
 		ItemStack it = null;
 		try {
-			if(Economy.getMoneyExact(player.getUniqueId()).doubleValue() >= Double.valueOf(job.getPrice() - 1) && player.getInventory().contains(job.getItemCost().getType(), job.getItemCost().getAmount())) {
-				String[] lores = {"§6Prix : " + job.getPrice(), "§6Cost : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(), "§4§lAttention l'xp actuele sera suprimé"};
+			if(Economy.getMoneyExact(player.getUniqueId()).doubleValue() >= Double.valueOf(job.getPrice() - 1) && player.getInventory().contains(job.getItemCost().getType(), job.getItemCost().getAmount()) && pj.getXp() >= 1000) {
+				String[] lores = {"§6Prix : " + job.getPrice(), "§6Cout en item : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(),"§6Cout en Xp : 1000", "§4§lAttention l'xp actuele sera suprimé"};
 				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "§aAccepter", lores, i);
 			}
 			else {
-				String[] lores = {"§4Prix : " + job.getPrice(), "§4Cost : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(), "§4§lvous n'avez pas assez"};
+				String[] lores = {"§4Prix : " + job.getPrice(), "§4Cout en item : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(),"§4Cout en Xp : 1000", "§4§lvous n'avez pas assez"};
 				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "§aAccepter", lores, 125);
 			}
 			if(new PlayerJobs(player).get() == job) it = Item.GiveItem(Material.ORANGE_WOOL, 1, "§6C'est déja votre métier", "§4§lAction imposible", 125);;
@@ -74,12 +72,11 @@ public class JobsMenu {
 		it = Item.GiveItem(Material.RED_WOOL, 1, "§4Refuser", "Retour en arière", i);
 		e.setItem(15, it);
 		
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(18, it); e.setItem(19, it); e.setItem(20, it); e.setItem(21, it); e.setItem(22, it); e.setItem(23, it); e.setItem(24, it); e.setItem(25, it); e.setItem(26, it);	
+		GrayExGlass(e, 27);	
 	}
 	@SuppressWarnings("deprecation")
 	public static void OpenChangeJobsMenu(Player player) {
+		ItemStack it;
 		int lenth = 0;
 		for(Jobs j : Jobs.All) {
 			if(!j.isEnable()) break;
@@ -94,13 +91,10 @@ public class JobsMenu {
 		JobsInventory.add(e);
 		
 		PlayerJobs jobs = new PlayerJobs(player);
-		ItemStack it;
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(in - 9, it); e.setItem(in - 8, it); e.setItem(in - 7, it); e.setItem(in - 6, it); e.setItem(in - 5, it); e.setItem(in - 4, it); e.setItem(in - 3, it); e.setItem(in - 2, it); e.setItem(in - 1, it);
+		GrayExGlass(e, in);
 		int i = 8;
 		for(Jobs j : Jobs.All) {
-			if(j.isEnable()) {
+			if(j.isEnable() && (jobs.canChangeFor(j.getJobs()) || j.getJobs().equals(jobs.get()))) {
 				i++;
 				JobsPaper.add(String.valueOf(j.getJobs() + "/" + (120 + i)));
 				if(j.getJobs() == jobs.get().getJobs()) {
@@ -193,6 +187,14 @@ public class JobsMenu {
 		
 		return false;
 		
+		
+	}
+	
+	private static void GrayExGlass(Inventory e, int in) {
+		ItemStack it;
+		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
+		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
+		e.setItem(in - 9, it); e.setItem(in - 8, it); e.setItem(in - 7, it); e.setItem(in - 6, it); e.setItem(in - 5, it); e.setItem(in - 4, it); e.setItem(in - 3, it); e.setItem(in - 2, it); e.setItem(in - 1, it);
 		
 	}
 }

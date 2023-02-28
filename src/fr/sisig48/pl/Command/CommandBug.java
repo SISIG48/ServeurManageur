@@ -14,11 +14,27 @@ import fr.sisig48.pl.logs;
 
 public class CommandBug implements CommandExecutor {
 	
-	//@CommandAlias("hiddencommand")
-	//@CommandPermission("myplugin.admin")
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String voi, String[] arg) {
-		if(arg.length < 1) return false;
+		if(arg.length < 1 && sender.isOp()) {
+			if(arg[0].equalsIgnoreCase("get")) {
+				
+				try {
+					for(String e : logs.ReadFile("bug.txt")) sender.sendMessage("§4" + e);
+				} catch (IOException e1) {
+
+					e1.printStackTrace();
+				}
+				
+				return true;
+			}
+		}
+		if(arg.length < 1) {
+			sender.sendMessage("§6Pour sigaler un bug : §4/bug §e<message>");
+			if(sender.isOp()) sender.sendMessage("§6Pour voir les bugs sigaler : §4/bug §eget");
+			return true;
+		}
 		logs.add("Command exucted by : " + sender.getName() + " Command : /bug");
 		String msg = "";
 		for(String e : arg) {
@@ -34,10 +50,8 @@ public class CommandBug implements CommandExecutor {
 		try {
 			logs.reportBug(msg, sender.getName());
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+		} catch (IOException e1) { 
 			e1.printStackTrace();
 		}
 		return true;

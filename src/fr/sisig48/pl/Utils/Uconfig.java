@@ -15,32 +15,31 @@ public class Uconfig {
 		Uconfig.main = main;
 	}
 
-
-	//public static final
 	public static String getConfig(String configPath) {
-		logs.add("Config get for : " + configPath + " Respond : " + config.getString(configPath));
 		return config.getString(configPath);
 	}
 	
 	
 	public static void setConfig(String configPath, String it) {
 		config.set(configPath, it);
+		logs.add("Config : " + configPath + " have set to \"" + it + "\"");
 		save();
 		return;
 	}
 	
 	public static void saveConfig() {
-		main.saveConfig();
-		
+		save();
 		return;
 	}
 	
 	public static void reloadConfig() {
+		logs.add("Config Reloading");
 		main.reloadConfig();
 		return;
 	}
 	
 	private static void save() {
+		logs.add("Config Saving");
 		main.saveConfig();
 	}
 	

@@ -33,6 +33,7 @@ public enum Jobs {
     private Boolean enable;
     private String jobs;
     private int id;
+    private ArrayList<String> rules = new ArrayList<String>();
 	private ItemStack item_cost;
     static ArrayList<String> line = new ArrayList<String>();
     public static Jobs[] All = Jobs.values();
@@ -78,6 +79,11 @@ public enum Jobs {
     	return prix;
     }
     
+    public boolean isInRules(Jobs jobs) {
+    	if(rules.contains(String.valueOf(jobs.getJobs()))) return true;
+    	else return false;
+    }
+    
     public ItemStack getItemCost() {
     	return item_cost;
     }
@@ -93,6 +99,7 @@ public enum Jobs {
 				line.add("Enable: " + String.valueOf(enable));
 				line.add("Price: " + String.valueOf(prix));
 				line.add("ItemCost: " + String.valueOf(item_cost.getType() + "," + item_cost.getAmount()));
+				line.add("Rules: " + rules);
 				save();
 			} else load();
 			
@@ -162,6 +169,11 @@ public enum Jobs {
     			String[] info = temp[1].split(",\\s*");
     			if(info.length != 2) return;
     			item_cost = new ItemStack(Material.valueOf(info[0]), Integer.valueOf(info[1]));
+    			break;
+    		case "Rules" :
+    			String[] rulsInfo = temp[1].split(",\\s*");
+    			if(rulsInfo.length < 1) return;
+    			for(String ri : rulsInfo) if(!ri.equalsIgnoreCase("null")) rules.add(ri);
     			break;
     		}
     	}

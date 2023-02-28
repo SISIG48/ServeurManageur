@@ -97,13 +97,7 @@ public class Listner implements Listener {
 			player.teleport(Spawn.GetSpawnLocation());
 			Economy.divide(player.getName(), 2);
 			player.sendMessage("§4Vous ête mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
-		} catch (NoLoanPermittedException e) {
-			e.printStackTrace();
-		} catch (UserDoesNotExistException e) {
-			e.printStackTrace();
-		} catch (MaxMoneyException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (NoLoanPermittedException | UserDoesNotExistException | MaxMoneyException | IOException e) {
 			e.printStackTrace();
 		}
 		NetherStarMenu.GiveMenu(player);
@@ -115,6 +109,7 @@ public class Listner implements Listener {
 			if (event.getRightClicked().getUniqueId().equals(UUID.fromString(Uconfig.getConfig("location.pnj.jobs.uuid")))) {
 				//EXE
 				JobsMenu.OpenJobsMenu(event.getPlayer());
+				logs.add("Click <Jobs Office> PNJ by UUID : " + event.getPlayer().getUniqueId() + " Name : " + event.getPlayer().getName());
 				event.setCancelled(true);
 			}
 		} catch (Exception e1) {}

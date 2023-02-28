@@ -3,6 +3,7 @@ package fr.sisig48.pl;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -86,6 +87,7 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		Mine.AutoFill.interrupt();
 		reloadConfig();
 		saveConfig();
 		Friends.saveAll();
@@ -105,12 +107,11 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("deprecation")
 	private static void StartsendInfo(){
 		try {
-			
+			ArrayList<String> note = new ArrayList<String>();
+			for(String e : logs.ReadFile("note.txt")) note.add(e);
 			for(Player p : Bukkit.getOnlinePlayers()) {
 				if(!p.isOp()) break;
-				for(String e : logs.ReadFile("note.txt")) {
-					p.sendMessage(e);
-				}
+				for(String n : note) p.sendMessage(n);
 				TextComponent msgl = new TextComponent("§e[§e§lCLIQUE POUR REJOIDRE§e]");
 				msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eREJOIDRE").create()));
 				msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/5RwetHwxsS"));

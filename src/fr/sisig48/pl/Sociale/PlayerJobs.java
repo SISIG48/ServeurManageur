@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.bukkit.OfflinePlayer;
 
 import fr.sisig48.pl.logs;
@@ -27,6 +28,7 @@ public class PlayerJobs {
 		remove();
 		this.jobs = jobs;
 		if(this.jobs != this.Tjobs) this.Tjobs = jobs;
+		xp = 0;
 	}
 	
 	public void remove() {
@@ -40,9 +42,21 @@ public class PlayerJobs {
 	public int getXp() {
 		return xp;
 	}
+	public void setXp(int xp){
+		this.xp = xp;
+	}
+	public void addXp(int xp) {
+		this.xp = this.xp + xp;
+	}
+	public void subXp(int xp) {
+		this.xp = this.xp - xp;
+	}
 	
 	public void save() {
 		close();
+	}
+	public boolean canChangeFor(Jobs jobsCible) {
+		return jobs.isInRules(jobsCible);
 	}
 	
 	public void close() {
