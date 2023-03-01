@@ -12,25 +12,25 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public enum Jobs {
-	NOT("Chaumage", "NOT", true, 0, 0, new ItemStack(Material.DIRT, 1)),
-	HUNTER("Hunter", "HUNTER", false, 1, 100, new ItemStack(Material.GUNPOWDER, 32)),
-    PECHEUR("Pécheur", "PECHEUR", false, 2, 100, new ItemStack(Material.PUFFERFISH, 64)),
-	FARMEUR("Farmeur", "FARMEUR", false, 3, 100, new ItemStack(Material.WHEAT, 128)),
-	MAGE("Mage", "MAGE", false, 4, 100, new ItemStack(Material.BLAZE_ROD, 64)),
-	MARCHANT("Marchant", "MARCHANT", false, 6, 100, new ItemStack(Material.GOLD_INGOT, 64)),
-	MAIRE("Maire", "MAIRE", false, 7, 100, new ItemStack(Material.BARRIER, 1)),
-	BANQUIER("Banquier", "BANQUIER", false, 8, 100, new ItemStack(Material.GOLD_INGOT, 64)),
-	MEDECIN("Médecin", "MEDECIN", false, 9, 100, new ItemStack(Material.GOLDEN_APPLE, 8)),
-	BOULANGER("Boulanger", "BOULANGER", false, 10, 100, new ItemStack(Material.BREAD, 64)),
-	BOUCHER("Boucher", "BOUCHER", false, 11, 100, new ItemStack(Material.CHICKEN, 15)),
-	FORGERON("Forgeron", "FORGERON", false, 12, 100, new ItemStack(Material.IRON_SWORD, 10)),
-	CHARPENTIER("Charpentier", "CHARPENTIER", false, 13, 100, new ItemStack(Material.OAK_PLANKS, 128)),
-	AUBERGISTE("Aubergiste", "AUBERGISTE", false, 14, 100, new ItemStack(Material.COOKED_CHICKEN, 64)),
-	MINEUR("Mineur", "MINEUR", false, 15, 100, new ItemStack(Material.DIAMOND, 15));
+	NOT("Chaumage", "NOT", true, 0, 0, new ItemStack(Material.DIRT, 1), "NOT,FARMEUR,MINEUR,HUNTER,MEDECIN"),
+	HUNTER("Hunter", "HUNTER", false, 1, 100, new ItemStack(Material.GUNPOWDER, 32), "NOT,PECHEUR,MINEUR,MEDECIN,FARMEUR"),
+    PECHEUR("Pécheur", "PECHEUR", false, 2, 100, new ItemStack(Material.PUFFERFISH, 64), "NOT,BOUCHER,HUNTER,MINEUR,MEDECIN,FARMEUR"),
+	FARMEUR("Farmeur", "FARMEUR", false, 3, 100, new ItemStack(Material.WHEAT, 128), "NOT,BOULANGER,MINEUR,MEDECIN,HUNTER"),
+	MAGE("Mage", "MAGE", false, 4, 100, new ItemStack(Material.BLAZE_ROD, 64), "NOT,MEDECIN,MINEUR,HUNNTER,FARMER"),
+	MARCHANT("Marchant", "MARCHANT", false, 6, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER"),
+	MAIRE("Maire", "MAIRE", false, 7, 100, new ItemStack(Material.BARRIER, 1), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MAGE,MEDECIN,MARCHANT"),
+	BANQUIER("Banquier", "BANQUIER", false, 8, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,MAIRE,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MARCHANT"),
+	MEDECIN("Médecin", "MEDECIN", false, 9, 100, new ItemStack(Material.GOLDEN_APPLE, 8), "NOT,MAGE,MINEUR,HUNNTER,FARMER"),
+	BOULANGER("Boulanger", "BOULANGER", false, 10, 100, new ItemStack(Material.BREAD, 64), "NOT,FARMEUR,AUBERGISTE,MINEUR,MEDECIN,HUNTER"),
+	BOUCHER("Boucher", "BOUCHER", false, 11, 100, new ItemStack(Material.CHICKEN, 15), "NOT,MARCHANT,PECHEUR,HUNTER,MINEUR,MEDECIN,FARMEUR"),
+	FORGERON("Forgeron", "FORGERON", false, 12, 100, new ItemStack(Material.IRON_SWORD, 10), "NOT,CHARPENTIER,MINEUR,FARMEUR,MEDECIN,HUNTER"),
+	CHARPENTIER("Charpentier", "CHARPENTIER", false, 13, 100, new ItemStack(Material.OAK_PLANKS, 128), "NOT,MARCHANT,FORGERON,MINEUR,FARMER,HUNTER,MEDECIN"),
+	AUBERGISTE("Aubergiste", "AUBERGISTE", false, 14, 100, new ItemStack(Material.COOKED_CHICKEN, 64), "NOT,MARCHANT,BOULANGER,FARMER,MINEUR,MEDECIN,HUNTER"),
+	MINEUR("Mineur", "MINEUR", false, 15, 100, new ItemStack(Material.DIAMOND, 15), "NOT,FORGERON,FARMEUR,MEDECIN,HUNTER");
 	
 	private int prix;
 	private String name;
-    private Boolean enable;
+    public Boolean enable;
     private String jobs;
     private int id;
     private ArrayList<String> rules = new ArrayList<String>();
@@ -39,13 +39,14 @@ public enum Jobs {
     public static Jobs[] All = Jobs.values();
 	
     
-    Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost) {
+    Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost, String rule) {
     	this.name = name;
         this.enable = enable;
         this.jobs = jobs;
         this.id = id;
         this.prix = prix;
         this.item_cost = item_cost;
+        for(String r : rule.split("\\s*,\\s*")) rules.add(r);
         try {
 			JobsInfoInit();
 		} catch (IOException e) {
@@ -57,7 +58,11 @@ public enum Jobs {
     public String getName() {
         return name;
     }
-
+    
+    public int getNextPosibilities() {
+        return rules.size();
+    }
+    
     public Boolean isEnable() {
         return enable;
     }
@@ -118,6 +123,33 @@ public enum Jobs {
         bufWriter.close();
         MyFileW.close();
     }
+    
+	public void saveFile(){
+		try {
+			getFile().delete();
+			getFile().createNewFile();
+			line = new ArrayList<String>();
+			line.add("?JobSettings");
+			line.add("Jobs: " + jobs);
+			line.add("Name: " + name);
+			line.add("Id: " + String.valueOf(id));
+			line.add("Enable: " + String.valueOf(enable));
+			line.add("Price: " + String.valueOf(prix));
+			line.add("ItemCost: " + String.valueOf(item_cost.getType() + "," + item_cost.getAmount()));
+			line.add("Rules: " + rules);
+	    	FileWriter MyFileW = new FileWriter(getFile());
+		    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
+		    for(String e : line) {    
+		    	bufWriter.write(e);
+		    	bufWriter.newLine();
+		    }
+	        bufWriter.close();
+	        MyFileW.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+    }
     private void load() throws IOException {
 			FileReader MyFileR = new FileReader(getFile());
 		    BufferedReader br = new BufferedReader(MyFileR);
@@ -173,7 +205,8 @@ public enum Jobs {
     		case "Rules" :
     			String[] rulsInfo = temp[1].split(",\\s*");
     			if(rulsInfo.length < 1) return;
-    			for(String ri : rulsInfo) if(!ri.equalsIgnoreCase("null")) rules.add(ri);
+    			rules.clear();
+    			for(String ri : rulsInfo) if(!ri.equalsIgnoreCase("null") && !rules.contains(ri)) rules.add(ri.replace("[", "").replace("]", ""));
     			break;
     		}
     	}

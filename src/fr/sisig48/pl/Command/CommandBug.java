@@ -17,7 +17,7 @@ public class CommandBug implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String voi, String[] arg) {
-		if(arg.length < 1 && sender.isOp()) {
+		if(arg.length > 0 && sender.isOp()) {
 			if(arg[0].equalsIgnoreCase("get")) {
 				
 				try {

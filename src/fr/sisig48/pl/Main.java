@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -40,6 +41,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		logs.add("Plugin Starting");
+		
 		if(ServeurManageurUpdate.CheckUpdate()) {
 			System.err.println("--------- You need do UPDATE ---------");
 			logs.add("End Tchecking Update : Maj detetect");
@@ -82,12 +84,12 @@ public class Main extends JavaPlugin {
 		}
 		for(Player player : Bukkit.getOnlinePlayers()) if(!new PlayerJobs(player.getPlayer()).get().isEnable()) player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : §a" + new PlayerJobs(player.getPlayer()).get().getName() + " §6nous vous avons attribué un jobs fictif : Chaumage");
 		Mine.AutoFill.start();
-
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onDisable() {
-		Mine.AutoFill.interrupt();
+		Mine.AutoFill.stop();
 		reloadConfig();
 		saveConfig();
 		Friends.saveAll();

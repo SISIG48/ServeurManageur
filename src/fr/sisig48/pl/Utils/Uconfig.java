@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import fr.sisig48.pl.Main;
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Automating.Mine;
 
 public class Uconfig {
 	
@@ -34,6 +35,7 @@ public class Uconfig {
 	
 	public static void reloadConfig() {
 		logs.add("Config Reloading");
+		Mine.isChange = true;
 		main.reloadConfig();
 		return;
 	}

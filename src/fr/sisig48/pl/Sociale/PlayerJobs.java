@@ -28,7 +28,8 @@ public class PlayerJobs {
 		remove();
 		this.jobs = jobs;
 		if(this.jobs != this.Tjobs) this.Tjobs = jobs;
-		xp = 0;
+		if(jobs.equals(Jobs.NOT)) xp = 1000;
+		else xp = 0;
 	}
 	
 	public void remove() {

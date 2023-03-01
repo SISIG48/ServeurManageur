@@ -76,12 +76,10 @@ public class JobsMenu {
 	}
 	@SuppressWarnings("deprecation")
 	public static void OpenChangeJobsMenu(Player player) {
+		PlayerJobs jobs = new PlayerJobs(player);
 		ItemStack it;
 		int lenth = 0;
-		for(Jobs j : Jobs.All) {
-			if(!j.isEnable()) break;
-			lenth++;
-		}
+		for(Jobs j : Jobs.All) if(j.isEnable() && jobs.canChangeFor(j)) lenth++;
 		double a = Double.valueOf(lenth / 9.0);
 		BigDecimal bd = new BigDecimal(a);
 		bd = bd.setScale(0, BigDecimal.ROUND_UP);
@@ -90,7 +88,7 @@ public class JobsMenu {
 		player.openInventory(e);
 		JobsInventory.add(e);
 		
-		PlayerJobs jobs = new PlayerJobs(player);
+		
 		GrayExGlass(e, in);
 		int i = 8;
 		for(Jobs j : Jobs.All) {

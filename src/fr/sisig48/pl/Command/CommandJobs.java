@@ -53,6 +53,16 @@ public class CommandJobs implements CommandExecutor {
 			case "test" :
 				sender.sendMessage(String.valueOf(new PlayerJobs(Bukkit.getPlayer(sender.getName())).getXp()));
 				return true;
+			case "statu" :
+				for(Jobs j : Jobs.All) sender.sendMessage("§eJobs : §4" + j.getName() + " §eis : §4" + j.isEnable());
+				return true;
+			case "setE" :
+				for(Jobs j : Jobs.All) {
+					j.enable = true;
+					sender.sendMessage("§eJobs : §4" + j.getName() + " §eis : §4" + j.isEnable());
+					j.saveFile();
+				}
+				return true;
 			}
 			
 		}
