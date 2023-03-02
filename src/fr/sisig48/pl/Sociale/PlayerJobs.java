@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.bukkit.OfflinePlayer;
@@ -19,6 +20,7 @@ public class PlayerJobs {
 	private Jobs Tjobs;
 	private int xp;
 	private int Txp;
+	private BigDecimal PayMent;
 	public PlayerJobs(OfflinePlayer player) {
 		this.player = player;
 		loadP();
@@ -51,6 +53,9 @@ public class PlayerJobs {
 	}
 	public void subXp(int xp) {
 		this.xp = this.xp - xp;
+	}
+	public BigDecimal getPay() {
+		return PayMent;
 	}
 	
 	public void save() {
@@ -109,9 +114,11 @@ public class PlayerJobs {
 					Tjobs = jobs;
 					Txp = Integer.valueOf(f[1]);
 					xp = Txp;
+					PayMent = BigDecimal.valueOf(jobs.getPay());
 					if(!jobs.isEnable()) {
 						jobs = Jobs.NOT;
 						xp = 0;
+						PayMent = BigDecimal.valueOf(0);
 					}
 					con++;
 					

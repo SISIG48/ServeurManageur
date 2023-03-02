@@ -12,21 +12,21 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public enum Jobs {
-	NOT("Chaumage", "NOT", true, 0, 0, new ItemStack(Material.DIRT, 1), "FARMEUR,MINEUR,HUNTER,MEDECIN"),
-	HUNTER("Hunter", "HUNTER", false, 1, 100, new ItemStack(Material.GUNPOWDER, 32), "NOT,PECHEUR,MINEUR,MEDECIN,FARMEUR"),
-    PECHEUR("Pécheur", "PECHEUR", false, 2, 100, new ItemStack(Material.PUFFERFISH, 64), "NOT,BOUCHER,HUNTER,MINEUR,MEDECIN,FARMEUR"),
-	FARMEUR("Farmeur", "FARMEUR", false, 3, 100, new ItemStack(Material.WHEAT, 128), "NOT,BOULANGER,MINEUR,MEDECIN,HUNTER"),
-	MAGE("Mage", "MAGE", false, 4, 100, new ItemStack(Material.BLAZE_ROD, 64), "NOT,MEDECIN,MINEUR,HUNNTER,FARMER"),
-	MARCHANT("Marchant", "MARCHANT", false, 6, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER"),
-	MAIRE("Maire", "MAIRE", false, 7, 100, new ItemStack(Material.BARRIER, 1), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MAGE,MEDECIN,MARCHANT"),
-	BANQUIER("Banquier", "BANQUIER", false, 8, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,MAIRE,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MARCHANT"),
-	MEDECIN("Médecin", "MEDECIN", false, 9, 100, new ItemStack(Material.GOLDEN_APPLE, 8), "NOT,MAGE,MINEUR,HUNNTER,FARMER"),
-	BOULANGER("Boulanger", "BOULANGER", false, 10, 100, new ItemStack(Material.BREAD, 64), "NOT,FARMEUR,AUBERGISTE,MINEUR,MEDECIN,HUNTER"),
-	BOUCHER("Boucher", "BOUCHER", false, 11, 100, new ItemStack(Material.CHICKEN, 15), "NOT,MARCHANT,PECHEUR,HUNTER,MINEUR,MEDECIN,FARMEUR"),
-	FORGERON("Forgeron", "FORGERON", false, 12, 100, new ItemStack(Material.IRON_SWORD, 10), "NOT,CHARPENTIER,MINEUR,FARMEUR,MEDECIN,HUNTER"),
-	CHARPENTIER("Charpentier", "CHARPENTIER", false, 13, 100, new ItemStack(Material.OAK_PLANKS, 128), "NOT,MARCHANT,FORGERON,MINEUR,FARMER,HUNTER,MEDECIN"),
-	AUBERGISTE("Aubergiste", "AUBERGISTE", false, 14, 100, new ItemStack(Material.COOKED_CHICKEN, 64), "NOT,MARCHANT,BOULANGER,FARMER,MINEUR,MEDECIN,HUNTER"),
-	MINEUR("Mineur", "MINEUR", false, 15, 100, new ItemStack(Material.DIAMOND, 15), "NOT,FORGERON,FARMEUR,MEDECIN,HUNTER");
+	NOT("Chaumage", "NOT", true, 0, 0, new ItemStack(Material.DIRT, 1), "FARMEUR,MINEUR,HUNTER,MEDECIN", 1),
+	HUNTER("Hunter", "HUNTER", false, 1, 100, new ItemStack(Material.GUNPOWDER, 32), "NOT,PECHEUR,MINEUR,MEDECIN,FARMEUR", 10),
+    PECHEUR("Pécheur", "PECHEUR", false, 2, 100, new ItemStack(Material.PUFFERFISH, 64), "NOT,BOUCHER,HUNTER,MINEUR,MEDECIN,FARMEUR", 10),
+	FARMEUR("Farmeur", "FARMEUR", false, 3, 100, new ItemStack(Material.WHEAT, 128), "NOT,BOULANGER,MINEUR,MEDECIN,HUNTER", 10),
+	MAGE("Mage", "MAGE", false, 4, 100, new ItemStack(Material.BLAZE_ROD, 64), "NOT,MEDECIN,MINEUR,HUNNTER,FARMER", 10),
+	MARCHANT("Marchant", "MARCHANT", false, 6, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER", 10),
+	MAIRE("Maire", "MAIRE", false, 7, 100, new ItemStack(Material.BARRIER, 1), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MAGE,MEDECIN,MARCHANT", 10),
+	BANQUIER("Banquier", "BANQUIER", false, 8, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,MAIRE,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MARCHANT", 10),
+	MEDECIN("Médecin", "MEDECIN", false, 9, 100, new ItemStack(Material.GOLDEN_APPLE, 8), "NOT,MAGE,MINEUR,HUNNTER,FARMER", 10),
+	BOULANGER("Boulanger", "BOULANGER", false, 10, 100, new ItemStack(Material.BREAD, 64), "NOT,FARMEUR,AUBERGISTE,MINEUR,MEDECIN,HUNTER", 10),
+	BOUCHER("Boucher", "BOUCHER", false, 11, 100, new ItemStack(Material.CHICKEN, 15), "NOT,MARCHANT,PECHEUR,HUNTER,MINEUR,MEDECIN,FARMEUR", 10),
+	FORGERON("Forgeron", "FORGERON", false, 12, 100, new ItemStack(Material.IRON_SWORD, 10), "NOT,CHARPENTIER,MINEUR,FARMEUR,MEDECIN,HUNTER", 10),
+	CHARPENTIER("Charpentier", "CHARPENTIER", false, 13, 100, new ItemStack(Material.OAK_PLANKS, 128), "NOT,MARCHANT,FORGERON,MINEUR,FARMER,HUNTER,MEDECIN", 10),
+	AUBERGISTE("Aubergiste", "AUBERGISTE", false, 14, 100, new ItemStack(Material.COOKED_CHICKEN, 64), "NOT,MARCHANT,BOULANGER,FARMER,MINEUR,MEDECIN,HUNTER", 10),
+	MINEUR("Mineur", "MINEUR", false, 15, 100, new ItemStack(Material.DIAMOND, 15), "NOT,FORGERON,FARMEUR,MEDECIN,HUNTER", 10);
 	
 	private int prix;
 	private String name;
@@ -37,15 +37,22 @@ public enum Jobs {
 	private ItemStack item_cost;
     static ArrayList<String> line = new ArrayList<String>();
     public static Jobs[] All = Jobs.values();
-	
+	private int PayMent;
     
-    Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost, String rule) {
+    Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost, String rule, int PayMent) {
     	this.name = name;
         this.enable = enable;
         this.jobs = jobs;
         this.id = id;
         this.prix = prix;
         this.item_cost = item_cost;
+        this.PayMent = PayMent;
+        
+        
+        
+        
+        
+        
         for(String r : rule.split("\\s*,\\s*")) rules.add(r);
         try {
 			JobsInfoInit();
@@ -82,6 +89,10 @@ public enum Jobs {
     
     public int getPrice() {
     	return prix;
+    }
+    
+    public int getPay() {
+    	return PayMent;
     }
     
     public boolean isInRules(Jobs jobs) {

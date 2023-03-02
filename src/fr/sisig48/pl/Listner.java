@@ -23,6 +23,7 @@ import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
+import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.MenuPP;
 import fr.sisig48.pl.Menu.Jobs.JobsMenu;
@@ -43,6 +44,7 @@ public class Listner implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
+		
 		Player player = event.getPlayer();
 		player.sendMessage("§aBienvenu sur le serveur");
 		player.sendMessage("§eSi tu a un problème contact le staff sur le §4discord §eou");
@@ -72,7 +74,7 @@ public class Listner implements Listener {
 			
 		}
 		if(i != 0) player.sendMessage("§aVous avez §e" + i + " §aamis en ligne");
-			
+		PayPal Pp = new PayPal(player);	
 		
 		
 	}
