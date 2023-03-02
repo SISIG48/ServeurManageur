@@ -111,12 +111,12 @@ public class Main extends JavaPlugin {
 		try {
 			ArrayList<String> note = new ArrayList<String>();
 			for(String e : logs.ReadFile("note.txt")) note.add(e);
+			TextComponent msgl = new TextComponent("§e[§e§lCLIQUE POUR REJOIDRE§e]");
+			msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eREJOIDRE").create()));
+			msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/5RwetHwxsS"));
 			for(Player p : Bukkit.getOnlinePlayers()) {
 				if(!p.isOp()) break;
 				for(String n : note) p.sendMessage(n);
-				TextComponent msgl = new TextComponent("§e[§e§lCLIQUE POUR REJOIDRE§e]");
-				msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eREJOIDRE").create()));
-				msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/5RwetHwxsS"));
 				p.spigot().sendMessage(msgl);
 			}
 		

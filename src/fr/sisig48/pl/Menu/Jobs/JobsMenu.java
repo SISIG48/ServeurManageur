@@ -20,6 +20,10 @@ import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.Utils.Item;
 import net.ess3.api.MaxMoneyException;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class JobsMenu {
 	public static ArrayList<Inventory> JobsInventory = new ArrayList<Inventory>();
@@ -77,7 +81,7 @@ public class JobsMenu {
 	@SuppressWarnings("deprecation")
 	public static void OpenChangeJobsMenu(Player player) {
 		PlayerJobs jobs = new PlayerJobs(player);
-		ItemStack it;
+		ItemStack it = new ItemStack(Material.BARRIER);
 		int lenth = 0;
 		for(Jobs j : Jobs.All) if(j.isEnable() && jobs.canChangeFor(j)) lenth++;
 		double a = Double.valueOf(lenth / 9.0);
@@ -90,6 +94,9 @@ public class JobsMenu {
 		
 		
 		GrayExGlass(e, in);
+		it = Item.GiveItem(Material.BELL, 1, "§aAfficher l'arbre des métiers", null, 129);
+		e.setItem(in-1, it);
+		
 		int i = 8;
 		for(Jobs j : Jobs.All) {
 			if(j.isEnable() && (jobs.canChangeFor(j.getJobs()) || j.getJobs().equals(jobs.get()))) {
@@ -112,7 +119,7 @@ public class JobsMenu {
 
 	}
 	
-	@SuppressWarnings({"incomplete-switch", "unchecked"})
+	@SuppressWarnings({"incomplete-switch", "unchecked", "deprecation"})
 	public static boolean TcheckJobsMenuAction(Player player, ItemStack current) {
 			ArrayList<String> JobPaper = (ArrayList<String>) JobsPaper.clone();
 			switch(current.getType()) {
@@ -181,6 +188,16 @@ public class JobsMenu {
 					}
 					return true;
 				}
+			case BELL :
+				if(current.getItemMeta().getCustomModelData() == 129) {
+					player.closeInventory();
+					TextComponent msgl = new TextComponent("§e[§e§lAFFICHER L'ARBRE DES METIERS§e]");
+					msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eVOIR").create()));
+					msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://download1588.mediafire.com/kvoquicoqzhg3cQArRKdd9nkaMpRBPOz_H31Y6HZbFUyteP89jLY4kE7m3X_w0E-bzhLNrZNwHr78L0PexYHzqXPr2E/07cclf8s48jz1pm/Dragons+Economy+-+Jobs+Tree.pdf"));
+					player.spigot().sendMessage(msgl);
+					return true;
+				}
+				
 			}
 		
 		return false;

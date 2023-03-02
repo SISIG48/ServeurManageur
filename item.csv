@@ -10,3 +10,4 @@ CustomModel;Type;Name;Category;Zone;Description
 128;Exception;HEAD | BARRIER;Menu;MenuEco;Go to EcoFriends menu
 129;Exception;HEAD;Interface;JobsMenu;
 129-150;Detect;PAPER;Interface;JobsMenu;
+129;Exception;BELL;Interface;JobsMenu;Show JobsTree
