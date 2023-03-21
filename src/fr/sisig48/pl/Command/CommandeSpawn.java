@@ -31,34 +31,34 @@ public class CommandeSpawn implements CommandExecutor {
 						String w = player.getLocation().getWorld().getName().toString();
 						String[] loc = {x, y, z, w, ya, pi};
 						Spawn.SetSpawnLocation(loc);
-						player.sendMessage("§espawn set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
+						player.sendMessage("Â§espawn set at : Â§a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 						return true;
 					}
 					
 					if (Bukkit.getPlayer(e) != null & Bukkit.getPlayer(e).isOnline()) {
-						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You can't do this command"); return false;}
+						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("Â§4You can't do this command"); return false;}
 						try {
 							Player p = Bukkit.getPlayer(e);
 							p.teleport(Spawn.GetSpawnLocation());
-							p.sendMessage("§aVous avez été tp au §4spawn");
-							player.sendMessage("§aVous avez tp : §4" + e);
+							p.sendMessage("Â§aVous avez Ã©tÃ© tp au Â§4spawn");
+							player.sendMessage("Â§aVous avez tp : Â§4" + e);
 							return true;
 						} catch (IOException i) {i.printStackTrace();}
 					 }
 					
-				player.sendMessage("§4§l" + e + " §4etait inatendu");
+				player.sendMessage("Â§4Â§l" + e + " Â§4etait inatendu");
 				}
 			}
 			try {
 
 				if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) & !Uconfig.getConfig("location.spawn.w").equals(Uconfig.getConfig("location.mine.in.w"))) {
 					player.teleport(Spawn.GetMineOutSpawnLocation());
-					player.sendMessage("§aVous avez été tp au §4spawn");
+					player.sendMessage("Â§aVous avez Ã©tÃ© tp au Â§4spawn");
 					return true;
 				} else {
 					player.teleport(Spawn.GetSpawnLocation());
 					logs.add(String.valueOf(Spawn.GetSpawnLocation()));
-					player.sendMessage("§aVous avez été tp au §4spawn");
+					player.sendMessage("Â§aVous avez Ã©tÃ© tp au Â§4spawn");
 					return true;
 				}
 			} catch (IOException e) {

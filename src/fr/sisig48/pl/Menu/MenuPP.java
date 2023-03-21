@@ -20,7 +20,7 @@ public class MenuPP {
 		ItemStack it;
 		
 		//Etoile centrale
-		it = Item.GiveItem(Material.NETHER_STAR, 1, "§cMenu", "Menu du survival, " + player.getDisplayName());
+		it = Item.GiveItem(Material.NETHER_STAR, 1, "Â§cMenu", "Menu du survival, " + player.getDisplayName());
 		e.setItem(4, it);
 		
 		//Verre exterieur
@@ -28,11 +28,11 @@ public class MenuPP {
 		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
 		e.setItem(45, it); e.setItem(46, it); e.setItem(47, it); e.setItem(48, it); e.setItem(49, it); e.setItem(50, it); e.setItem(51, it); e.setItem(52, it); e.setItem(53, it);
 		
-		it = Item.GiveItem(Material.PAPER, 1, "§6Economie", "Voir votre economie, et celle du serveur");
+		it = Item.GiveItem(Material.PAPER, 1, "Â§6Economie", "Voir votre economie, et celle du serveur");
 		e.setItem(21, it);
-		it = Item.GiveOwnsPlayerHead(1, "§6Profile", "Voir votre profile et vos statistique", player.getName(), 126);
+		it = Item.GiveOwnsPlayerHead(1, "Â§6Profile", "Voir votre profile et vos statistique", player.getName(), 126);
 		e.setItem(22, it);
-		it = Item.GiveItem(Material.ITEM_FRAME, 1, "§6Téléporteur", "Téléportez vous a des point de téléportation", 127);
+		it = Item.GiveItem(Material.ITEM_FRAME, 1, "Â§6TÃ©lÃ©porteur", "TÃ©lÃ©portez vous a des point de tÃ©lÃ©portation", 127);
 		e.setItem(30, it);
 		
 		player.openInventory(e);

@@ -34,7 +34,7 @@ public class CommandJobs implements CommandExecutor {
 			case "set" :
 				p.add(Jobs.valueOf(arg[1]));
 				p.close();
-				sender.sendMessage("§aYou have set : §4" + p.get().getName());
+				sender.sendMessage("Â§aYou have set : Â§4" + p.get().getName());
 				return true;
 			case "setXp" :
 				p.setXp(Integer.valueOf(arg[1]));
@@ -54,12 +54,12 @@ public class CommandJobs implements CommandExecutor {
 				sender.sendMessage(String.valueOf(new PlayerJobs(Bukkit.getPlayer(sender.getName())).getXp()));
 				return true;
 			case "statu" :
-				for(Jobs j : Jobs.All) sender.sendMessage("§eJobs : §4" + j.getName() + " §eis : §4" + j.isEnable());
+				for(Jobs j : Jobs.All) sender.sendMessage("Â§eJobs : Â§4" + j.getName() + " Â§eis : Â§4" + j.isEnable());
 				return true;
 			case "setE" :
 				for(Jobs j : Jobs.All) {
 					j.enable = true;
-					sender.sendMessage("§eJobs : §4" + j.getName() + " §eis : §4" + j.isEnable());
+					sender.sendMessage("Â§eJobs : Â§4" + j.getName() + " Â§eis : Â§4" + j.isEnable());
 					j.saveFile();
 				}
 				return true;
@@ -77,13 +77,13 @@ public class CommandJobs implements CommandExecutor {
 		pnj.setAI(false);
 		pnj.setCanPickupItems(false);
 		pnj.setCollidable(false);
-		String name = "§ajobs";
+		String name = "Â§ajobs";
 		if(arg.length >= 1) {
 			name = "";
 			int i = 0;
 			for(String t : arg) {
-				if(i == 0) name = t.replaceAll("&", "§");
-				else name = name + " " + t.replaceAll("&", "§");
+				if(i == 0) name = t.replaceAll("&", "Â§");
+				else name = name + " " + t.replaceAll("&", "Â§");
 				i++;
 			}
 		}

@@ -36,11 +36,11 @@ public class CommandeMine implements CommandExecutor {
 							String[] loc = {x, y, z, w, ya, pi};
 							if (i.equals("in")) {
 								Spawn.SetMineInSpawnLocation(loc);
-								player.sendMessage("§ein mine set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
+								player.sendMessage("Â§ein mine set at : Â§a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 								return true;
 							} else if (i.equals("out")) {
 								Spawn.SetMineOutSpawnLocation(loc);
-								player.sendMessage("§eout mine set at : §a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
+								player.sendMessage("Â§eout mine set at : Â§a" + x + " " + y + " " + z + " " + ya + "," + pi + " - in :" + w);
 								return true;
 							} else if (i.equals("zone1")) {
 								Mine.SetFillMineAt(player);
@@ -51,7 +51,7 @@ public class CommandeMine implements CommandExecutor {
 							}
 							
 					}
-					player.sendMessage("§4You have missed send the type of set mine (§ein or out§4) or (§ezone1 or zone2§4)");
+					player.sendMessage("Â§4You have missed send the type of set mine (Â§ein or outÂ§4) or (Â§ezone1 or zone2Â§4)");
 					return false;
 					} else if(e.equals("reload") || e.equals("rl")) {
 						Mine.FillMine();
@@ -59,17 +59,17 @@ public class CommandeMine implements CommandExecutor {
 					}
 					
 					if ((Bukkit.getPlayer(e) != null) && Bukkit.getPlayer(e).isOnline()) {
-						if (!player.isOp()) {player.sendMessage("§4You can't do this command"); return true;}
+						if (!player.isOp()) {player.sendMessage("Â§4You can't do this command"); return true;}
 						try {
 							destination = Spawn.GetMineInSpawnLocation();
 							Player p = Bukkit.getPlayer(e);
 							p.teleport(destination);
-							p.sendMessage("§aVous avez été tp a la §4mine");
-							player.sendMessage("§aVous avez tp : §4" + e);
+							p.sendMessage("Â§aVous avez Ã©tÃ© tp a la Â§4mine");
+							player.sendMessage("Â§aVous avez tp : Â§4" + e);
 							return true;
 						} catch (IOException i) {i.printStackTrace();}
 					 }
-				player.sendMessage("§4§l" + e + " §4etait inatendu");
+				player.sendMessage("Â§4Â§l" + e + " Â§4etait inatendu");
 				}
 			}
 			//Location destination = new Location(Bukkit.getWorld("IntheMine"), 0, 0, 0);
@@ -77,7 +77,7 @@ public class CommandeMine implements CommandExecutor {
 			try {
 				destination = Spawn.GetMineInSpawnLocation();
 				player.teleport(destination);
-				player.sendMessage("§aVous avez été tp a la §4mine");
+				player.sendMessage("Â§aVous avez Ã©tÃ© tp a la Â§4mine");
 				return true;
 			} catch (IOException e) {e.printStackTrace();}
 			

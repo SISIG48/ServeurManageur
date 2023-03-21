@@ -25,44 +25,44 @@ public class CommandFriends implements CommandExecutor {
 					case "add" :
 						Player af = Bukkit.getPlayer(arg[1]);
 						if(af == player) {
-							player.sendMessage("§4Erreur: vous ne pouvez pas vous envoyer de demmand");
+							player.sendMessage("Â§4Erreur: vous ne pouvez pas vous envoyer de demmand");
 							return true;
 						}
 						if(!af.isOnline()) {
-							player.sendMessage("§4Erreur: le joueur n'est pas connecter ou n'existe pas");
+							player.sendMessage("Â§4Erreur: le joueur n'est pas connecter ou n'existe pas");
 							return true;
 						}
 						
 						Friends paf = new Friends(player);
 						
 						if(paf.get().contains(af)) {
-								player.sendMessage("§4Erreur: le joueur est déja votre amis");
+								player.sendMessage("Â§4Erreur: le joueur est dÃ©ja votre amis");
 								return true;
 							
 						}
 						Friends.FriendsResquet.add(String.valueOf(player.getUniqueId()) + "/" + String.valueOf(Bukkit.getPlayer(arg[1]).getUniqueId()));
-						player.sendMessage("§aVous avez envoyer une demmand d'ami a §4" + af.getName());
-						af.sendMessage("§aVous avez reçus une demmand d'ami de §4" + player.getName());
+						player.sendMessage("Â§aVous avez envoyer une demmand d'ami a Â§4" + af.getName());
+						af.sendMessage("Â§aVous avez reÃ§us une demmand d'ami de Â§4" + player.getName());
 						return true;
 					
 					case "remove" :
 						OfflinePlayer ofp = Bukkit.getOfflinePlayer(arg[1]);
 						if(ofp.getName() == null) {
-							player.sendMessage("§4Erreur: le joueur n'existe pas");
+							player.sendMessage("Â§4Erreur: le joueur n'existe pas");
 							return true;
 						}
 						Friends sf = new Friends(player);
 						Friends cf = new Friends(ofp);
 						if(!sf.get().contains(ofp)) {
-							player.sendMessage("§4Erreur: ce joueur n'est pas votre amis");
+							player.sendMessage("Â§4Erreur: ce joueur n'est pas votre amis");
 							return true;
 						}
 						sf.remove(ofp);
 						sf.close();
 						cf.remove(player);
 						cf.close();
-						player.sendMessage("§aLe joueur §4" + ofp.getName() + "§a n'est plus votre amis");
-						if(ofp.isOnline()) ((CommandSender) ofp).sendMessage("§a" + player.getName() + "§4 vous avez suprimé de ces amis");
+						player.sendMessage("Â§aLe joueur Â§4" + ofp.getName() + "Â§a n'est plus votre amis");
+						if(ofp.isOnline()) ((CommandSender) ofp).sendMessage("Â§a" + player.getName() + "Â§4 vous avez suprimÃ© de ces amis");
 						
 						return true;
 						
@@ -71,20 +71,20 @@ public class CommandFriends implements CommandExecutor {
 						Player Aaf = Bukkit.getPlayer(arg[1]);
 						String cont = String.valueOf(Bukkit.getPlayer(arg[1]).getUniqueId()) + "/" + String.valueOf(player.getUniqueId());
 						if(!Aaf.isOnline()) {
-							player.sendMessage("§4Erreur: le joueur n'est pas conecter");
+							player.sendMessage("Â§4Erreur: le joueur n'est pas conecter");
 							return true;
 						}
 						Friends Afpl = new Friends(Bukkit.getOfflinePlayer(player.getUniqueId()));
 						Friends Afaf = new Friends(Aaf);
 						
 						if(!Friends.FriendsResquet.contains(cont)) {
-							player.sendMessage("§4Erreur: le joueur ne vous a pas fait de demmande");
+							player.sendMessage("Â§4Erreur: le joueur ne vous a pas fait de demmande");
 							return true;
 						}
 						
 						
 						if(Afaf.get().contains(player)) {
-								player.sendMessage("§4Erreur: le joueur est déja votre amis");
+								player.sendMessage("Â§4Erreur: le joueur est dÃ©ja votre amis");
 								return true;
 							
 						}
@@ -109,30 +109,30 @@ public class CommandFriends implements CommandExecutor {
 			if(player.isOp()) {
 				switch(arg[0]) {
 					case "rl" :
-						sender.sendMessage("§eStarting reload");
+						sender.sendMessage("Â§eStarting reload");
 						Friends.reload();
-						sender.sendMessage("§aReload complete");
+						sender.sendMessage("Â§aReload complete");
 						return true;
 					
 					case "save" :
-						sender.sendMessage("§eStarting save");
+						sender.sendMessage("Â§eStarting save");
 						Friends.saveAll();
-						sender.sendMessage("§aSave complete");
+						sender.sendMessage("Â§aSave complete");
 						return true;
 				}
 
 			}
-			player.sendMessage("§4Formulation incorect");
+			player.sendMessage("Â§4Formulation incorect");
 			return false;
 		}
 		Friends f = new Friends(player);
 		if(f.get().size() >= 1) {	
-			player.sendMessage("§4List amis : ");
+			player.sendMessage("Â§4List amis : ");
 			for(OfflinePlayer e : f.get()) {
-				player.sendMessage("§a  - " + e.getName());
+				player.sendMessage("Â§a  - " + e.getName());
 			}
 		} else {
-			player.sendMessage("§4Vous n'avez pas d'amis");
+			player.sendMessage("Â§4Vous n'avez pas d'amis");
 		}
 		return true;
 	}

@@ -11,15 +11,15 @@ import fr.sisig48.pl.Utils.Item;
 
 public class MenuTP {
 	public static void OpenMenuTP(Player player) {
-		Inventory e = Bukkit.createInventory(player, 36, "Téléporteur");
+		Inventory e = Bukkit.createInventory(player, 36, "TÃ©lÃ©porteur");
 		player.openInventory(e);
 		Interface.inventory.add(e);
 		
 		ItemStack it;
-		it = Item.GiveItem(Material.ENDER_PEARL, 1, "§aSpawn", "Téléportation vers le spawn", 127);
+		it = Item.GiveItem(Material.ENDER_PEARL, 1, "Â§aSpawn", "TÃ©lÃ©portation vers le spawn", 127);
 		e.setItem(11, it);
 
-		it = Item.GiveItem(Material.DEEPSLATE_GOLD_ORE, 1, "§aMine", "Téléportation vers la mine", 127);
+		it = Item.GiveItem(Material.DEEPSLATE_GOLD_ORE, 1, "Â§aMine", "TÃ©lÃ©portation vers la mine", 127);
 		e.setItem(22, it);
 		
 		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);

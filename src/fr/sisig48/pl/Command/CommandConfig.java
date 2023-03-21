@@ -16,7 +16,7 @@ public class CommandConfig implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg) {
 		if(!sender.isOp()) {
-			sender.sendMessage("§4Unknown command");
+			sender.sendMessage("Â§4Unknown command");
 			return true;
 		}
 		if(arg.length < 1) return false;
@@ -26,15 +26,15 @@ public class CommandConfig implements CommandExecutor {
 			switch(arg[0]) {
 				case "save":
 					Uconfig.saveConfig();
-					player.sendMessage("§aSave Complete");
+					player.sendMessage("Â§aSave Complete");
 					break;
 				case "rl":
 					Uconfig.reloadConfig();
-					player.sendMessage("§aReload Complete");
+					player.sendMessage("Â§aReload Complete");
 					break;
 				case "reload":
 					Uconfig.reloadConfig();
-					player.sendMessage("§aReload Complete");
+					player.sendMessage("Â§aReload Complete");
 					break;
 				case "get":
 					if(arg.length < 2) return false;
@@ -52,7 +52,7 @@ public class CommandConfig implements CommandExecutor {
 						i++;
 					}
 					Uconfig.setConfig(arg[1], msg);
-					player.sendMessage("§aConfig \"" + arg[1] + "\" has set to \"" + msg + "\"");
+					player.sendMessage("Â§aConfig \"" + arg[1] + "\" has set to \"" + msg + "\"");
 					break;
 			}
 			return true;

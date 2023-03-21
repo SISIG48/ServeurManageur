@@ -46,13 +46,13 @@ public class Listner implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		
 		Player player = event.getPlayer();
-		player.sendMessage("§aBienvenu sur le serveur");
-		player.sendMessage("§eSi tu a un problème contact le staff sur le §4discord §eou");
-		player.sendMessage("§eexécute la command §4/bug [arg...]");
+		player.sendMessage("Â§aBienvenu sur le serveur");
+		player.sendMessage("Â§eSi tu a un problÃ¨me contact le staff sur le Â§4discord Â§eou");
+		player.sendMessage("Â§eexÃ©cute la command Â§4/bug [arg...]");
 		if(player.isOp()) {
 			player.sendMessage("");
-			player.sendMessage("§4Vous ête administrateur sur ce serveur :");
-			player.sendMessage("  §e- /help ServeurManageur pour obtenir la list des command disponible");
+			player.sendMessage("Â§4Vous Ãªte administrateur sur ce serveur :");
+			player.sendMessage("  Â§e- /help ServeurManageur pour obtenir la list des command disponible");
 		}
 		
 		try {
@@ -69,11 +69,11 @@ public class Listner implements Listener {
 		for(OfflinePlayer p : f.get()) {
 			if(p.isOnline()) {
 				i++;
-				p.getPlayer().sendMessage("§e"+ player.getName() + "§a c'est connecter");
+				p.getPlayer().sendMessage("Â§e"+ player.getName() + "Â§a c'est connecter");
 			}
 			
 		}
-		if(i != 0) player.sendMessage("§aVous avez §e" + i + " §aamis en ligne");
+		if(i != 0) player.sendMessage("Â§aVous avez Â§e" + i + " Â§aamis en ligne");
 		PayPal Pp = new PayPal(player);	
 		
 		
@@ -98,7 +98,7 @@ public class Listner implements Listener {
 		try {
 			player.teleport(Spawn.GetSpawnLocation());
 			Economy.divide(player.getName(), 2);
-			player.sendMessage("§4Vous ête mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
+			player.sendMessage("Â§4Vous Ãªte mort et Â§4Â§lavez perdu Â§2" + Economy.getMoney(player.getName()));
 		} catch (NoLoanPermittedException | UserDoesNotExistException | MaxMoneyException | IOException e) {
 			e.printStackTrace();
 		}
@@ -167,7 +167,7 @@ public class Listner implements Listener {
 			} else {
 				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
 				if(player.getGameMode() == GameMode.CREATIVE) {
-					player.kickPlayer(("§4§l/!\\ Nous avons detecter une duplication"));
+					player.kickPlayer(("Â§4Â§l/!\\ Nous avons detecter une duplication"));
 					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Risk of duplication (CHEAT ERROR) Target : Nether Start Menu");
 				}
 

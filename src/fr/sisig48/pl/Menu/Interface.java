@@ -114,7 +114,7 @@ public class Interface {
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				player.sendMessage("§4Error, contact the §adev-staff");
+				player.sendMessage("Â§4Error, contact the Â§adev-staff");
 				e.printStackTrace();
 			}
 				break;
@@ -132,10 +132,10 @@ public class Interface {
 					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Teleported to spawn");
 					if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) ) {
 						player.teleport(Spawn.GetMineOutSpawnLocation());
-						player.sendMessage("§aVous avez été tp au §4spawn");
+						player.sendMessage("Â§aVous avez Ã©tÃ© tp au Â§4spawn");
 					} else {
 						player.teleport(Spawn.GetSpawnLocation());
-						player.sendMessage("§aVous avez été tp au §4spawn");
+						player.sendMessage("Â§aVous avez Ã©tÃ© tp au Â§4spawn");
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -148,7 +148,7 @@ public class Interface {
 				if(current.getItemMeta().getCustomModelData() != 127) break;
 			try {
 				player.teleport(Spawn.GetMineInSpawnLocation());
-				player.sendMessage("§aVous avez été tp a la §4mine");
+				player.sendMessage("Â§aVous avez Ã©tÃ© tp a la Â§4mine");
 				logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Teleported to mine");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

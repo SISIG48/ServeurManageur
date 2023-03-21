@@ -25,15 +25,15 @@ public class PayPal {
 			public void run() {
 				try {
 					Thread.sleep(5000);
-					Bukkit.getConsoleSender().sendMessage("§6Strating Payment");
+					Bukkit.getConsoleSender().sendMessage("Â§6Strating Payment");
 					while(true) {
 						Thread.sleep(Actu);
 						BigDecimal pay = Pj.getPay();
 						if(pay == BigDecimal.valueOf(0)) break;
 						Economy.add(player.getUniqueId(), pay);
-						Bukkit.getConsoleSender().sendMessage("§aPay : " + pay);
-						logs.add(Thread.currentThread().getName() + " Pay : §l§e" + pay);
-						player.sendMessage("§aVous avez était payé (§l§e" + pay + "§a)");
+						Bukkit.getConsoleSender().sendMessage("Â§aPay : " + pay);
+						logs.add(Thread.currentThread().getName() + " Pay : Â§lÂ§e" + pay);
+						player.sendMessage("Â§aVous avez Ã©tait payÃ© (Â§lÂ§e" + pay + "Â§a)");
 					}
 				} catch (InterruptedException | NoLoanPermittedException | ArithmeticException | UserDoesNotExistException | MaxMoneyException e) {}
 

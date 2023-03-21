@@ -82,7 +82,7 @@ public class Main extends JavaPlugin {
 			e.teleport(JobsPNJ.getLoc());
 			e.setCustomName(Uconfig.getConfig("location.pnj.jobs.name"));
 		}
-		for(Player player : Bukkit.getOnlinePlayers()) if(!new PlayerJobs(player.getPlayer()).get().isEnable()) player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : §a" + new PlayerJobs(player.getPlayer()).get().getName() + " §6nous vous avons attribué un jobs fictif : Chaumage");
+		for(Player player : Bukkit.getOnlinePlayers()) if(!new PlayerJobs(player.getPlayer()).get().isEnable()) player.getPlayer().sendMessage("Â§4Attention votre mÃ©tier est vÃ©rouillÃ© : Â§6Aucune action n'est possible pour votre jobs : Â§a" + new PlayerJobs(player.getPlayer()).get().getName() + " Â§6nous vous avons attribuÃ© un jobs fictif : Chaumage");
 		Mine.AutoFill.start();
 	}
 
@@ -97,10 +97,10 @@ public class Main extends JavaPlugin {
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
 			if(!(e.getName().equals("SISIG48") || e.getName().equals("indylynx") ||  e.getName().equals("Heldorus_"))) {
-				e.kickPlayer("§4Serveur error §aPlease WAIT");
+				e.kickPlayer("Â§4Serveur error Â§aPlease WAIT");
 			} else {
-				e.sendMessage("§6Attention certain bug son lié a ce reload,");
-				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
+				e.sendMessage("Â§6Attention certain bug son liÃ© a ce reload,");
+				e.sendMessage("Â§6nous vous avons garder la conection car vous Ãªte sur la liste");
 			}
 		}
 		logs.add("Plugin Stoping");
@@ -111,8 +111,8 @@ public class Main extends JavaPlugin {
 		try {
 			ArrayList<String> note = new ArrayList<String>();
 			for(String e : logs.ReadFile("note.txt")) note.add(e);
-			TextComponent msgl = new TextComponent("§e[§e§lCLIQUE POUR REJOIDRE§e]");
-			msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eREJOIDRE").create()));
+			TextComponent msgl = new TextComponent("Â§e[Â§eÂ§lCLIQUE POUR REJOIDREÂ§e]");
+			msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Â§eREJOIDRE").create()));
 			msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/5RwetHwxsS"));
 			for(Player p : Bukkit.getOnlinePlayers()) {
 				if(!p.isOp()) break;

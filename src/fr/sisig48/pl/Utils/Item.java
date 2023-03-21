@@ -22,7 +22,7 @@ public class Item {
 		ItemMeta Meta = i.getItemMeta(); 
 		Meta.setDisplayName(name);
 		if(lore != null && !lore.equalsIgnoreCase("null")) {
-			lore = "ง8" + lore;
+			lore = "ยง8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
 		Meta.setCustomModelData(123);
@@ -38,7 +38,7 @@ public class Item {
 		ItemMeta Meta = i.getItemMeta(); 
 		Meta.setDisplayName(name);
 		if(lore != null && !lore.equalsIgnoreCase("null")) {
-			lore = "ง8" + lore;
+			lore = "ยง8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
 		Meta.setCustomModelData(code);
@@ -54,7 +54,7 @@ public static ItemStack GiveItemLore(Material material, int stack, String name, 
 		Meta.setDisplayName(name);
 		if(lores.length > 0) {
 			ArrayList<String> lo = new ArrayList<String>();
-			for(String lore : lores) lo.add("ง8" + lore);
+			for(String lore : lores) lo.add("ยง8" + lore);
 			Meta.setLore(lo);
 		}
 		Meta.setCustomModelData(code);
@@ -72,7 +72,7 @@ public static ItemStack GiveItemLore(Material material, int stack, String name, 
 		Meta.setOwner(player);
 		Meta.setCustomModelData(Code);
 		if(lore != null && !lore.equalsIgnoreCase("null")) {
-			lore = "ง8" + lore;
+			lore = "ยง8" + lore;
 			Meta.setLore(Arrays.asList(lore));
 		}
 		i.setItemMeta(Meta);
@@ -90,7 +90,7 @@ public static ItemStack GiveItemLore(Material material, int stack, String name, 
 		Meta.setCustomModelData(Code);
 		if(lores.length > 0) {
 			ArrayList<String> lo = new ArrayList<String>();
-			for(String lore : lores) lo.add("ง8" + lore);
+			for(String lore : lores) lo.add("ยง8" + lore);
 			Meta.setLore(lo);
 		}
 		i.setItemMeta(Meta);
@@ -105,7 +105,7 @@ public static ItemStack GiveItemLore(Material material, int stack, String name, 
 		customM.setUnbreakable(Unbreakable);
 		customM.setDisplayName(Name);
 		if(LoreD != null && !LoreD.equalsIgnoreCase("null")) {
-			LoreD = "ง8" + LoreD;
+			LoreD = "ยง8" + LoreD;
 			customM.setLore(Arrays.asList(LoreD));
 		}
 		customM.setCustomModelData(123);
@@ -123,7 +123,7 @@ public static ItemStack GiveItemLore(Material material, int stack, String name, 
 		customM.setDisplayName(Name);
 		if(lores.length > 0) {
 			ArrayList<String> lo = new ArrayList<String>();
-			for(String lore : lores) lo.add("ง8" + lore);
+			for(String lore : lores) lo.add("ยง8" + lore);
 			customM.setLore(lo);
 		}
 		customM.setCustomModelData(123);
@@ -141,7 +141,7 @@ public static ItemStack GiveItemLore(Material material, int stack, String name, 
 		customM.setUnbreakable(Unbreakable);
 		customM.setDisplayName(Name);
 		if(LoreD != null && !LoreD.equalsIgnoreCase("null")) {
-			LoreD = "ง8" + LoreD;
+			LoreD = "ยง8" + LoreD;
 			customM.setLore(Arrays.asList(LoreD));
 		}
 		customM.setCustomModelData(code);

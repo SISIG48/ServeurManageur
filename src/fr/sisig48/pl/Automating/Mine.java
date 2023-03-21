@@ -66,7 +66,7 @@ public class Mine extends Uconfig {
 	public static World world;
 	@SuppressWarnings("static-access")
 	public static void FillMine() {
-		Bukkit.getConsoleSender().sendMessage("§6La mine se renove");
+		Bukkit.getConsoleSender().sendMessage("Â§6La mine se renove");
 		Plug = main.getPlugin(main.getClass());
 		Bukkit.getScheduler().runTask(Plug, () -> {
 			if(isChange) {
@@ -100,7 +100,7 @@ public class Mine extends Uconfig {
 			}
 			clearPlayerMine();
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/set 29.5%stone,20%iron_ore,10%gold_ore,20%coal_ore,10%redstone_ore,10%lapis_ore,0.5%diamond_ore");
-			Bukkit.getConsoleSender().sendMessage("§aLa mine est prete");
+			Bukkit.getConsoleSender().sendMessage("Â§aLa mine est prete");
 		});
 	}
 	public static void clearPlayerMine() {

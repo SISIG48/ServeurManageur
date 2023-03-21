@@ -29,7 +29,7 @@ public class Friends {
 	public void add(Player friends) {
 		if(!listFriends.contains(friends)) {
 			listFriends.add(friends);
-			((CommandSender) player).sendMessage("§aVous avez ajouter §4" + friends.getName() + "§a dans vos amis");
+			((CommandSender) player).sendMessage("Â§aVous avez ajouter Â§4" + friends.getName() + "Â§a dans vos amis");
 		}
 		logs.add("Friends : " + friends.getName() + " Added for " + player.getName());
 	}
@@ -37,7 +37,7 @@ public class Friends {
 	public void remove(OfflinePlayer friends) {
 		 if(listFriends.contains(friends)) listFriends.remove(friends);
 
-		 if(friends.isOnline()) ((CommandSender) friends).sendMessage("§e" + player.getName() + " §4vous a suprimé de ces amis");
+		 if(friends.isOnline()) ((CommandSender) friends).sendMessage("Â§e" + player.getName() + " Â§4vous a suprimÃ© de ces amis");
 		 
 		 logs.add("Friends : " + friends.getName() + " Removed for " + player.getName());
 		 return;

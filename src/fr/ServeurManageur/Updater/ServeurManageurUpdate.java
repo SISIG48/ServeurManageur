@@ -99,7 +99,7 @@ public class ServeurManageurUpdate {
     		String jar2 = "plugins/ServeurManageur/ServeurManageur.jar";
     		JarFile jarFile1 = new JarFile(jar1);
 			JarFile jarFile2 = new JarFile(jar2);
-			if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §eJar loale zize : §a" + jarFile1.size() + " §e| Jar GIT Zize : §a" + jarFile2.size());	
+			if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! Â§eJar loale zize : Â§a" + jarFile1.size() + " Â§e| Jar GIT Zize : Â§a" + jarFile2.size());	
 			if (jarFile1.size() != jarFile2.size()) {
 				return true;
 			}
@@ -124,12 +124,12 @@ public class ServeurManageurUpdate {
 					
 				}  
 				
-		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
+		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! Â§aNO MAJ");	
 		jarFile1.close();
 		jarFile2.close();
     	} catch (Exception e) {
-    		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §4ERR VERIF");	
-    		logs.add("Err Tchecking Update : Erreur de vérification");
+    		if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! Â§4ERR VERIF");	
+    		logs.add("Err Tchecking Update : Erreur de vÃ©rification");
     		e.printStackTrace();
     	}
     	
@@ -144,7 +144,7 @@ public class ServeurManageurUpdate {
     		System.out.println("UUID : " + e.getUniqueId() + " Name : " + e.getName());
     		
     		if(e.isOp()) {
-    			e.sendMessage("§4You need update plugin </re>");
+    			e.sendMessage("Â§4You need update plugin </re>");
     			
     		}
     	}

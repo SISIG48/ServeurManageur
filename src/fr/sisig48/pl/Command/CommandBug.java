@@ -21,7 +21,7 @@ public class CommandBug implements CommandExecutor {
 			if(arg[0].equalsIgnoreCase("get")) {
 				
 				try {
-					for(String e : logs.ReadFile("bug.txt")) sender.sendMessage("§4" + e);
+					for(String e : logs.ReadFile("bug.txt")) sender.sendMessage("Â§4" + e);
 				} catch (IOException e1) {
 
 					e1.printStackTrace();
@@ -31,8 +31,8 @@ public class CommandBug implements CommandExecutor {
 			}
 		}
 		if(arg.length < 1) {
-			sender.sendMessage("§6Pour sigaler un bug : §4/bug §e<message>");
-			if(sender.isOp()) sender.sendMessage("§6Pour voir les bugs sigaler : §4/bug §eget");
+			sender.sendMessage("Â§6Pour sigaler un bug : Â§4/bug Â§e<message>");
+			if(sender.isOp()) sender.sendMessage("Â§6Pour voir les bugs sigaler : Â§4/bug Â§eget");
 			return true;
 		}
 		logs.add("Command exucted by : " + sender.getName() + " Command : /bug");
@@ -40,12 +40,12 @@ public class CommandBug implements CommandExecutor {
 		for(String e : arg) {
 			msg = msg + " " + e; 
 		}
-		sender.sendMessage("§eVous avez signaler :§4" + msg + " §ecomme bug,");
-		sender.sendMessage("§enos équipe de dévlopement traiterons votre demmande");
+		sender.sendMessage("Â§eVous avez signaler :Â§4" + msg + " Â§ecomme bug,");
+		sender.sendMessage("Â§enos Ã©quipe de dÃ©vlopement traiterons votre demmande");
 		
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			if(!p.isOp()) break;
-			p.sendMessage("§e§lBugs §8- §6Report by : §a§l" + sender.getName() + " §8- §6Reported bug : §4" + msg);
+			p.sendMessage("Â§eÂ§lBugs Â§8- Â§6Report by : Â§aÂ§l" + sender.getName() + " Â§8- Â§6Reported bug : Â§4" + msg);
 		}
 		try {
 			logs.reportBug(msg, sender.getName());

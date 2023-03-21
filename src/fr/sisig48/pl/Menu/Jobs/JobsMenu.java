@@ -34,18 +34,18 @@ public class JobsMenu {
 		JobsInventory.add(e);
 		PlayerJobs pj = new PlayerJobs(player);
 		ItemStack it;
-		String[] lore = {"Votre métier est : §4" + pj.get().getJobs().getName(), "Votre xp : §4" + String.valueOf(pj.getXp())};
-		it = Item.GiveOwnsPlayerHead(1, "§aMon métier", lore, player.getName(), 125);
+		String[] lore = {"Votre mÃ©tier est : Â§4" + pj.get().getJobs().getName(), "Votre xp : Â§4" + String.valueOf(pj.getXp())};
+		it = Item.GiveOwnsPlayerHead(1, "Â§aMon mÃ©tier", lore, player.getName(), 125);
 		e.setItem(11, it);
 
-		it = Item.GiveItem(Material.IRON_PICKAXE, 1, "§aChanger de métier", "Changé mon métier", 129);
+		it = Item.GiveItem(Material.IRON_PICKAXE, 1, "Â§aChanger de mÃ©tier", "ChangÃ© mon mÃ©tier", 129);
 		ItemMeta meta = it.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		it.setItemMeta(meta);
 		
 		e.setItem(13, it);
 		
-		it = Item.GiveItem(Material.GOLDEN_APPLE, 1, "Autre Joueur", "Afficher les métier des autre joueur", 129);
+		it = Item.GiveItem(Material.GOLDEN_APPLE, 1, "Autre Joueur", "Afficher les mÃ©tier des autre joueur", 129);
 		e.setItem(15, it);
 		
 		GrayExGlass(e, 27);
@@ -60,20 +60,20 @@ public class JobsMenu {
 		ItemStack it = null;
 		try {
 			if(Economy.getMoneyExact(player.getUniqueId()).doubleValue() >= Double.valueOf(job.getPrice() - 1) && player.getInventory().contains(job.getItemCost().getType(), job.getItemCost().getAmount()) && pj.getXp() >= 1000) {
-				String[] lores = {"§6Prix : " + job.getPrice(), "§6Cout en item : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(),"§6Cout en Xp : 1000", "§4§lAttention l'xp actuele sera suprimé"};
-				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "§aAccepter", lores, i);
+				String[] lores = {"Â§6Prix : " + job.getPrice(), "Â§6Cout en item : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(),"Â§6Cout en Xp : 1000", "Â§4Â§lAttention l'xp actuele sera suprimÃ©"};
+				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "Â§aAccepter", lores, i);
 			}
 			else {
-				String[] lores = {"§4Prix : " + job.getPrice(), "§4Cout en item : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(),"§4Cout en Xp : 1000", "§4§lvous n'avez pas assez"};
-				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "§aAccepter", lores, 125);
+				String[] lores = {"Â§4Prix : " + job.getPrice(), "Â§4Cout en item : " + job.getItemCost().getAmount() + " " + job.getItemCost().getType().name(),"Â§4Cout en Xp : 1000", "Â§4Â§lvous n'avez pas assez"};
+				it = Item.GiveItemLore(Material.GREEN_WOOL, 1, "Â§aAccepter", lores, 125);
 			}
-			if(new PlayerJobs(player).get() == job) it = Item.GiveItem(Material.ORANGE_WOOL, 1, "§6C'est déja votre métier", "§4§lAction imposible", 125);;
+			if(new PlayerJobs(player).get() == job) it = Item.GiveItem(Material.ORANGE_WOOL, 1, "Â§6C'est dÃ©ja votre mÃ©tier", "Â§4Â§lAction imposible", 125);;
 		} catch (UserDoesNotExistException e1) {
 			e1.printStackTrace();
 		}
 		e.setItem(11, it);
 		
-		it = Item.GiveItem(Material.RED_WOOL, 1, "§4Refuser", "Retour en arière", i);
+		it = Item.GiveItem(Material.RED_WOOL, 1, "Â§4Refuser", "Retour en ariÃ¨re", i);
 		e.setItem(15, it);
 		
 		GrayExGlass(e, 27);	
@@ -94,7 +94,7 @@ public class JobsMenu {
 		
 		
 		GrayExGlass(e, in);
-		it = Item.GiveItem(Material.BELL, 1, "§aAfficher l'arbre des métiers", null, 129);
+		it = Item.GiveItem(Material.BELL, 1, "Â§aAfficher l'arbre des mÃ©tiers", null, 129);
 		e.setItem(in-1, it);
 		
 		int i = 8;
@@ -104,14 +104,14 @@ public class JobsMenu {
 				JobsPaper.add(String.valueOf(j.getJobs() + "/" + (120 + i)));
 				if(j.getJobs() == jobs.get().getJobs()) {
 					
-					it = Item.GiveItem(Material.PAPER, 1, "§a" + j.getName() , null, (120 + i));
+					it = Item.GiveItem(Material.PAPER, 1, "Â§a" + j.getName() , null, (120 + i));
 					ItemMeta meta = it.getItemMeta();
 					meta.addEnchant(Enchantment.LOYALTY, 1, false);
 					meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 					it.setItemMeta(meta);
 					e.setItem(i, it);
 				} else {
-					it = Item.GiveItem(Material.PAPER, 1, "§a" + j.getName() , null, (120 + i));
+					it = Item.GiveItem(Material.PAPER, 1, "Â§a" + j.getName() , null, (120 + i));
 					e.setItem(i, it);
 				}
 			}
@@ -191,8 +191,8 @@ public class JobsMenu {
 			case BELL :
 				if(current.getItemMeta().getCustomModelData() == 129) {
 					player.closeInventory();
-					TextComponent msgl = new TextComponent("§e[§e§lAFFICHER L'ARBRE DES METIERS§e]");
-					msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eVOIR").create()));
+					TextComponent msgl = new TextComponent("Â§e[Â§eÂ§lAFFICHER L'ARBRE DES METIERSÂ§e]");
+					msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Â§eVOIR").create()));
 					msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://download1588.mediafire.com/kvoquicoqzhg3cQArRKdd9nkaMpRBPOz_H31Y6HZbFUyteP89jLY4kE7m3X_w0E-bzhLNrZNwHr78L0PexYHzqXPr2E/07cclf8s48jz1pm/Dragons+Economy+-+Jobs+Tree.pdf"));
 					player.spigot().sendMessage(msgl);
 					return true;
