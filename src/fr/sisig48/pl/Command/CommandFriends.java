@@ -23,12 +23,12 @@ public class CommandFriends implements CommandExecutor {
 			if(arg.length >= 2) {
 				switch(arg[0]) {
 					case "add" :
-						Player af = Bukkit.getPlayer(arg[1]);
+						OfflinePlayer af = Bukkit.getOfflinePlayer(arg[1]);
 						if(af == player) {
 							player.sendMessage("§4Erreur: vous ne pouvez pas vous envoyer de demmand");
 							return true;
 						}
-						if(!af.isOnline()) {
+						if(!af.isOnline() || af == null) {
 							player.sendMessage("§4Erreur: le joueur n'est pas connecter ou n'existe pas");
 							return true;
 						}
@@ -42,9 +42,9 @@ public class CommandFriends implements CommandExecutor {
 						}
 						Friends.FriendsResquet.add(String.valueOf(player.getUniqueId()) + "/" + String.valueOf(Bukkit.getPlayer(arg[1]).getUniqueId()));
 						player.sendMessage("§aVous avez envoyer une demmand d'ami a §4" + af.getName());
-						af.sendMessage("§aVous avez reçus une demmand d'ami de §4" + player.getName());
+						af.getPlayer().sendMessage("§aVous avez reçus une demmand d'ami de §4" + player.getName());
+						
 						return true;
-					
 					case "remove" :
 						OfflinePlayer ofp = Bukkit.getOfflinePlayer(arg[1]);
 						if(ofp.getName() == null) {

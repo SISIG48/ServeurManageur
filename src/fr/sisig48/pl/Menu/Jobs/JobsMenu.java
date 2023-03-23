@@ -88,6 +88,7 @@ public class JobsMenu {
 		BigDecimal bd = new BigDecimal(a);
 		bd = bd.setScale(0, BigDecimal.ROUND_UP);
 		int in = (bd.intValue()*9) + 18;
+		if(in < 28) in = 27;
 		Inventory e = Bukkit.createInventory(player, in, "Jobs Office");
 		player.openInventory(e);
 		JobsInventory.add(e);

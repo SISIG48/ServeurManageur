@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -108,6 +109,19 @@ public class logs {
 	        sb.append(line);      
 	        sb.append("\\");     
 	      }
+	    MyFile.close();    
+	    add("Reading : plugins/ServeurManageur/" + file + " Result : " +sb.toString());
+		return sb.toString().split("\\\\");
+	}
+	public static String[] ReadFile(String file, String encode) throws IOException {
+		FileReader MyFile= new FileReader("plugins/ServeurManageur/" + file, Charset.forName(encode));
+	    BufferedReader br = new BufferedReader(MyFile);
+	    StringBuffer sb = new StringBuffer();    
+	    String line;
+	    while((line = br.readLine()) != null) {
+	    	sb.append(line);      
+	    	sb.append("\\");     
+	    }
 	    MyFile.close();    
 	    add("Reading : plugins/ServeurManageur/" + file + " Result : " +sb.toString());
 		return sb.toString().split("\\\\");

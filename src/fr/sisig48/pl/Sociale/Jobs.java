@@ -6,8 +6,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,7 +43,8 @@ public enum Jobs {
     static ArrayList<String> line = new ArrayList<String>();
     public static Jobs[] All = Jobs.values();
 	private int PayMent;
-    
+    private JobsItemXp JobsXp = new JobsItemXp(this);
+	
     Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost, String rule, int PayMent) {
     	this.name = name;
         this.enable = enable;
@@ -47,23 +53,20 @@ public enum Jobs {
         this.prix = prix;
         this.item_cost = item_cost;
         this.PayMent = PayMent;
-        
-        
-        
-        
-        
-        
         for(String r : rule.split("\\s*,\\s*")) rules.add(r);
         try {
 			JobsInfoInit();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
     }
 
     public String getName() {
         return name;
+    }
+    
+    public Float getXpGain(Material m) {
+    	return JobsXp.getXpGain(m);
     }
     
     public int getNextPosibilities() {
@@ -224,4 +227,157 @@ public enum Jobs {
     	return;
     }
     
+    public static void init() {
+    	try {
+			JobsItemXp.init();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+}
+
+class JobsItemXp {
+	static boolean isInit = false;
+	static ArrayList<InfoItemXp> MXP = new ArrayList<InfoItemXp>();
+	ArrayList<Material> MAL = new ArrayList<Material>();
+	ArrayList<Float> ALF = new ArrayList<Float>();
+	public static File getFile() {
+        File file = new File("plugins/ServeurManageur/data/jobs/Material.xpJobs");
+    	return file;
+    }
+	
+	public Float getXpGain(Material m) {
+		for(InfoItemXp t : MXP) for(InfoItemXpUnit t2 : t.getInfoItemXpUnit()) Bukkit.getConsoleSender().sendMessage("§4§l" + t2.getJobs().getName() + " " + t2.getXp() + " §a" + t.getMaterial().name());
+		if(MAL.contains(m)) return ALF.get(MAL.indexOf(m));
+		else return Float.valueOf(0);
+	}
+	public JobsItemXp(Jobs jobs) {
+		try {
+			init();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		new Thread(new Runnable() {
+			
+			@SuppressWarnings({ "deprecation", "static-access" })
+			@Override
+			public void run() {
+				while(!tE)
+					try {
+						Thread.currentThread().sleep(500);
+					} catch (InterruptedException e) {}
+				for(InfoItemXp t : MXP) {
+					for(InfoItemXpUnit t1 : t.getInfoItemXpUnit()) {
+						if(t1.getJobs().equals(jobs)) {
+							MAL.add(t.getMaterial());
+							Bukkit.getConsoleSender().sendMessage("--- §4§l"+t.getMaterial().name());
+							ALF.add(t1.getXp());
+						}
+					}
+				}
+				Thread.currentThread().stop();
+			}
+		}).start();
+			
+	}
+	static boolean tE = false;
+	static void init() throws IOException {
+		if(isInit) return;
+		isInit = true;
+		if(!getFile().exists()) {
+			File source = new File("plugins/ServeurManageur.jar");
+			
+			try (JarFile jar = new JarFile(source)) {
+	            JarEntry entry = jar.getJarEntry("Material.xpJobs");
+	            try (InputStream is = jar.getInputStream(entry)) {
+	                Files.copy(is, getFile().toPath());
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+		FileReader MyFileR = new FileReader(getFile());
+	    BufferedReader br = new BufferedReader(MyFileR);
+	    StringBuffer sb = new StringBuffer();    
+	    String r;
+	    ArrayList<String> line = new ArrayList<String>();
+	    while((r = br.readLine()) != null) {
+	        sb.append(r);      
+	        sb.append("\\;\\");     
+	    }
+	    MyFileR.close();
+	    for(String li : sb.toString().split("\\\\;\\\\")) line.add(li);
+	    
+		new Thread(new Runnable() {
+			
+			@SuppressWarnings({ "static-access", "deprecation" })
+			@Override
+			public void run() {
+				try {
+					Thread.currentThread().sleep(100);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				Material ma = Material.BARRIER;
+			    ArrayList<InfoItemXpUnit> IIXP = new ArrayList<InfoItemXpUnit>();
+			    ArrayList<InfoItemXp> IMXP = new ArrayList<InfoItemXp>();
+			    line.remove("?JobXpSettings");
+				for (String e : line) {
+			    	Bukkit.getConsoleSender().sendMessage("§6§l"+e);
+			    	String[] temp = e.split("\\s*:\\s*");
+		    		if(temp.length == 1) {
+		    			if(!ma.equals(Material.BARRIER)) IMXP.add(new InfoItemXp(ma, IIXP));
+		    			ma = Material.valueOf(temp[0]);
+		    			Bukkit.getConsoleSender().sendMessage("§4§l"+ma.name());
+		    			IIXP.clear();
+		    		}
+		    		if(temp.length == 2) {
+		    			Bukkit.getConsoleSender().sendMessage("§4§l" + temp[0] + " §a" + temp[1]);
+		    			IIXP.add(new InfoItemXpUnit(Jobs.valueOf(temp[0]), Float.valueOf(temp[1])));
+		    		}
+		    	}
+			    if(!ma.equals(Material.BARRIER)) IMXP.add(new InfoItemXp(ma, IIXP));
+			    MXP = IMXP;
+			    tE = true;
+			    Thread.currentThread().stop();
+			}
+		}, "XpGain Thread").start();
+	}
+	
+}
+
+class InfoItemXp {
+	private Material m; 
+	private ArrayList<InfoItemXpUnit> j;
+	public InfoItemXp(Material ma, ArrayList<InfoItemXpUnit> IIXP) {
+		m = ma;
+		j = IIXP;
+	}
+	
+	Material getMaterial() {
+		return m;
+	}
+	
+	ArrayList<InfoItemXpUnit> getInfoItemXpUnit() {
+		return j;
+	}
+	
+}
+
+class InfoItemXpUnit {
+	private Jobs j;
+	private Float x;
+	public InfoItemXpUnit(Jobs jo, float xp) {
+		j = jo;
+		x = xp;
+	}
+	
+	Jobs getJobs() {
+		return j;
+	}
+	
+	Float getXp() {
+		return x;
+	}
 }

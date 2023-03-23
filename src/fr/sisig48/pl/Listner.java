@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,10 +15,12 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.earth2me.essentials.api.Economy;
 import com.earth2me.essentials.api.NoLoanPermittedException;
@@ -29,12 +33,15 @@ import fr.sisig48.pl.Menu.MenuPP;
 import fr.sisig48.pl.Menu.Jobs.JobsMenu;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
 import fr.sisig48.pl.Sociale.Friends;
+import fr.sisig48.pl.Sociale.Jobs;
+import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.MaxMoneyException;
 
 
 
+@SuppressWarnings("deprecation")
 public class Listner implements Listener {
 	
 	Main main;
@@ -47,7 +54,7 @@ public class Listner implements Listener {
 		
 		Player player = event.getPlayer();
 		player.sendMessage("§aBienvenu sur le serveur");
-		player.sendMessage("§eSi tu a un problème contact le staff sur le §4discord §eou");
+		player.sendMessage("§eSi tu a un problème contact le staff sur le Â§4discord Â§eou");
 		player.sendMessage("§eexécute la command §4/bug [arg...]");
 		if(player.isOp()) {
 			player.sendMessage("");
@@ -74,14 +81,14 @@ public class Listner implements Listener {
 			
 		}
 		if(i != 0) player.sendMessage("§aVous avez §e" + i + " §aamis en ligne");
-		PayPal Pp = new PayPal(player);	
-		
+		new PayPal(player);	
 		
 	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
+		new PlayerJobs(player).close();
 		try {
 			logs.PlayerLeave(player);
 		} catch (IOException e) {
@@ -90,7 +97,6 @@ public class Listner implements Listener {
 	}
 
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
@@ -139,8 +145,6 @@ public class Listner implements Listener {
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
 		if(!event.getItemDrop().getItemStack().getItemMeta().hasCustomModelData()) return;
 		Player player = event.getPlayer();
-		
-		//Verif du Menu
 		int it = event.getItemDrop().getItemStack().getItemMeta().getCustomModelData();
 		event.setCancelled(NetherStarMenu.HasMenu(player, it));
 		
@@ -158,7 +162,7 @@ public class Listner implements Listener {
 		MenuPP.current = event.getCurrentItem();
 		ItemStack current = event.getCurrentItem();
 		if(current == null || current.getItemMeta() == null) return;
-		if(!current.getItemMeta().hasCustomModelData()) return;
+		if(!current.getItemMeta().hasCustomModelData() || current.getItemMeta().getCustomModelData() == 122) return;
 		
 		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Click whith : " + String.valueOf(current.getType()));
 		try {
@@ -178,5 +182,25 @@ public class Listner implements Listener {
 		}
 	
 	}
+
+	@EventHandler
+	public void OnPlayerPickupItemEvent(PlayerPickupItemEvent e) {
+		Player player = e.getPlayer();
+		Item block = e.getItem();
+		if((player == null) || e.isCancelled() || (block.getItemStack().getItemMeta().hasCustomModelData() && block.getItemStack().getItemMeta().getCustomModelData() == 122)) return;
+		PlayerJobs Pjobs = new PlayerJobs(player);
+		if(Pjobs.get().equals(Jobs.NOT)) return;
+		ItemMeta m = block.getItemStack().getItemMeta();
+		m.setCustomModelData(122);
+		block.getItemStack().setItemMeta(m);
+		int i = 0;
+		ItemStack IS;
+		while((i++)<36) if((IS = player.getInventory().getItem(i)) == block.getItemStack()) IS.setItemMeta(m);
+		player.updateInventory();
+		player.sendMessage(String.valueOf(block.getItemStack().getType()));
+		Pjobs.MaterialAddXp(block.getItemStack().getType(), block.getItemStack().getAmount());
+		//for(Material ma : Material.values()) Pjobs.MaterialAddXp(ma);
+	}
+	
 	
 }

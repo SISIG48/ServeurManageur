@@ -17,34 +17,44 @@ import org.bukkit.entity.Player;
 import fr.sisig48.pl.logs;
 
 public class Friends {
-	public static ArrayList<String> FriendsResquet = new ArrayList<String>(); 
+	public static ArrayList<String> FriendsResquet = new ArrayList<String>();
+	private static ArrayList<Friends> InstanceList = new ArrayList<Friends>();
+	private static ArrayList<OfflinePlayer> PlayerInstanceList = new ArrayList<OfflinePlayer>();
 	private int nl;
 	private OfflinePlayer player;
 	private ArrayList<OfflinePlayer> listFriends = new ArrayList<OfflinePlayer>();
+	private Friends fi;
 	public Friends(OfflinePlayer player) {
-		this.player = player;
+		if(PlayerInstanceList.contains(player)) {
+			fi = InstanceList.get(PlayerInstanceList.indexOf(player));
+			return;
+		}
+		PlayerInstanceList.add(player);
+		InstanceList.add(this);
+		fi = this;
+		fi.player = player;
 		loadP();
 	}
 
 	public void add(Player friends) {
-		if(!listFriends.contains(friends)) {
-			listFriends.add(friends);
-			((CommandSender) player).sendMessage("§aVous avez ajouter §4" + friends.getName() + "§a dans vos amis");
+		if(!fi.listFriends.contains(friends)) {
+			fi.listFriends.add(friends);
+			((CommandSender) fi.player).sendMessage("§aVous avez ajouter §4" + friends.getName() + "§a dans vos amis");
 		}
-		logs.add("Friends : " + friends.getName() + " Added for " + player.getName());
+		logs.add("Friends : " + friends.getName() + " Added for " + fi.player.getName());
 	}
 	
 	public void remove(OfflinePlayer friends) {
-		 if(listFriends.contains(friends)) listFriends.remove(friends);
+		 if(fi.listFriends.contains(friends)) fi.listFriends.remove(friends);
 
-		 if(friends.isOnline()) ((CommandSender) friends).sendMessage("§e" + player.getName() + " §4vous a suprimé de ces amis");
+		 if(friends.isOnline()) ((CommandSender) friends).sendMessage("§e" + fi.player.getName() + " §4vous a suprimé de ces amis");
 		 
-		 logs.add("Friends : " + friends.getName() + " Removed for " + player.getName());
+		 logs.add("Friends : " + friends.getName() + " Removed for " + fi.player.getName());
 		 return;
 	}
 	
 	public ArrayList<OfflinePlayer> get() {
-		return listFriends;
+		return fi.listFriends;
 	}
 	
 	
@@ -54,18 +64,19 @@ public class Friends {
 	
 	public void close() {
 		String friend = "";
-		for (OfflinePlayer u : listFriends) {
+		for (OfflinePlayer u : fi.listFriends) {
 			friend = friend + "/" + String.valueOf(u.getUniqueId());
 			
 		}
-		Friendsdata.line.add(nl, String.valueOf(player.getUniqueId()) + ":" + friend);
-		Friendsdata.line.remove(nl + 1);
-		logs.add("Friends : save for " + player.getName());
+		Friendsdata.line.add(fi.nl, String.valueOf(fi.player.getUniqueId()) + ":" + friend);
+		Friendsdata.line.remove(fi.nl + 1);
+		logs.add("Friends : save for " + fi.player.getName());
 		
 	}
 	
 	public static void saveAll() {
 		try {
+			for(Friends t : InstanceList) t.close();
 			Friendsdata.save();
 			logs.add("Friends : Saving all player ");
 			
@@ -79,41 +90,40 @@ public class Friends {
 				Friendsdata.reload();
 				logs.add("Friends : Reloading");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
-	
+
 	private void loadP() {
 		if(Friendsdata.line == null) reload();
-		logs.add("Friends : load profile " + player.getName());
+		logs.add("Friends : load profile " + fi.player.getName());
 		int con = 0;
 		int i = 0;
 		int re = 1;
 		for(String e : Friendsdata.line) {
 			i++;
 			String[] l = e.split("\\s*:\\/?\\s*");
-				if(l.length > 1 & !l[0].equalsIgnoreCase("?Friends") & l[0].equals(String.valueOf(player.getUniqueId()))) {
+				if(l.length > 1 & !l[0].equalsIgnoreCase("?Friends") & l[0].equals(String.valueOf(fi.player.getUniqueId()))) {
 				
 					for(String f : l[1].split("\\s*\\/\\s*")) {
-					listFriends.add(Bukkit.getOfflinePlayer(UUID.fromString(f)));
+					fi.listFriends.add(Bukkit.getOfflinePlayer(UUID.fromString(f)));
 						
 					}
 				
 				
 				con++;
 			}
-			if (l[0].equals(String.valueOf(player.getUniqueId()))) {
+			if (l[0].equals(String.valueOf(fi.player.getUniqueId()))) {
 				con++;
 				re = i;
 			}
 		}
 		if(con == 0) {
-			logs.add("Initialisation d'un compte \"friend\" pour \"UUID :" + player.getUniqueId() + " Name : " + player.getName() + "\"");
-			Friendsdata.line.add(String.valueOf(player.getUniqueId()) + ":");
-			re = Friendsdata.line.indexOf(String.valueOf(player.getUniqueId()) + ":");
+			logs.add("Initialisation d'un compte \"friend\" pour \"UUID :" + fi.player.getUniqueId() + " Name : " + fi.player.getName() + "\"");
+			Friendsdata.line.add(String.valueOf(fi.player.getUniqueId()) + ":");
+			re = Friendsdata.line.indexOf(String.valueOf(fi.player.getUniqueId()) + ":");
 		}
-		this.nl = re - 1;
+		fi.nl = re - 1;
 		return;
 	}
 	

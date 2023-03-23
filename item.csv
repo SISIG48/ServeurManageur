@@ -1,4 +1,5 @@
 CustomModel;Type;Name;Category;Zone;Description
+122;Detect;#;XpCheck;#;Check if item have be exclude of gain xp
 123;#;#;#;#;#
 124;Exception;HEAD;Menu;MenuEco;Go to the personelle economy
 125;Exception;#;#;#;Don't check this CustomModelData in Plugin and Cancel Action

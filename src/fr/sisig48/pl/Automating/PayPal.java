@@ -15,6 +15,7 @@ import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.MaxMoneyException;
 
 public class PayPal {
+	@SuppressWarnings("unused")
 	private Player player;
 	public PayPal(Player player) {
 		this.player = player;
@@ -43,7 +44,7 @@ public class PayPal {
 		thread.start();
 	}
 	private PlayerJobs Pj;
-	private static long Actu = Long.valueOf(Uconfig.getConfig("IntervalePayment"))*60;
+	private static long Actu = Long.valueOf(Uconfig.getConfig("IntervalePayment"))*60000;
 	private Thread thread;
 	
 	@SuppressWarnings("deprecation")

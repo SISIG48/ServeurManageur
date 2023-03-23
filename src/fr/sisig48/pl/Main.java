@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -43,23 +42,15 @@ public class Main extends JavaPlugin {
 		logs.add("Plugin Starting");
 		
 		if(ServeurManageurUpdate.CheckUpdate()) {
-			System.err.println("--------- You need do UPDATE ---------");
+			Bukkit.getConsoleSender().sendMessage(("§4--------- You need do UPDATE ---------"));
 			logs.add("End Tchecking Update : Maj detetect");
 			ServeurManageurUpdate.NeedUpdate = 1;
 		} else {
-			System.err.println("--------- You dont need UPDATE ---------");
+			Bukkit.getConsoleSender().sendMessage(("§a--------- You don't need UPDATE ---------"));
 			logs.add("End Tchecking Update : No Maj detetect");
 			ServeurManageurUpdate.NeedUpdate = 0;
 		}
-		/*
-		try {
-			OnlinePlayer.ReadUsercache();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		
+
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		reloadConfig();
 		getCommand("mine").setExecutor(new CommandeMine());
@@ -85,7 +76,7 @@ public class Main extends JavaPlugin {
 		for(Player player : Bukkit.getOnlinePlayers()) if(!new PlayerJobs(player.getPlayer()).get().isEnable()) player.getPlayer().sendMessage("§4Attention votre métier est vérouillé : §6Aucune action n'est possible pour votre jobs : §a" + new PlayerJobs(player.getPlayer()).get().getName() + " §6nous vous avons attribué un jobs fictif : Chaumage");
 		Mine.AutoFill.start();
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onDisable() {
@@ -96,8 +87,9 @@ public class Main extends JavaPlugin {
 		PlayerJobs.saveAll();
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
-			if(!(e.getName().equals("SISIG48") || e.getName().equals("indylynx") ||  e.getName().equals("Heldorus_"))) {
-				e.kickPlayer("§4Serveur error §aPlease WAIT");
+			if(!(e.getName().equals("SISIG48"))) {
+				e.kickPlayer("4Serveur error §aPlease WAIT§4 \r\n"
+						+ "§4try again later");
 			} else {
 				e.sendMessage("§6Attention certain bug son lié a ce reload,");
 				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
@@ -110,7 +102,7 @@ public class Main extends JavaPlugin {
 	private static void StartsendInfo(){
 		try {
 			ArrayList<String> note = new ArrayList<String>();
-			for(String e : logs.ReadFile("note.txt")) note.add(e);
+			for(String e : logs.ReadFile("note.txt", "UTF-8")) note.add(e);
 			TextComponent msgl = new TextComponent("§e[§e§lCLIQUE POUR REJOIDRE§e]");
 			msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eREJOIDRE").create()));
 			msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/5RwetHwxsS"));
