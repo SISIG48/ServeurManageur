@@ -249,10 +249,8 @@ public class HouseData {
 	
 	public static void delAllHouse(Player p) {
 		Jobs j = new PlayerJobs(p).get();
-		int i = -1;
 		ArrayList<String> line = new ArrayList<String>(j.getHouseData().line);
 		for(String e : line) {
-			i++;
 			String[] t = e.split(" ");
 			if(t.length == 5) if(t[4].equals(String.valueOf(p.getUniqueId()))) {
 				Location loc = new Location(Bukkit.getWorld(t[3]), Double.valueOf(t[0]), Double.valueOf(t[1]), Double.valueOf(t[2]));
@@ -282,7 +280,6 @@ public class HouseData {
 		if(n > j.getHouseData().NumHouse) n = j.getHouseData().NumHouse;
 		if(n <= 0) n = 1;
 		HouseData hd = j.getHouseData();
-		String t;
 		int i = 0;
 		Boolean find = false;
 		ArrayList<String> lineC = new ArrayList<String>(hd.line);

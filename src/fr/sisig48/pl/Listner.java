@@ -87,9 +87,9 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
+		Player player = event.getPlayer(); 
 		new PlayerJobs(player).close();
-		PayPal.get(player).close();
+		PayPal.clear(player);
 		try {
 			logs.PlayerLeave(player);
 		} catch (IOException e) {

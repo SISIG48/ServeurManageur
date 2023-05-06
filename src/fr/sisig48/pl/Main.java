@@ -88,7 +88,9 @@ public class Main extends JavaPlugin {
 			Mine.AutoFill.start();
 			
 			sec.sendMessage("§8Start Payment");
+			PayPal.thread.start();
 			for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
+			sec.sendMessage("§daddon loading sucess");
 		}
 	}, "init SM addon");
 	
@@ -130,7 +132,7 @@ public class Main extends JavaPlugin {
 				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
 			}
 		}
-		PayPal.stop();
+		PayPal.thread.stop();
 		logs.add("Plugin Stoping");
 	}
 	
