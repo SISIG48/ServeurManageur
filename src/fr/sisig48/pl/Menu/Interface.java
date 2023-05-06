@@ -8,7 +8,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.logs;
-import fr.sisig48.pl.Menu.Jobs.JobsMenu;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Item;
 import fr.sisig48.pl.Utils.Uconfig;

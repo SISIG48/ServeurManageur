@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import fr.sisig48.pl.JobsHouse.HouseData;
 
 public enum Jobs {
 	NOT("Chaumage", "NOT", true, 0, 0, new ItemStack(Material.DIRT, 1), "FARMEUR,MINEUR,HUNTER,MEDECIN", 1),
@@ -22,15 +23,15 @@ public enum Jobs {
     PECHEUR("Pécheur", "PECHEUR", false, 2, 100, new ItemStack(Material.PUFFERFISH, 64), "NOT,BOUCHER,HUNTER,MINEUR,MEDECIN,FARMEUR", 10),
 	FARMEUR("Farmeur", "FARMEUR", false, 3, 100, new ItemStack(Material.WHEAT, 128), "NOT,BOULANGER,MINEUR,MEDECIN,HUNTER", 10),
 	MAGE("Mage", "MAGE", false, 4, 100, new ItemStack(Material.BLAZE_ROD, 64), "NOT,MEDECIN,MINEUR,HUNNTER,FARMER", 10),
-	MARCHANT("Marchant", "MARCHANT", false, 6, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER", 10),
-	MAIRE("Maire", "MAIRE", false, 7, 100, new ItemStack(Material.BARRIER, 1), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MAGE,MEDECIN,MARCHANT", 10),
-	BANQUIER("Banquier", "BANQUIER", false, 8, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,MAIRE,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MARCHANT", 10),
+	MARCHAND("Marchand", "MARCHAND", false, 6, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER", 10),
+	MAIRE("Maire", "MAIRE", false, 7, 100, new ItemStack(Material.BARRIER, 1), "NOT,BANQUIER,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MAGE,MEDECIN,MARCHAND", 10),
+	BANQUIER("Banquier", "BANQUIER", false, 8, 100, new ItemStack(Material.GOLD_INGOT, 64), "NOT,MAIRE,AUBERGISTE,BOULANGER,BOUCHER,PECHEUR,FORGERON,CHARPENTIER,MINEUR,FARMEUR,HUNTER,MARCHAND", 10),
 	MEDECIN("Médecin", "MEDECIN", false, 9, 100, new ItemStack(Material.GOLDEN_APPLE, 8), "NOT,MAGE,MINEUR,HUNNTER,FARMER", 10),
 	BOULANGER("Boulanger", "BOULANGER", false, 10, 100, new ItemStack(Material.BREAD, 64), "NOT,FARMEUR,AUBERGISTE,MINEUR,MEDECIN,HUNTER", 10),
-	BOUCHER("Boucher", "BOUCHER", false, 11, 100, new ItemStack(Material.CHICKEN, 15), "NOT,MARCHANT,PECHEUR,HUNTER,MINEUR,MEDECIN,FARMEUR", 10),
+	BOUCHER("Boucher", "BOUCHER", false, 11, 100, new ItemStack(Material.CHICKEN, 15), "NOT,MARCHAND,PECHEUR,HUNTER,MINEUR,MEDECIN,FARMEUR", 10),
 	FORGERON("Forgeron", "FORGERON", false, 12, 100, new ItemStack(Material.IRON_SWORD, 10), "NOT,CHARPENTIER,MINEUR,FARMEUR,MEDECIN,HUNTER", 10),
-	CHARPENTIER("Charpentier", "CHARPENTIER", false, 13, 100, new ItemStack(Material.OAK_PLANKS, 128), "NOT,MARCHANT,FORGERON,MINEUR,FARMER,HUNTER,MEDECIN", 10),
-	AUBERGISTE("Aubergiste", "AUBERGISTE", false, 14, 100, new ItemStack(Material.COOKED_CHICKEN, 64), "NOT,MARCHANT,BOULANGER,FARMER,MINEUR,MEDECIN,HUNTER", 10),
+	CHARPENTIER("Charpentier", "CHARPENTIER", false, 13, 100, new ItemStack(Material.OAK_PLANKS, 128), "NOT,MARCHAND,FORGERON,MINEUR,FARMER,HUNTER,MEDECIN", 10),
+	AUBERGISTE("Aubergiste", "AUBERGISTE", false, 14, 100, new ItemStack(Material.COOKED_CHICKEN, 64), "NOT,MARCHAND,BOULANGER,FARMER,MINEUR,MEDECIN,HUNTER", 10),
 	MINEUR("Mineur", "MINEUR", false, 15, 100, new ItemStack(Material.DIAMOND, 15), "NOT,FORGERON,FARMEUR,MEDECIN,HUNTER", 10);
 	
 	private int prix;
@@ -41,10 +42,11 @@ public enum Jobs {
     private ArrayList<String> rules = new ArrayList<String>();
 	private ItemStack item_cost;
     static ArrayList<String> line = new ArrayList<String>();
-    public static Jobs[] All = Jobs.values();
+    public static Jobs[] All = values();
 	private int PayMent;
-    private JobsItemXp JobsXp = new JobsItemXp(this);
-	
+    private JobsIXp JobsXp = new JobsIXp();
+	private HouseData hd;
+    
     Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost, String rule, int PayMent) {
     	this.name = name;
         this.enable = enable;
@@ -60,9 +62,19 @@ public enum Jobs {
 			e.printStackTrace();
 		}
     }
-
+    public boolean isInit() {
+    	return true;
+    }
     public String getName() {
         return name;
+    }
+    
+    public void setHouseData(HouseData hd) {
+    	this.hd = hd;
+    }
+    
+    public HouseData getHouseData() {
+    	return hd;
     }
     
     public Float getXpGain(Material m) {
@@ -71,6 +83,11 @@ public enum Jobs {
     
     public int getNextPosibilities() {
         return rules.size();
+    }
+    
+    void addXpGain(Material m, Float f) {
+    	JobsXp.ALF.add(f);
+    	JobsXp.MAL.add(m);
     }
     
     public Boolean isEnable() {
@@ -228,61 +245,36 @@ public enum Jobs {
     }
     
     public static void init() {
-    	try {
-			JobsItemXp.init();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	JobsItemXp.init();
     }
-    
 }
-
+class JobsIXp {
+	ArrayList<Material> MAL = new ArrayList<Material>();
+	ArrayList<Float> ALF = new ArrayList<Float>();
+	public Float getXpGain(Material m) {
+		if(MAL.contains(m)) return ALF.get(MAL.indexOf(m));
+		else return Float.valueOf(0);
+	}
+}
 class JobsItemXp {
 	static boolean isInit = false;
 	static ArrayList<InfoItemXp> MXP = new ArrayList<InfoItemXp>();
-	ArrayList<Material> MAL = new ArrayList<Material>();
-	ArrayList<Float> ALF = new ArrayList<Float>();
+	
 	public static File getFile() {
         File file = new File("plugins/ServeurManageur/data/jobs/Material.xpJobs");
     	return file;
     }
 	
-	public Float getXpGain(Material m) {
-		for(InfoItemXp t : MXP) for(InfoItemXpUnit t2 : t.getInfoItemXpUnit()) Bukkit.getConsoleSender().sendMessage("§4§l" + t2.getJobs().getName() + " " + t2.getXp() + " §a" + t.getMaterial().name());
-		if(MAL.contains(m)) return ALF.get(MAL.indexOf(m));
-		else return Float.valueOf(0);
-	}
-	public JobsItemXp(Jobs jobs) {
+	
+	public static void init() {
 		try {
-			init();
+			init2();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new Thread(new Runnable() {
-			
-			@SuppressWarnings({ "deprecation", "static-access" })
-			@Override
-			public void run() {
-				while(!tE)
-					try {
-						Thread.currentThread().sleep(500);
-					} catch (InterruptedException e) {}
-				for(InfoItemXp t : MXP) {
-					for(InfoItemXpUnit t1 : t.getInfoItemXpUnit()) {
-						if(t1.getJobs().equals(jobs)) {
-							MAL.add(t.getMaterial());
-							Bukkit.getConsoleSender().sendMessage("--- §4§l"+t.getMaterial().name());
-							ALF.add(t1.getXp());
-						}
-					}
-				}
-				Thread.currentThread().stop();
-			}
-		}).start();
-			
 	}
-	static boolean tE = false;
-	static void init() throws IOException {
+
+	static void init2() throws IOException {
 		if(isInit) return;
 		isInit = true;
 		if(!getFile().exists()) {
@@ -298,53 +290,31 @@ class JobsItemXp {
 	        }
 		}
 		FileReader MyFileR = new FileReader(getFile());
-	    BufferedReader br = new BufferedReader(MyFileR);
-	    StringBuffer sb = new StringBuffer();    
+	    BufferedReader br = new BufferedReader(MyFileR);    
 	    String r;
 	    ArrayList<String> line = new ArrayList<String>();
-	    while((r = br.readLine()) != null) {
-	        sb.append(r);      
-	        sb.append("\\;\\");     
-	    }
+	    while((r = br.readLine()) != null) line.add(r.toString());
 	    MyFileR.close();
-	    for(String li : sb.toString().split("\\\\;\\\\")) line.add(li);
-	    
-		new Thread(new Runnable() {
-			
-			@SuppressWarnings({ "static-access", "deprecation" })
-			@Override
-			public void run() {
-				try {
-					Thread.currentThread().sleep(100);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				Material ma = Material.BARRIER;
-			    ArrayList<InfoItemXpUnit> IIXP = new ArrayList<InfoItemXpUnit>();
-			    ArrayList<InfoItemXp> IMXP = new ArrayList<InfoItemXp>();
-			    line.remove("?JobXpSettings");
-				for (String e : line) {
-			    	Bukkit.getConsoleSender().sendMessage("§6§l"+e);
-			    	String[] temp = e.split("\\s*:\\s*");
-		    		if(temp.length == 1) {
-		    			if(!ma.equals(Material.BARRIER)) IMXP.add(new InfoItemXp(ma, IIXP));
-		    			ma = Material.valueOf(temp[0]);
-		    			Bukkit.getConsoleSender().sendMessage("§4§l"+ma.name());
-		    			IIXP.clear();
-		    		}
-		    		if(temp.length == 2) {
-		    			Bukkit.getConsoleSender().sendMessage("§4§l" + temp[0] + " §a" + temp[1]);
-		    			IIXP.add(new InfoItemXpUnit(Jobs.valueOf(temp[0]), Float.valueOf(temp[1])));
-		    		}
-		    	}
-			    if(!ma.equals(Material.BARRIER)) IMXP.add(new InfoItemXp(ma, IIXP));
-			    MXP = IMXP;
-			    tE = true;
-			    Thread.currentThread().stop();
-			}
-		}, "XpGain Thread").start();
-	}
+		Material ma = Material.BARRIER;
+		line.remove("?JobXpSettings");
+		ArrayList<Material> mal = new ArrayList<Material>();
+		for (String e : line) {
+			String[] temp = e.split("\\s*:\\s*");
+		    if(temp.length == 1 && temp[0].length() > 2) ma = Material.valueOf(temp[0]);
+		    if(temp.length == 2 && !temp[0].isEmpty()) Jobs.valueOf(temp[0]).addXpGain(ma, Float.valueOf(temp[1]));
+		    mal.add(ma);
+		}
+	 }
 	
+	@SuppressWarnings("static-access")
+	static void sleep(int i) {
+		try {
+			Thread.currentThread().sleep(i);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
 
 class InfoItemXp {

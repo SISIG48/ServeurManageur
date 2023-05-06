@@ -89,6 +89,11 @@ public class CommandJobs implements CommandExecutor {
 			case "setXp" :
 				p.setXp(Integer.valueOf(arg[1]));
 				return true;
+			case "get" :
+				@SuppressWarnings("deprecation") OfflinePlayer playerGet = Bukkit.getOfflinePlayer(arg[1]);
+				if(playerGet == null || !playerGet.hasPlayedBefore()) sender.sendMessage("§4Player : §6" + arg[1] + " §4does not exist");
+				else sender.sendMessage("§6Jobs of §4" + arg[1] + " §6is §4" + new PlayerJobs(playerGet).get().getName());
+				return true;
 			case "rl" :
 				PlayerJobs.reload();
 				return true;

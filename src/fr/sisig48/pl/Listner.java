@@ -1,10 +1,10 @@
 package fr.sisig48.pl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -29,16 +29,16 @@ import com.earth2me.essentials.api.UserDoesNotExistException;
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Menu.Interface;
+import fr.sisig48.pl.Menu.JobsMenu;
 import fr.sisig48.pl.Menu.MenuPP;
-import fr.sisig48.pl.Menu.Jobs.JobsMenu;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
 import fr.sisig48.pl.Sociale.Friends;
-import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.MaxMoneyException;
-
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 
 @SuppressWarnings("deprecation")
@@ -89,6 +89,7 @@ public class Listner implements Listener {
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		new PlayerJobs(player).close();
+		PayPal.get(player).close();
 		try {
 			logs.PlayerLeave(player);
 		} catch (IOException e) {
@@ -137,7 +138,6 @@ public class Listner implements Listener {
 		} catch (Exception e) {return;}
 		int it = event.getItem().getItemMeta().getCustomModelData();
 		event.setCancelled(NetherStarMenu.HasMenu(player, it, event.getItem()));
-	
 	}
 		
 	
@@ -188,18 +188,36 @@ public class Listner implements Listener {
 		Player player = e.getPlayer();
 		Item block = e.getItem();
 		if((player == null) || e.isCancelled() || (block.getItemStack().getItemMeta().hasCustomModelData() && block.getItemStack().getItemMeta().getCustomModelData() == 122)) return;
-		PlayerJobs Pjobs = new PlayerJobs(player);
-		if(Pjobs.get().equals(Jobs.NOT)) return;
 		ItemMeta m = block.getItemStack().getItemMeta();
-		m.setCustomModelData(122);
-		block.getItemStack().setItemMeta(m);
 		int i = 0;
-		ItemStack IS;
-		while((i++)<36) if((IS = player.getInventory().getItem(i)) == block.getItemStack()) IS.setItemMeta(m);
+		if(!player.isSneaking()) {
+			PlayerJobs Pjobs = new PlayerJobs(player);
+			ArrayList<String> lore = new ArrayList<String>();
+			if(m.getLore() != null) lore.addAll(m.getLore());
+			lore.remove("§dXp encore dans l'objet");
+			lore.remove("§dreprenez l'objet pour récupérer l'XP.");
+			m.setLore(lore);
+			m.setCustomModelData(122);
+			block.getItemStack().setItemMeta(m);
+			ItemStack IS;
+			while((i++)<36) if((IS = player.getInventory().getItem(i)) == block.getItemStack()) IS.setItemMeta(m);
+			Pjobs.MaterialAddXp(block.getItemStack().getType(), block.getItemStack().getAmount());
+		} else {
+			ArrayList<String> lore = new ArrayList<String>();
+			lore.remove("§dXp encore dans l'objet");
+			lore.remove("§dreprenez l'objet pour récupérer l'XP.");
+			
+			lore.add("§dXp encore dans l'objet");
+			lore.add("§dreprenez l'objet pour récupérer l'XP.");
+			
+			m.setLore(lore);
+			block.getItemStack().setItemMeta(m);
+			ItemStack IS;
+			while((i++)<36) if((IS = player.getInventory().getItem(i)) == block.getItemStack()) IS.setItemMeta(m);
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§dL'expérience est restée dans l'objet §8(sneaking)"));
+
+		}
 		player.updateInventory();
-		player.sendMessage(String.valueOf(block.getItemStack().getType()));
-		Pjobs.MaterialAddXp(block.getItemStack().getType(), block.getItemStack().getAmount());
-		//for(Material ma : Material.values()) Pjobs.MaterialAddXp(ma);
 	}
 	
 	

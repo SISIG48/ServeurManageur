@@ -2,7 +2,7 @@ name: ServeurManageur
 version: Alpha 1.0.6-friendly
 author: Sisig48
 main: fr.sisig48.pl.Main
-softdepend: ['Multiverse-Core']
+softdepend: ['WorldEdit v7.2.12+6240-87f4ae1', 'Essentials v2.20.0-dev+63-991bc61']
 api-version: 1.13
 commands:
   mine:
@@ -33,3 +33,6 @@ commands:
   menu:
     description: Open Menu
     usage: /jobs menu
+  house:
+    description: Spawn House
+    permission : admin.command

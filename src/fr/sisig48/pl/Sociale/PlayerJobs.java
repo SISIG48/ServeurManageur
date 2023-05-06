@@ -9,15 +9,20 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.logs;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class PlayerJobs {
 	private static ArrayList<PlayerJobs> InstanceList = new ArrayList<PlayerJobs>();
 	private static ArrayList<OfflinePlayer> PlayerInstanceList = new ArrayList<OfflinePlayer>();
 	private int nl;
+	private Location locHouse;
 	private OfflinePlayer player;
 	private Jobs jobs;
 	private Jobs Tjobs;
@@ -40,6 +45,7 @@ public class PlayerJobs {
 	public void add(Jobs jobs) {
 		remove();
 		pj.jobs = jobs;
+		pj.xp = (float) Math.round(pj.xp*1000)/10000;
 		if(pj.jobs != pj.Tjobs) pj.Tjobs = jobs;
 		if(jobs.equals(Jobs.NOT)) pj.xp = 1000;
 		else xp = 0;
@@ -54,6 +60,8 @@ public class PlayerJobs {
 	}
 	
 	public Float getXp() {
+		pj.xp = (float) Math.round(pj.xp*1000)/1000;
+		if(pj.xp > 10000) pj.xp = 10000;
 		return pj.xp;
 	}
 	public void setXp(int xp){
@@ -104,6 +112,14 @@ public class PlayerJobs {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+	}
+	
+	public void setHouse(Location loc) {
+		pj.locHouse = loc;
+	}
+	
+	public Location getHouse(Location loc) {
+		return pj.locHouse;
 	}
 	
 	private void loadP() {
@@ -158,6 +174,7 @@ public class PlayerJobs {
 			pj.Tjobs = Jobs.NOT;
 		}
 		pj.nl = re - 1;
+		if(pj.jobs == Jobs.NOT) pj.xp = 10000;
 		save();
 		return;
 	}
@@ -168,11 +185,19 @@ public class PlayerJobs {
 	}
 	
 	public void MaterialAddXp(Material m, int count) {
+		Player p = (Player) pj.player;
+		if(pj.xp >= 10000) {pj.xp = 10000;return;}
+		if(pj.jobs.getXpGain(m) == 0) return;
 		Float Gxp = pj.jobs.getXpGain(m);
-		pj.player.getPlayer().sendMessage("§aVous avez gagner §4" + Gxp);
-		if(Gxp == 0) return;
-		pj.player.getPlayer().sendMessage("§aVous avez gagner §4" + Gxp + "§agrace a §4" + m.name());
-		pj.xp = pj.xp + (Gxp * count);
+		int i = 1;
+		Float initial = pj.xp;
+		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
+		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
+		String round = String.valueOf(Math.round((pj.xp-initial)*1000));
+		round = String.valueOf(Float.valueOf(round)/1000);
+		if(round.equals("0.0")) return;
+		String mss = "§aVous avez gagné §4" + round + "§axp";
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
 	}
 }
 

@@ -69,7 +69,10 @@ public class Mine extends Uconfig {
 		Bukkit.getConsoleSender().sendMessage("§6La mine se renove");
 		Plug = main.getPlugin(main.getClass());
 		Bukkit.getScheduler().runTask(Plug, () -> {
+			//exe si le fichier config a changer
 			if(isChange) {
+				
+				//récupération des nouvelle info config
 				x = Uconfig.getConfig("location.mine.zone.at.x");
 				y = Uconfig.getConfig("location.mine.zone.at.y");
 				z = Uconfig.getConfig("location.mine.zone.at.z");
@@ -77,30 +80,26 @@ public class Mine extends Uconfig {
 				x2 = Uconfig.getConfig("location.mine.zone.to.x");
 				y2 = Uconfig.getConfig("location.mine.zone.to.y");
 				z2 = Uconfig.getConfig("location.mine.zone.to.z");
+				
+				//triage des position
+				String t;
+				if(Integer.valueOf(x) < Integer.valueOf(x2)) {t = x;x = x2;x2 = t;}
+				if(Integer.valueOf(y) < Integer.valueOf(y2)) {t = y;y = y2;y2 = t;}
+				if(Integer.valueOf(z) < Integer.valueOf(z2)) {t = z;z = z2;z2 = t;}
+				
+				//Créeation de la zone
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/world " + world.getName());
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/pos1 " + x + "," + y +"," + z);
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/pos2 " + x2 + "," + y2 +"," + z2);
-				isChange = false;
-				String t;
-				if(Integer.valueOf(x) < Integer.valueOf(x2)) {
-					t = x;
-					x = x2;
-					x2 = t;
-				}
-				if(Integer.valueOf(y) < Integer.valueOf(y2)) {
-					t = y;
-					y = y2;
-					y2 = t;
-				}
-				if(Integer.valueOf(z) < Integer.valueOf(z2)) {
-					t = z;
-					z = z2;
-					z2 = t;
-				}
+				isChange = false;				
 			}
+			//vide les joueurs de la mine
 			clearPlayerMine();
+
+			//pose les block
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/set 29.5%stone,20%iron_ore,10%gold_ore,20%coal_ore,10%redstone_ore,10%lapis_ore,0.5%diamond_ore");
 			Bukkit.getConsoleSender().sendMessage("§aLa mine est prete");
+		    
 		});
 	}
 	public static void clearPlayerMine() {

@@ -1,4 +1,4 @@
-package fr.sisig48.pl.Menu.Jobs;
+package fr.sisig48.pl.Menu;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
