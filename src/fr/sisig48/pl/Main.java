@@ -35,7 +35,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class Main extends JavaPlugin {
-	static JavaPlugin Plug = null;
+	public static JavaPlugin Plug = null;
 	public static ConsoleCommandSender sec = Bukkit.getConsoleSender();
 	protected FileConfiguration config = getConfig();
 	private static Thread loadThread = new Thread(new Runnable() {
@@ -88,7 +88,6 @@ public class Main extends JavaPlugin {
 			Mine.AutoFill.start();
 			
 			sec.sendMessage("§8Start Payment");
-			PayPal.thread.start();
 			for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
 			sec.sendMessage("§daddon loading sucess");
 		}
@@ -110,6 +109,7 @@ public class Main extends JavaPlugin {
 		getCommand("house").setExecutor(new CommandHouse());
 		new Uconfig(this);
 		loadThread.start();
+		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
 		
 	}
 	

@@ -24,15 +24,19 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.sisig48.pl.Main;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 
 public class HouseData {
 	protected ArrayList<String> line = new ArrayList<String>();
 	public static ArrayList<String> lineLoc = new ArrayList<String>();
+	public static ArrayList<Location> locs = new ArrayList<Location>();
 	private Jobs jobs;
 	private int NumHouse;
+	private int PriceHouse;
 	private static ArrayList<HouseData> hd = new ArrayList<HouseData>();
 	private static ArrayList<Jobs> hdj = new ArrayList<Jobs>();
 	public HouseData(Jobs j) {
@@ -60,6 +64,10 @@ public class HouseData {
 		return jobs;
 	}
 	
+	public int getHousePrice() {
+		return PriceHouse;
+	}
+	
 	private void init() throws IOException {
 		if(!getLocFile().exists()) {
 			getLocFile().createNewFile();
@@ -76,8 +84,8 @@ public class HouseData {
 			int i = 1;
 			getFile().createNewFile();
 			line.add("?HouseData");
+			line.add("Price: 0");
 			while((new File("plugins/ServeurManageur/data/jobs/house/" + jobs.getName() + "_" + i +".schem")).exists()) {
-				line.add(" ");
 				line.add("%" + i + ":");
 				i++;
 			}
@@ -89,40 +97,52 @@ public class HouseData {
 	private void load() throws IOException {
 		FileReader MyFileR = new FileReader(getFile());
 		BufferedReader br = new BufferedReader(MyFileR);
-		String r;
+		String r = null;
+		String r1 = null;
 		line = new ArrayList<String>();
-		while((r = br.readLine()) != null) line.add(r);  
+		while((r = br.readLine()) != null || (r1 = br.readLine()) != null) {
+			if(r != null) line.add(r);
+			if(r1 != null) line.add(r1);
+		}
 		MyFileR.close();
 		    
 		int i = 0;
 		int rs = line.size() -1;
-		while(rs != 0 & i < rs & !line.contains("?HouseData")) {
-			rs = line.size() -1;
-		    if(line.get(i).contains("?HouseData")) line.remove(i);
-		    else i++;
-		}
 		if(line.size() != 0 &&!line.get(0).equalsIgnoreCase("?HouseData")) line.add(0, "?HouseData");
-		save();
 		extrudeInfo();
+		save();
 	 }
 
-	 private void extrudeInfo() {
-		 String nt[] = {"1","2","3","4","5","6","7","8","9","0"};
-		 ArrayList<String> num = new ArrayList<String>();
+	@SuppressWarnings("unused")
+	private void extrudeInfo() {
+		 PriceHouse = -1;
 		 int n;
 		 String t;
+		 String[] t1;
 		 int i = 0;
 		 for(String e : line) {
-			 if(e.equals("?HouseData") || e == null || e.equals("")) break;
-			 t = e.split("%")[0].split(":")[0];
-			 if(((num.contains(t))) && (i++) != 0) n = Integer.valueOf(t);
-			 else {
-				 String[] temp = e.split(" ");
-				 if(temp.length == 5);
-				 Location loc = new Location(Bukkit.getWorld(temp[3]), Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Integer.valueOf(temp[2]));
-				 Player p = Bukkit.getPlayer(UUID.fromString(temp[4]));
+			 if(e.equals("?HouseData") || e == null || e.equals("")) continue;
+			 t1 = e.split(":\\s");
+			 if(t1.length == 2 && t1[0].equalsIgnoreCase("price")) {
+				 try {PriceHouse = Integer.parseInt(t1[1]);} catch (NumberFormatException nada1) {}
 			 }
 			 
+			 t = e.split("%")[0].split(":")[0];
+			 try {
+				 n = Integer.parseInt(t);
+				 i++;
+			 } catch (NumberFormatException nada) {
+				 String[] temp = e.split(" ");
+				 if(temp.length == 5) {
+					Location loc = new Location(Bukkit.getWorld(temp[3]), Double.valueOf(temp[0]), Double.valueOf(temp[1]), Double.valueOf(temp[2]));
+				 	Player p = Bukkit.getPlayer(UUID.fromString(temp[4]));
+				 	if(p == null) continue;
+				 	new PlayerJobs(p).setHouse(loc);
+				 	HouseListInfo hl = HouseList.getHouseByLocation(loc);
+				 	if(hl == null) delHouse(loc, p);
+				 	hl.isEnable(false);
+				 } 
+			 }
 		 }
 		 NumHouse = i;
 	}
@@ -155,9 +175,27 @@ public class HouseData {
 		 }
 		 if(lineLoc.size() != 0 &&!lineLoc.get(0).equalsIgnoreCase("?HouseLocationData")) lineLoc.add(0, "?HouseLocationData");
 		 save();
+		 extrudeLoc();
 	 }
 	 
-	 private static void saveLoc() {
+	 private void extrudeLoc() {
+		 ArrayList<Location> al = new ArrayList<>();
+		 for(Object e1 : lineLoc.toArray()) {
+			 String[] e = String.valueOf(e1).split(" ");
+			 if(e.length != 4) continue;
+			 Location loc = new Location(Bukkit.getWorld(e[3]), Double.valueOf(e[0]), Double.valueOf(e[1]), Double.valueOf(e[2]));
+			 if(!al.contains(loc)) al.add(loc);
+			 else {
+				 delLoc(loc);
+				 saveLoc();
+				 continue;
+			 }
+			 new HouseList(loc);
+		 }
+		 locs.addAll(al);
+	}
+
+	private static void saveLoc() {
 			FileWriter MyFileW;
 			try {
 				MyFileW = new FileWriter(getLocFile());
@@ -169,7 +207,6 @@ public class HouseData {
 			    bufWriter.close();
 			    MyFileW.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -177,6 +214,7 @@ public class HouseData {
 	 
 	 public static void addLoc(Location loc) {
 		 lineLoc.add(String.valueOf(loc.getX() + " " + loc.getY() + " " + loc.getZ() + " " + loc.getWorld().getName()));
+		 new HouseList(loc);
 		 saveLoc();
 	 }
 	 
@@ -185,16 +223,8 @@ public class HouseData {
 		 saveLoc();
 	 }
 	 
-	 public static Location[] getLoc() {
-		 ArrayList<Location> locs = new ArrayList<Location>();
-		 
-		 String[] s;
-		 for(String t : lineLoc) {
-			 s = t.split(" ");
-			 if(s.length < 4) break;
-			 locs.add(new Location(Bukkit.getWorld(s[3]), Double.valueOf(s[0]), Double.valueOf(s[1]), Double.valueOf(s[2])));
-		 }
-		 return (Location[]) locs.toArray();
+	 public static ArrayList<Location> getLoc() {
+		 return locs;
 	 }
 
 	@SuppressWarnings("deprecation")
@@ -223,6 +253,14 @@ public class HouseData {
 	}
 	
 	public static void delHouse(Location loc, Player p) {
+		JavaPlugin plug = Main.Plug;
+		Bukkit.getConsoleSender().sendMessage("§4§lDelete house for : §d" + p.getName());
+		Bukkit.getScheduler().runTask(plug, () -> {
+			delHouse1(loc, p);
+		});
+	}
+	
+	private static void delHouse1(Location loc, Player p) {
 		Jobs j = new PlayerJobs(p).get();
 		int i = -1;
 		ArrayList<String> line = new ArrayList<String>(j.getHouseData().line);
@@ -242,9 +280,15 @@ public class HouseData {
 		double rz = loc.getZ();
 		for(double y = 0 ; y != 25 ; y++) for(double x = 0 ; x != 12 ; x++) for(double z = 0 ; z != 15 ; z++) {
 			Block block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
-			Material blockType = Material.AIR;
+			Material blockType = Material.LAVA;
+			block.setType(blockType);
+			
+			block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
+			blockType = Material.AIR;
 			block.setType(blockType);
 		}
+		HouseListInfo hl = HouseList.getHouseByLocation(loc);
+		if(hl != null) hl.isEnable(true);
 	}
 	
 	public static void delAllHouse(Player p) {
@@ -265,15 +309,22 @@ public class HouseData {
 				double rz = loc.getZ();
 				for(double y = 0 ; y != 25 ; y++) for(double x = 0 ; x != 12 ; x++) for(double z = 0 ; z != 15 ; z++) {
 					Block block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
-					Material blockType = Material.AIR;
+					Material blockType = Material.LAVA;
+					block.setType(blockType);
+					
+					block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
+					blockType = Material.AIR;
 					block.setType(blockType);
 				}
+				HouseListInfo hl = HouseList.getHouseByLocation(loc);
+				if(hl != null) hl.isEnable(true);
 			}
 		}
 		
 	}
 	
 	public static void addHouse(Player p, Location loc) {
+		Bukkit.getConsoleSender().sendMessage("§4§lNew house for : §d" + p.getName());
 		Jobs j = new PlayerJobs(p).get();
 		int n = j.getHouseData().NumHouse;
 		n = (int) (Math.random() * n);
@@ -295,6 +346,14 @@ public class HouseData {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public static boolean isEnable(Location loc) {
+		return HouseList.getHouseByLocation(loc).isEnable();
+	}
+	
+	public static int getSlots(Location loc) {
+		return HouseList.getHouseByLocation(loc).getSlot();
 	}
 }
 

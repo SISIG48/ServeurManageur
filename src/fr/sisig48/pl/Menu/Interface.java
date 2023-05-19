@@ -17,7 +17,6 @@ public class Interface {
 	public static ArrayList<Inventory> inventory = new ArrayList<Inventory>();
 	private static Player player;
 	
-	
 	public static Boolean GetActonIfInMenuEco(ItemStack it, Player player) {
 		if(it == null) {return false;}
 		ItemStack i = Item.GiveOwnsPlayerHead( 1, "Personelle", "null", player.getName(), 124);
