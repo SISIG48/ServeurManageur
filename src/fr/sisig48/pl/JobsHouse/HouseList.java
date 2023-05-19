@@ -10,39 +10,22 @@ public class HouseList {
 		house.add(new HouseListInfo(loc, true));
 	}
 	
-	static HouseListInfo getHouseByLocation(Location loc) {
+	public static HouseListInfo getHouseByLocation(Location loc) {
 		for(HouseListInfo t : house) if(t.getLocation().equals(loc)) return t;
+		return null;
+	}
+	
+	public static HouseListInfo getHouseBySlot(int i) {
+		for(HouseListInfo t : house) if(t.getSlot() == i) return t;
 		return null;
 	}
 	
 	static ArrayList<HouseListInfo> getAllHouse() {
 		return house;
 	}
+
+	public static int getSlots() {
+		return HouseListInfo.getSlots();
+	}
 }
 
-class HouseListInfo {
-	private static int num = 0;
-	private Location location;
-	private boolean isEnable;
-	public HouseListInfo(Location loc, boolean enable) {
-		num++;
-		location = loc;
-		isEnable = enable;
-	}
-	
-	public int getSlot() {
-		return num;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-	
-	public boolean isEnable() {
-		return isEnable;
-	}
-		
-	public void isEnable(boolean enable) {
-		isEnable = enable;
-	}
-}

@@ -1,4 +1,5 @@
 CustomModel;Type;Name;Category;Zone;Description
+121;Choice;Buy House;Menu;Menu MiniShop;Buy mini shop
 122;Detect;#;XpCheck;#;Check if item have be exclude of gain xp
 123;#;#;#;#;#
 124;Exception;HEAD;Menu;MenuEco;Go to the personelle economy

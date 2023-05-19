@@ -1,26 +1,10 @@
 §e---§a§lPLUGIN MANAGEUR§e---
 §eName : §4§lServer Manager
-§eVersion : §8Alpha §a1.0.6 §6§lfriends-UPDATE
+§eVersion : §8Alpha §a1.0.7 §6§lJobs-UPDATE
 §eAuthor : §a§lSISIG48
 §eAPI-Version : §a1.13
  
-§6§lNouvauté :
-  §a- §eAjout de la fonctionalité d'amie
-  §a- §eAjout commande §a§l/friends
-  §a- §eAjout commande §e[§a§l/re §4news§e] aficher les notes
-  §a- §eFix bug
-  §a- §eOptimisation §lconfig.yml §efile
-  §a- §eAjout commande §e[§a§l/bug §4[arg...]§e]
-  §a- §eAjout de logs spécifique au plugine
-  §a- §eModification d'élément dans le menu :
-    §a# §eAjout d'un esace profile §8(inaxécible)
-    §a# §eAjout de §6[ECONOMIE>FRIENDS>ARGENT]
-    §a# §eAjout de §8(MOI) §edans le menu §6[>ECONOMIE>..>ARGENT]
-    §a# §eAjout d'un espace de téléportation dans le menu
+§d§lNews indisponible
     
-§6§lProchainement :
-  §a- §eAjout de métier §8(ps: pas tout de suite fonctionelle)
-  §a- §1A vous de choisir
- 
 §4Notre equipe vous informe que si vous avez des idées,
 §4vous pouvez nous les transmetres sur le discord :

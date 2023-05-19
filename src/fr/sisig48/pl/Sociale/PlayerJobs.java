@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.JobsHouse.HouseData;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -33,6 +35,7 @@ public class PlayerJobs {
 	public PlayerJobs(OfflinePlayer player) {
 		if(PlayerInstanceList.contains(player)) {
 			pj = InstanceList.get(PlayerInstanceList.indexOf(player));
+			if(!player.isOnline()) save();
 			return;
 		}
 		pj=this;
@@ -117,8 +120,18 @@ public class PlayerJobs {
 	public void setHouse(Location loc) {
 		pj.locHouse = loc;
 	}
+
+	public void addHouse(Location loc) {
+		pj.locHouse = loc;
+		HouseData.addHouse(pj.player.getPlayer(), loc);
+	}
 	
-	public Location getHouse(Location loc) {
+	public void delHouse() {
+		HouseData.delHouse(pj.locHouse, pj.player.getPlayer());
+		pj.locHouse = null;
+	}
+	
+	public Location getHouse() {
 		return pj.locHouse;
 	}
 	
@@ -126,7 +139,7 @@ public class PlayerJobs {
 		pj.xp = 0;
 		pj.Txp = 0;
 		if(dataJobs.line == null) reload();
-		logs.add("Jobs : load profile " + player.getName());
+		logs.add("Jobs : load profile " + pj.player.getName());
 		int con = 0;
 		int i = 0;
 		int re = 1;
@@ -136,7 +149,7 @@ public class PlayerJobs {
 			String[] l = e.split("\\s*:\\/?\\s*");
 			String[] f = null;
 			
-			if((l.length > 1 && !l[0].equalsIgnoreCase("?Jobs") && l[0].equals(String.valueOf(player.getUniqueId()))) && (f = l[1].split("\\s*\\/\\s*")).length >= 2 && f[0] != null) {
+			if((l.length > 1 && !l[0].equalsIgnoreCase("?Jobs") && l[0].equals(String.valueOf(pj.player.getUniqueId()))) && (f = l[1].split("\\s*\\/\\s*")).length >= 2 && f[0] != null) {
 					pj.jobs = Jobs.valueOf(f[0]);
 					pj.Tjobs = pj.jobs;
 					pj.Txp = Float.valueOf(f[1]);
@@ -151,7 +164,7 @@ public class PlayerJobs {
 					
 				}
 				
-			if (l[0].equals(String.valueOf(player.getUniqueId()))) {
+			if (l[0].equals(String.valueOf(pj.player.getUniqueId()))) {
 				if(l.length == 1) {
 					pj.Tjobs = Jobs.NOT;
 					pj.jobs = Jobs.NOT;
