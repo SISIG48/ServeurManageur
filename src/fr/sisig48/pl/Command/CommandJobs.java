@@ -11,13 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Type;
 
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
 import fr.sisig48.pl.Utils.Uconfig;
 
-public class CommandJobs implements CommandExecutor {
+public class CommandJobs extends JobsPNJ implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg) {
@@ -140,16 +141,36 @@ public class CommandJobs implements CommandExecutor {
 			
 		}
 		
-		
-		String StringUUID = Uconfig.getConfig("location.pnj.jobs.uuid");
-		if(StringUUID != null) Bukkit.getEntity(UUID.fromString(StringUUID)).remove();
+		String r = "-";
+		int n = 0;
+		if(arg.length == 1) {
+			try {
+				String uuids;
+				for(int i = 0; (r = Uconfig.getConfig("location.pnj.jobs."+ i)) != null && (uuids = Uconfig.getConfig("location.pnj.jobs."+ r +".uuid")) != null && !uuids.equals(arg[0]); n = i++);
+				r = Uconfig.getConfig("location.pnj.jobs."+ n +".uuid");
+				if(r != null && r.equals(arg[0])) {
+					UUID uuid = UUID.fromString(arg[0]);
+					Bukkit.getEntity(uuid).remove();
+					sender.sendMessage("§a§l" + arg[0] + " §esuprimé §8§l(§d" + Uconfig.getConfig("location.pnj.jobs."+ n + ".name") + "§8§l)");
+					if(n != -1) Uconfig.setConfig("location.pnj.jobs."+ n, "void");
+					return true;
+				} else {
+					sender.sendMessage("§4§lUUID non trouvé");
+					return true;
+				}
+			} catch (IllegalArgumentException e) {}
+		}
+				
+		for(int i = 0; r != null && !r.equals("void") ; n = i++) r = Uconfig.getConfig("location.pnj.jobs."+ i);
 		Location loc = Bukkit.getPlayer(sender.getName()).getLocation();
-		JobsPNJ.setLoc(loc);
+		JobsPNJ.setLoc(loc, n);
 		Villager pnj = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-		Uconfig.setConfig("location.pnj.jobs.uuid", String.valueOf(pnj.getUniqueId()));
+		Uconfig.setConfig("location.pnj.jobs." + n + ".uuid", String.valueOf(pnj.getUniqueId()));
+		JobsPNJ.addUUID(pnj.getUniqueId());
 		pnj.setAI(false);
 		pnj.setCanPickupItems(false);
 		pnj.setCollidable(false);
+		JobsPNJ.SetType(pnj);
 		String name = "§ajobs";
 		if(arg.length >= 1) {
 			name = "";
@@ -161,7 +182,7 @@ public class CommandJobs implements CommandExecutor {
 			}
 		}
 		pnj.setCustomName(name);
-		Uconfig.setConfig("location.pnj.jobs.name", name);
+		Uconfig.setConfig("location.pnj.jobs." + n + ".name", name);
 		pnj.setCustomNameVisible(true);
 		pnj.setInvulnerable(true);
 		return true;

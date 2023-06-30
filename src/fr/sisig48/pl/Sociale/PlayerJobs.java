@@ -47,6 +47,7 @@ public class PlayerJobs {
 
 	public void add(Jobs jobs) {
 		remove();
+		delHouse();
 		pj.jobs = jobs;
 		pj.xp = (float) Math.round(pj.xp*1000)/10000;
 		if(pj.jobs != pj.Tjobs) pj.Tjobs = jobs;
@@ -55,7 +56,8 @@ public class PlayerJobs {
 	}
 	
 	public void remove() {
-		if(pj.jobs != null) pj.jobs = Jobs.NOT;
+		if(pj.jobs == Jobs.NOT) pj.xp = 0;
+		pj.jobs = Jobs.NOT;
 	}
 	
 	public Jobs get() {
@@ -67,13 +69,13 @@ public class PlayerJobs {
 		if(pj.xp > 10000) pj.xp = 10000;
 		return pj.xp;
 	}
-	public void setXp(int xp){
+	public void setXp(float xp){
 		pj.xp = xp;
 	}
-	public void addXp(int xp) {
+	public void addXp(float xp) {
 		pj.xp = pj.xp + xp;
 	}
-	public void subXp(int xp) {
+	public void subXp(float xp) {
 		pj.xp = pj.xp - xp;
 	}
 	public BigDecimal getPay() {
@@ -127,6 +129,7 @@ public class PlayerJobs {
 	}
 	
 	public void delHouse() {
+		if(pj.locHouse == null) return;
 		HouseData.delHouse(pj.locHouse, pj.player.getPlayer());
 		pj.locHouse = null;
 	}
@@ -211,6 +214,10 @@ public class PlayerJobs {
 		if(round.equals("0.0")) return;
 		String mss = "§aVous avez gagné §4" + round + "§axp";
 		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
+	}
+
+	public void delVarHouse() {
+		pj.locHouse = null;
 	}
 }
 

@@ -9,6 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
@@ -21,12 +22,14 @@ import fr.sisig48.pl.Command.CommandFriends;
 import fr.sisig48.pl.Command.CommandHouse;
 import fr.sisig48.pl.Command.CommandJobs;
 import fr.sisig48.pl.Command.CommandMenu;
-import fr.sisig48.pl.Command.CommandeMine;
-import fr.sisig48.pl.Command.CommandeRe;
-import fr.sisig48.pl.Command.CommandeSpawn;
+import fr.sisig48.pl.Command.CommandMine;
+import fr.sisig48.pl.Command.CommandRe;
+import fr.sisig48.pl.Command.CommandShop;
+import fr.sisig48.pl.Command.CommandSpawn;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
+import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.Utils.Uconfig;
 
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -71,13 +74,33 @@ public class Main extends JavaPlugin {
 			Plug = getProvidingPlugin(getClass());
 			
 			Bukkit.getScheduler().runTask(Plug, () -> {
-				String uuid = "location.pnj.jobs.uuid";
-				if(Uconfig.getConfig(uuid) != null) {
-					Entity e = Bukkit.getEntity(UUID.fromString(Uconfig.getConfig(uuid)));
-					e.teleport(JobsPNJ.getLoc());
-					e.setCustomName(Uconfig.getConfig("location.pnj.jobs.name"));
+				Entity e;
+				String uuid = " ";
+				//jobs PNJ
+				for(int i = 0; Uconfig.getConfig("location.pnj.jobs." + i) != null; i++) {
+					if((uuid = Uconfig.getConfig("location.pnj.jobs." + i + ".uuid")) == null) continue;
+					try {
+						e = Bukkit.getEntity(UUID.fromString(uuid));
+						e.teleport(JobsPNJ.getLoc(i));
+						e.setCustomName(Uconfig.getConfig("location.pnj.jobs." + i + ".name"));
+						JobsPNJ.SetType(e);
+						JobsPNJ.addUUID(e.getUniqueId());
+					} catch (IllegalArgumentException ex) {sec.sendMessage("§dErr : §e" + ex.getMessage() + " §duuid miss : §e" + uuid);}
 				}
-				sec.sendMessage("§8end load");
+				
+				//shop PNJ
+				for(int i = 0; Uconfig.getConfig("location.pnj.shop." + i) != null; i++) {
+					if((uuid = Uconfig.getConfig("location.pnj.shop." + i + ".uuid")) == null) continue;
+					try {
+						e = Bukkit.getEntity(UUID.fromString(uuid));
+						e.teleport(ShopPNJ.getLoc(i));
+						ShopPNJ.addUUID(e.getUniqueId());
+						e.setCustomName(Uconfig.getConfig("location.pnj.shop." + i + ".name"));
+						ShopPNJ.SetType(e);
+					} catch (IllegalArgumentException ex) {sec.sendMessage("§dErr : §e" + ex.getMessage() + " §duuid miss : §e" + uuid);}
+				}
+				sec.sendMessage("§8end load PNJ - Diff");
+				
 			});
 			
 			sec.sendMessage("§8Sending start info");
@@ -98,15 +121,16 @@ public class Main extends JavaPlugin {
 		logs.add("Plugin Starting");
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		reloadConfig();
-		getCommand("mine").setExecutor(new CommandeMine());
-		getCommand("spawn").setExecutor(new CommandeSpawn());
-		getCommand("re").setExecutor(new CommandeRe());
+		getCommand("mine").setExecutor(new CommandMine());
+		getCommand("spawn").setExecutor(new CommandSpawn());
+		getCommand("re").setExecutor(new CommandRe());
 		getCommand("config").setExecutor(new CommandConfig());
 		getCommand("bug").setExecutor(new CommandBug());
 		getCommand("friends").setExecutor(new CommandFriends());
 		getCommand("jobs").setExecutor(new CommandJobs());
 		getCommand("menu").setExecutor(new CommandMenu());
 		getCommand("house").setExecutor(new CommandHouse());
+		getCommand("shop").setExecutor(new CommandShop());
 		new Uconfig(this);
 		loadThread.start();
 		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);

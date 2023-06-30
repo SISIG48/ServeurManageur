@@ -136,6 +136,7 @@ public enum Jobs {
 				line.add("Price: " + String.valueOf(prix));
 				line.add("ItemCost: " + String.valueOf(item_cost.getType() + "," + item_cost.getAmount()));
 				line.add("Rules: " + rules);
+				line.add("Pay: " + PayMent);
 				save();
 			} else load();
 			
@@ -168,6 +169,7 @@ public enum Jobs {
 			line.add("Price: " + String.valueOf(prix));
 			line.add("ItemCost: " + String.valueOf(item_cost.getType() + "," + item_cost.getAmount()));
 			line.add("Rules: " + rules);
+			line.add("Pay: " + PayMent);
 	    	FileWriter MyFileW = new FileWriter(getFile());
 		    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
 		    for(String e : line) {    
@@ -238,6 +240,9 @@ public enum Jobs {
     			if(rulsInfo.length < 1) return;
     			rules.clear();
     			for(String ri : rulsInfo) if(!ri.equalsIgnoreCase("null") && !rules.contains(ri)) rules.add(ri.replace("[", "").replace("]", ""));
+    			break;
+    		case "Pay" :
+    			try {if(temp.length == 2) PayMent = Integer.valueOf(temp[1]);} catch (NumberFormatException z) {}
     			break;
     		}
     	}

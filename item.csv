@@ -13,3 +13,5 @@ CustomModel;Type;Name;Category;Zone;Description
 129;Exception;HEAD;Interface;JobsMenu;
 129-150;Detect;PAPER;Interface;JobsMenu;
 129;Exception;BELL;Interface;JobsMenu;Show JobsTree
+130;Detect;HOPPER;Interface;ShopMenu;Sell Item
+131;Detect;#;Interface;ShopMenu;Undo SELL

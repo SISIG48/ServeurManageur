@@ -28,10 +28,7 @@ public class PayPal {
 		else listInstance.add(String.valueOf(player.getUniqueId() + " " + 60));
 	}
 	private static long Actu = Long.valueOf(Uconfig.getConfig("IntervalePayment"))*1000;
-	public static Thread thread;
-	
-	
-	
+	public static Thread thread = new Thread(new Runnable() {public void run() {}});
 	
 	public static void clear(Player player) {
 		for(String t : new ArrayList<String>(listInstance)) if(Bukkit.getPlayer(UUID.fromString(t.split(" ")[0])).equals(player)) listInstance.remove(t);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Item;
@@ -31,9 +32,12 @@ import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.JobsMenu;
 import fr.sisig48.pl.Menu.MenuPP;
+import fr.sisig48.pl.Menu.ShopMenu;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
+import fr.sisig48.pl.State.JobsPNJ;
+import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.MaxMoneyException;
@@ -114,14 +118,12 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void OnEntityInteract(PlayerInteractEntityEvent event) {
-		try {
-			if (event.getRightClicked().getUniqueId().equals(UUID.fromString(Uconfig.getConfig("location.pnj.jobs.uuid")))) {
-				//EXE
-				JobsMenu.OpenJobsMenu(event.getPlayer());
-				logs.add("Click <Jobs Office> PNJ by UUID : " + event.getPlayer().getUniqueId() + " Name : " + event.getPlayer().getName());
-				event.setCancelled(true);
-			}
-		} catch (Exception e1) {}
+		event.setCancelled(true);
+		UUID uuid = event.getRightClicked().getUniqueId();
+		if(JobsPNJ.getUUIDS().contains(uuid)) JobsMenu.OpenJobsMenu(event.getPlayer());
+		else if(ShopPNJ.getUUIDS().contains(uuid)) ShopMenu.OpenShop(event.getPlayer());
+		else event.setCancelled(false);
+		
 	}
 	
 	@EventHandler
@@ -130,11 +132,10 @@ public class Listner implements Listener {
 		if(event.getPlayer() == null) return;
 		
 		Player player = event.getPlayer();
-		
 		if(event.getItem() == null) return;
+		event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getItem()));
 		if(!event.getItem().getItemMeta().hasCustomModelData()) return;
-		try {
-			if(event.getItem().getItemMeta().getCustomModelData() < 0 ) return;
+		try {if(event.getItem().getItemMeta().getCustomModelData() < 0 ) return;
 		} catch (Exception e) {return;}
 		int it = event.getItem().getItemMeta().getCustomModelData();
 		event.setCancelled(NetherStarMenu.HasMenu(player, it, event.getItem()));
@@ -162,7 +163,8 @@ public class Listner implements Listener {
 		MenuPP.current = event.getCurrentItem();
 		ItemStack current = event.getCurrentItem();
 		if(current == null || current.getItemMeta() == null) return;
-		if(!current.getItemMeta().hasCustomModelData() || current.getItemMeta().getCustomModelData() == 122) return;
+		event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getCurrentItem()));
+		if(!current.getItemMeta().hasCustomModelData() || current.getItemMeta().getCustomModelData() == 122 || event.isCancelled()) return;
 		
 		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Click whith : " + String.valueOf(current.getType()));
 		try {

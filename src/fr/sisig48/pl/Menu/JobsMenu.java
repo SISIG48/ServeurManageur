@@ -1,12 +1,14 @@
 package fr.sisig48.pl.Menu;
 
 import java.math.BigDecimal;
+import java.security.KeyStore.Entry.Attribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -18,9 +20,7 @@ import com.earth2me.essentials.api.Economy;
 import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
-import fr.sisig48.pl.JobsHouse.HouseData;
-import fr.sisig48.pl.JobsHouse.HouseList;
-import fr.sisig48.pl.JobsHouse.HouseListInfo;
+import fr.sisig48.pl.JobsHouse.*;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.Utils.Item;
@@ -55,7 +55,7 @@ public class JobsMenu {
 		
 		GrayExGlass(e, 27);
 		
-		it = Item.GiveItem(Material.OAK_PLANKS, 1, "Accha shop", null, 121);
+		it = Item.GiveItem(Material.OAK_PLANKS, 1, "§aAchat shop", null, 121);
 		e.setItem(22, it);
 	}
 	
@@ -224,6 +224,7 @@ public class JobsMenu {
 			case ORANGE_STAINED_GLASS_PANE :
 				String[] title = current.getItemMeta().getDisplayName().split(" §d");
 				HouseListInfo hl = HouseList.getHouseBySlot(Integer.valueOf(title[1]));
+				hl.isEnable(false);
 				if(title[0].equalsIgnoreCase("§6Emplacement")) new PlayerJobs(player.getPlayer()).addHouse(hl.getLocation());
 				current.setType(Material.RED_STAINED_GLASS_PANE);
 				ItemMeta meta = current.getItemMeta();
@@ -231,7 +232,6 @@ public class JobsMenu {
 				meta.setLore(Arrays.asList("§4Indisponible ", "§dCette espace appartient a un joueur"));
 				meta.addEnchant(Enchantment.MENDING, 1, false);
 				current.setItemMeta(meta);
-				hl.isEnable(false);
 				try {Economy.subtract(player.getName(), new PlayerJobs(player).get().getHouseData().getHousePrice());} catch (NoLoanPermittedException | UserDoesNotExistException | MaxMoneyException e) {e.printStackTrace();}
 				player.closeInventory();
 				player.teleport(hl.getLocation());
@@ -242,7 +242,7 @@ public class JobsMenu {
 				if(ti[0].equalsIgnoreCase("§6Emplacement")) {
 					HouseListInfo h = HouseList.getHouseBySlot(Integer.valueOf(ti[1]));
 					Location loc = h.getLocation();
-					loc.add(-1, 3, -1);
+					loc.add(0, 2, 0.5);
 					player.teleport(loc);
 				}
 				return true;
@@ -253,7 +253,7 @@ public class JobsMenu {
 				return true;
 			}
 		
-		return false;
+		return ShopMenu.TcheckShopMenuAction(player, current);
 		
 		
 	}
@@ -321,7 +321,8 @@ public class JobsMenu {
 				meta = f.getItemMeta();
 				Location temp = new PlayerJobs(player).getHouse();
 				if(temp != null && temp.equals(loc)) {
-					meta.addEnchant(Enchantment.MENDING, 1, true);
+					meta.addEnchant(Enchantment.MENDING, 1, false);
+					meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 					meta.setLore(Arrays.asList("§4Indisponible ", "§dCette espace est à vous"));
 				}
 				meta.setDisplayName("§6Emplacement §d" + HouseData.getSlots(loc));

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.logs;
 
-public class CommandeRe implements CommandExecutor {
+public class CommandRe implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
 		if (!sender.isOp()) return true;

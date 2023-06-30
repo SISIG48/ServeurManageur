@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.sisig48.pl.Main;
+import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 
@@ -228,14 +229,13 @@ public class HouseData {
 	 }
 
 	@SuppressWarnings("deprecation")
-	private static void InvokeHouse(Location location, Player p, int r) {
+	private static boolean InvokeHouse(Location location, Player p, int r) {
 		Jobs j = new PlayerJobs(p).get();
 		HouseData hd = j.getHouseData();
-		Bukkit.getConsoleSender().sendMessage("§4House Create in " + location.getWorld().getName());
 		File filePath = new File("plugins/ServeurManageur/data/jobs/house/" + hd.jobs.getName() + "_" + r +".schem");
 		if(!filePath.exists()) {
 			p.sendMessage("House does not exist");
-			return;
+			return false;
 		}
 		try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(location.getWorld()), -1)) {
 	        ClipboardFormat clipboardFormat = ClipboardFormats.findByFile(filePath);
@@ -247,29 +247,34 @@ public class HouseData {
 	                .ignoreAirBlocks(false)
 	                .build();
 	        Operations.complete(operation);
+	        logs.add("§4House Create in " + location.getWorld().getName());
+	        return true;
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
 	    }
+		return false;
 	}
 	
 	public static void delHouse(Location loc, Player p) {
 		JavaPlugin plug = Main.Plug;
 		Bukkit.getConsoleSender().sendMessage("§4§lDelete house for : §d" + p.getName());
-		Bukkit.getScheduler().runTask(plug, () -> {
-			delHouse1(loc, p);
-		});
+		Bukkit.getScheduler().runTask(plug, () -> {delHouse1(loc, p);});
 	}
+	
+	//House config
+	private static int maxX = 15;
+	private static int maxY = 25;
+	private static int maxZ = 15;
+	
 	
 	private static void delHouse1(Location loc, Player p) {
 		Jobs j = new PlayerJobs(p).get();
 		int i = -1;
 		ArrayList<String> line = new ArrayList<String>(j.getHouseData().line);
 		for(String e : line) {
-			i++;
 			String[] t = e.split(" ");
-			if(t.length == 5) if(t[4].equals(String.valueOf(p.getUniqueId())) && t[3].equals(loc.getWorld().getName()) && t[0].equals(String.valueOf(loc.getX())) && t[1].equals(String.valueOf(loc.getY())) && t[2].equals(String.valueOf(loc.getZ()))) break;
+			if(t.length == 5) if(t[4].equals(String.valueOf(p.getUniqueId())) && t[3].equals(loc.getWorld().getName()) && t[0].equals(String.valueOf(loc.getX())) && t[1].equals(String.valueOf(loc.getY())) && t[2].equals(String.valueOf(loc.getZ()))) j.getHouseData().line.remove(e);
 		}
-		j.getHouseData().line.remove(i);
 		try {
 			j.getHouseData().save();
 		} catch (IOException e1) {
@@ -278,14 +283,11 @@ public class HouseData {
 		double rx = loc.getX();
 		double ry = loc.getY();
 		double rz = loc.getZ();
-		for(double y = 0 ; y != 25 ; y++) for(double x = 0 ; x != 12 ; x++) for(double z = 0 ; z != 15 ; z++) {
+		Material blockType = Material.AIR;
+		for(double y = -1 ; y != maxY ; y++) for(double x = 0 ; x != maxX ; x++) for(double z = 0 ; z != maxZ ; z++) {
 			Block block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
-			Material blockType = Material.LAVA;
-			block.setType(blockType);
-			
-			block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
-			blockType = Material.AIR;
-			block.setType(blockType);
+			if(y == -1) block.setType(Material.STONE, false);
+			else block.setType(blockType, false);
 		}
 		HouseListInfo hl = HouseList.getHouseByLocation(loc);
 		if(hl != null) hl.isEnable(true);
@@ -307,14 +309,11 @@ public class HouseData {
 				double rx = loc.getX();
 				double ry = loc.getY();
 				double rz = loc.getZ();
-				for(double y = 0 ; y != 25 ; y++) for(double x = 0 ; x != 12 ; x++) for(double z = 0 ; z != 15 ; z++) {
+				Material blockType = Material.AIR;
+				for(double y = -1 ; y != 25 ; y++) for(double x = 0 ; x != 12 ; x++) for(double z = 0 ; z != 15 ; z++) {
 					Block block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
-					Material blockType = Material.LAVA;
-					block.setType(blockType);
-					
-					block = loc.getWorld().getBlockAt(new Location(loc.getWorld(), rx - x , ry + y, rz - z));
-					blockType = Material.AIR;
-					block.setType(blockType);
+					if(y == -1) block.setType(Material.STONE, false);
+					else block.setType(blockType, false);
 				}
 				HouseListInfo hl = HouseList.getHouseByLocation(loc);
 				if(hl != null) hl.isEnable(true);
@@ -324,12 +323,18 @@ public class HouseData {
 	}
 	
 	public static void addHouse(Player p, Location loc) {
-		Bukkit.getConsoleSender().sendMessage("§4§lNew house for : §d" + p.getName());
 		Jobs j = new PlayerJobs(p).get();
 		int n = j.getHouseData().NumHouse;
 		n = (int) (Math.random() * n);
 		if(n > j.getHouseData().NumHouse) n = j.getHouseData().NumHouse;
 		if(n <= 0) n = 1;
+		if(!InvokeHouse(loc, p, n)) {
+			new PlayerJobs(p).delVarHouse();
+			HouseList.getHouseByLocation(loc).isEnable(true);
+			return; 
+		}
+		Bukkit.getConsoleSender().sendMessage("§4§lNew house for : §d" + p.getName());
+		logs.add("§4§lNew house for : §d" + p.getName());
 		HouseData hd = j.getHouseData();
 		int i = 0;
 		Boolean find = false;
@@ -340,7 +345,6 @@ public class HouseData {
 			if(find) if((find = false) == false) hd.line.add(i, String.valueOf(loc.getX()) + " " + String.valueOf(loc.getY()) + " " + String.valueOf(loc.getZ()) + " " + loc.getWorld().getName() + " " + String.valueOf(p.getUniqueId()));
 			
 		}
-		InvokeHouse(loc, p, n);
 		try {
 			hd.save();
 		} catch (IOException e1) {
