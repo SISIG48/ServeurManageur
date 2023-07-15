@@ -206,16 +206,43 @@ public class PlayerJobs {
 		if(pj.jobs.getXpGain(m) == 0) return;
 		Float Gxp = pj.jobs.getXpGain(m);
 		int i = 1;
+		
+		
+		//
 		Float initial = pj.xp;
 		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
 		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
+		
+		
+		
 		String round = String.valueOf(Math.round((pj.xp-initial)*1000));
 		round = String.valueOf(Float.valueOf(round)/1000);
 		if(round.equals("0.0")) return;
 		String mss = "§aVous avez gagné §4" + round + "§axp";
 		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
 	}
-
+	
+	public void MaterialSubXp(Material m, int count) {
+		Player p = (Player) pj.player;
+		if(pj.xp > 0) {pj.xp = 0;return;}
+		if(pj.jobs.getXpGain(m) == 0) return;
+		Float Gxp = pj.jobs.getXpGain(m);
+		int i = 1;
+		
+		
+		//
+		Float initial = pj.xp;
+		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) - pj.xp;
+		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) - pj.xp;
+		
+		//
+		String round = String.valueOf(Math.round((initial - pj.xp)*1000));
+		round = String.valueOf(Float.valueOf(round)/1000);
+		if(round.equals("0.0")) return;
+		String mss = "§dVous avez perdu §4" + round + "§axp";
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
+	}
+	
 	public void delVarHouse() {
 		pj.locHouse = null;
 	}

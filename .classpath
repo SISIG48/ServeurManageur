@@ -7,8 +7,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="spigot.jar"/>
-	<classpathentry kind="lib" path="C:/Users/lamed/Desktop/SERVEUR LOCALE/plugins/EssentialsX-2.20.0-dev+63-991bc61.jar"/>
-	<classpathentry kind="lib" path="C:/Users/lamed/Desktop/SERVEUR LOCALE/plugins/worldedit-bukkit-7.2.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/simeon/Desktop/SERVEUR LOCALE/plugins/EssentialsX-2.20.0-dev+63-991bc61.jar"/>
+	<classpathentry kind="lib" path="C:/Users/simeon/Desktop/SERVEUR LOCALE/plugins/worldedit-bukkit-7.2.12.jar"/>
 	<classpathentry kind="lib" path="H:/simeo/eclipse-workspace/ucanaccess-5.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

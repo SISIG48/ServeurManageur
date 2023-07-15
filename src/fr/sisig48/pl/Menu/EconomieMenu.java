@@ -38,8 +38,8 @@ public class EconomieMenu {
 		e.setItem(11, it);
 		Friends pl = new Friends(player);
 		
-		it = Item.GiveItem(Material.BARRIER, 1, "§eClassement", "Obtener les diférent classement du serveur", 128);
-		if(pl.get().size() > 0) it = Item.GiveOwnsPlayerHead(1, "§eClassement", "Obtener les diférent classement du serveur", pl.get().get(Integer.valueOf((int) (Math.random() * (pl.get().size())))).getName(), 128);
+		it = Item.GiveItem(Material.BARRIER, 1, "§eAmis", "Economie avec vos amis", 128);
+		if(pl.get().size() > 0) it = Item.GiveOwnsPlayerHead(1, "§eAmis", "Economie avec vos amis", pl.get().get(Integer.valueOf((int) (Math.random() * (pl.get().size())))).getName(), 128);
 		e.setItem(13, it);
 		it = Item.GiveItem(Material.GOLDEN_APPLE, 1, "§eClassement", "Obtener les diférent classement du serveur");
 		e.setItem(15, it);

@@ -128,17 +128,22 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void OnIteract(PlayerInteractEvent event) {
-		
 		if(event.getPlayer() == null) return;
+		if(event.getItem() == null || event.getItem().getItemMeta() == null) return;
 		
+		ItemStack is = event.getItem();
 		Player player = event.getPlayer();
-		if(event.getItem() == null) return;
-		event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getItem()));
-		if(!event.getItem().getItemMeta().hasCustomModelData()) return;
-		try {if(event.getItem().getItemMeta().getCustomModelData() < 0 ) return;
-		} catch (Exception e) {return;}
-		int it = event.getItem().getItemMeta().getCustomModelData();
-		event.setCancelled(NetherStarMenu.HasMenu(player, it, event.getItem()));
+		Boolean isVania = !event.getItem().getItemMeta().hasCustomModelData();
+
+		if(!isVania) {
+			int it = is.getItemMeta().getCustomModelData();
+			event.setCancelled(NetherStarMenu.HasMenu(player, it, is));
+			if(event.isCancelled()) return;
+		}
+		
+		event.setCancelled(ShopMenu.TcheckShopMenuAction(player, is));
+		
+		
 	}
 		
 	
@@ -155,33 +160,26 @@ public class Listner implements Listener {
 
 	@EventHandler
 	public void OnClick(InventoryClickEvent event) {
+		//Not null
+		if(event.getCurrentItem() == null || event.getCurrentItem().getItemMeta() == null) return;
 		
+		//Init variable
 		Inventory inv = event.getInventory();
-		
 		Player player = (Player) event.getWhoClicked();
-		
-		MenuPP.current = event.getCurrentItem();
 		ItemStack current = event.getCurrentItem();
-		if(current == null || current.getItemMeta() == null) return;
-		event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getCurrentItem()));
-		if(!current.getItemMeta().hasCustomModelData() || current.getItemMeta().getCustomModelData() == 122 || event.isCancelled()) return;
-		
-		logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Click whith : " + String.valueOf(current.getType()));
-		try {
-			if(Interface.GetActonIfInMainMenu(player, current, inv)) {
-				event.setCancelled(true);
-			} else {
-				event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
-				if(player.getGameMode() == GameMode.CREATIVE) {
-					player.kickPlayer(("§4§l/!\\ Nous avons detecter une duplication"));
-					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Risk of duplication (CHEAT ERROR) Target : Nether Start Menu");
-				}
+		Boolean isVania = !current.getItemMeta().hasCustomModelData();
 
+		
+		
+		if(!isVania) {
+			try {
+				if(Interface.GetActonIfInMainMenu(player, current, inv)) event.setCancelled(true);
+				else event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		if(!event.isCancelled()) event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getCurrentItem()));
 	
 	}
 

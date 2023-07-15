@@ -1,11 +1,13 @@
 package fr.sisig48.pl.Menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -13,13 +15,15 @@ import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.Utils.Item;
 
 public class ShopMenu {
+	
+	private static ItemStack sellItem = Item.GiveItem(Material.HOPPER, 1, "§dVendre un item", null, 130);
 	public static void OpenShop(Player p) {
 		int size = 27;
 		Inventory e = Bukkit.createInventory(p, size, "Shop");
 		p.openInventory(e);
 		GrayExGlass(e, size);
-		e.setItem(13, Item.GiveItem(Material.PAPER, 1, "§4Shop is not enable", "§8Please WAIT"));
-		e.setItem(size - 5, Item.GiveItem(Material.HOPPER, 1, "§dVendre un item", null, 130));
+		e.setItem(13, Item.GiveItem(Material.PAPER, 1, "§4Shop pas actif", "§8réessayer plus tard"));
+		e.setItem(size - 5, sellItem);
 	}
 	
 	private static void GrayExGlass(Inventory e, int in) {
@@ -32,43 +36,59 @@ public class ShopMenu {
 	public static boolean TcheckShopMenuAction(Player p, ItemStack it) {
 		Bukkit.getConsoleSender().sendMessage("exe");
 		PlayerJobs pj = new PlayerJobs(p);
+				
+		//Inventory object var
+		InventoryView openInv = p.getOpenInventory();
+		Inventory PlayerInv = p.getInventory();
+		int invCo = openInv.countSlots() - PlayerInv.getSize();
+		
 		if(it.getItemMeta().hasCustomModelData()) switch (it.getItemMeta().getCustomModelData()) {
 		case 130: return true;
 		case 131:
-			
 			//Count xp value
+			//Undo xp
 			Material m = it.getType();
-			Float Gxp = pj.get().getXpGain(m);
-			int i = 1;
-			Float initial = pj.getXp();
-			
-			//Change xp
-			pj.subXp((float) (((2.5/(0.75 + (pj.getXp()/1000))) * Gxp)));
-			while((i++) != it.getAmount()) pj.subXp((float) ((2.5/(0.75 + (pj.getXp()/1000))) * Gxp));
-			String round = String.valueOf(Math.round((pj.getXp()-initial)*1000));
-			round = String.valueOf(Float.valueOf(round)/1000);
+			pj.MaterialSubXp(m, it.getAmount());
 			
 			//Undo item
-			p.getOpenInventory().setItem(p.getOpenInventory().countSlots() - 5, it);
-			p.getInventory().addItem(it);
-			
-			return true;
-		}
-		int invCo = p.getOpenInventory().countSlots() - p.getInventory().getSize();
-		if(Item.GiveItem(Material.HOPPER, 1, "§dVendre un item", null, 130).equals(p.getOpenInventory().getItem(invCo - 5))) {
-			Bukkit.getConsoleSender().sendMessage("ok");
-			pj.MaterialAddXp(it.getType(), it.getAmount());
-			ItemStack s;
+			p.getOpenInventory().setItem(invCo - 5, sellItem);
 			
 			ItemMeta meta = it.getItemMeta();
-			meta.setCustomModelData(131);
+			meta.setCustomModelData(1251);
+			meta.setLore(Arrays.asList("§dNon vendable"));
 			it.setItemMeta(meta);
-			
-			p.getOpenInventory().setItem(invCo - 5, it);
-			int n = 0;
-			for(int i = 0; i < p.getInventory().getSize() && (s = p.getInventory().getItem(i)) != it; n = i++);
-			p.getInventory().setItem(n, new ItemStack(Material.AIR));
+			p.getInventory().addItem(it);
 			return true;
+		}
+		
+		
+		//Get the good inventory
+		if(sellItem.equals(openInv.getItem(invCo - 5)) && openInv.getItem(invCo - 5).getItemMeta().getCustomModelData() != 131) {
+			if(it.getItemMeta().hasCustomModelData() && it.getItemMeta().getCustomModelData() == 1251) return true;
+			//
+			Bukkit.getConsoleSender().sendMessage("ok");
+			
+			//XP
+			pj.MaterialAddXp(it.getType(), it.getAmount());
+
+			//detect item from player inventory
+			int n = 0;
+			for(int i = 0; i < PlayerInv.getSize(); i++) if(PlayerInv.getItem(i) != null && PlayerInv.getItem(i).equals(it)) n = i;
+			
+			//delete item
+			PlayerInv.setItem(n, new ItemStack(Material.AIR));
+			
+			//Change item info
+			ItemMeta meta = it.getItemMeta();
+			meta.setCustomModelData(131);
+			meta.setLore(Arrays.asList("§8Vendu"));
+			it.setItemMeta(meta);
+
+			//Place item in shop
+			openInv.setItem(invCo - 5, it);
+			
+			return true;
+			
 		} else Bukkit.getConsoleSender().sendMessage("no");
 		return false;
 	}

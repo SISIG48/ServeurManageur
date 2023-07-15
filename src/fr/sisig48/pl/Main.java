@@ -149,8 +149,12 @@ public class Main extends JavaPlugin {
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
 			if(!(e.getName().equals("SISIG48"))) {
-				e.kickPlayer("4Serveur error §aPlease WAIT§4 \r\n"
-						+ "§4try again later");
+				e.kickPlayer("§dErreur serveur, veuillez patienter. \n"
+						+ "§4réessayer plus tard \n"
+						+ "\n"
+						+ "§dServer error, please wait. \n"
+						+ "§4try again later \n"
+						+ "§8[Code : 1]");
 			} else {
 				e.sendMessage("§6Attention certain bug son lié a ce reload,");
 				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");

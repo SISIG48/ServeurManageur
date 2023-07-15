@@ -38,10 +38,4 @@ public class MenuPP {
 		player.openInventory(e);
 		
 	}
-	
-	
-	
-	
-	public static String inventoryRealName;
-	public static ItemStack current;
 }
