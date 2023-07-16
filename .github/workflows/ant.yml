@@ -25,12 +25,12 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ServeurManageur.jar
-        path: '**/ServeurManageur.jar'
+        path: ServeurManageur.jar
         
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
         name: ServeurManageur.jar
-        path: '**/ServeurMangeur.jar'
+        path: ServeurMangeur.jar
 
 
