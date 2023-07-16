@@ -1,4 +1,4 @@
-veur<project name="ServeurManageur" default="dist" basedir=".">
+<project name="ServeurManageur" default="dist" basedir=".">
     <description>
       simple example build file
     </description>
