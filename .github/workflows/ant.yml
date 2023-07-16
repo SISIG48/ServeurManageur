@@ -27,6 +27,10 @@ jobs:
         name: ServeurManageur.jar
         path: '**/ServeurManageur.jar'
         
-    - name: Copy JAR to Project Directory
-      run: cp ${{ github.workspace }}/ServeurManageur.jar ${{ github.workspace }}/bin
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ServeurMangeur.jar
+        path: '**/ServeurMangeur.jar'
+
 
