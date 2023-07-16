@@ -20,3 +20,9 @@ jobs:
         distribution: 'temurin'
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
+      
+    - name: Upload JAR
+      uses: actions/upload-artifact@v2
+      with:
+        name: jar-file
+        path: target/*.jar
