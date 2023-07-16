@@ -1,12 +1,14 @@
 <project name="ServeurManageur" default="dist" basedir=".">
     <description>
-      simple example build file
+        simple example build file
     </description>
     <!-- set global properties for this build -->
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
-      <target name="init">
+    <property name="lib" location="lib"/> <!-- New property for the lib folder -->
+  
+    <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
@@ -14,26 +16,29 @@
             </fileset>
         </copy>
     </target>
+  
     <target name="compile" depends="init"
           description="compile the source">
-      <!-- Compile the Java code from ${src} into ${build} -->
-      <javac srcdir="${src}" destdir="."/>
+        <!-- Compile the Java code from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="bin">
+            <classpath>
+                <fileset dir="${lib}" includes="*.jar"/> <!-- Include the JAR files from the lib folder -->
+            </classpath>
+        </javac>
     </target>
   
     <target name="dist" depends="compile"
           description="generate the distribution">
-      <!-- Create the distribution directory -->
+        <!-- Create the distribution directory -->
   
-      <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-      <jar jarfile="ServeurManageur.jar" basedir="${build}">
-          <fileset dir="lib" includes="*.jar"/>
-      </jar>
+        <!-- Put everything in ${build} into the ServeurManageur.jar file -->
+        <jar jarfile="ServeurManageur.jar" basedir="bin">
+            <fileset dir="${lib}" includes="*.jar"/> <!-- Include the JAR files from the lib folder -->
+        </jar>
     </target>
   
-    <target name="clean"
-          description="clean up">
-      <!-- Delete the ${build} and ${dist} directory trees -->
-      <delete dir="ServeurManageur.jar"/>
+    <target name="clean" description="clean up">
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${dist}"/>
     </target>
-  </project>
-
+</project>
