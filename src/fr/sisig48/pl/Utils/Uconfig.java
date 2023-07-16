@@ -14,16 +14,18 @@ public class Uconfig {
 	public Uconfig(Main main) {
 		config = main.getConfig();
 		Uconfig.main = main;
+		
 	}
 
-	public static String getConfig(String configPath) {
-		return config.getString(configPath);
+	public static String getConfig(String path) {
+		if(!isSet(path)) setConfig(path, config.getDefaults().getString(path));
+		return config.getString(path);
 	}
 	
 	
-	public static void setConfig(String configPath, String it) {
-		config.set(configPath, it);
-		logs.add("Config : " + configPath + " have set to \"" + it + "\"");
+	public static void setConfig(String Path, String it) {
+		config.set(Path, it);
+		logs.add("Config : " + Path + " have set to \"" + it + "\"");
 		save();
 		return;
 	}
@@ -45,6 +47,8 @@ public class Uconfig {
 		main.saveConfig();
 	}
 	
-	
+	private static boolean isSet(String path) {
+		return config.isSet(path);
+	}
 	
 }

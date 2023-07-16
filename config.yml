@@ -1,25 +1,42 @@
 location:
-  mine:  
-    in:
-      x: 0.00
-      y: 0.00
-      z: 0.00
-      w: world
-      ya: 0
-      pi: 0.0
-    
-    out:
-      x: 0.00
-      y: 0.00
-      z: 0.00
-      w: world
-      ya: 0
-      pi: 0.0
-  
   spawn:
-    x: 0.00
-    y: 0.00
-    z: 0.00
+    x: '0'
+    y: '100'
+    z: '0'
     w: world
-    ya: 0
-    pi: 0.0
+    ya: '0'
+    pi: '0'
+  mine:
+    out:
+      x: '0'
+      y: '100'
+      z: '0'
+      w: world
+      ya: '0'
+      pi: '0'
+    in:
+      x: '0'
+      y: '100'
+      z: '0'
+      w: world
+      ya: '0'
+      pi: '0'
+    zone:
+      w: world
+      at:
+        x: '0'
+        y: '10'
+        z: '0'
+      to:
+        x: '0'
+        y: '10'
+        z: '0'
+      refreshTimeMinute: '30'
+  pnj:
+    jobs:
+      '0': void
+    shop:
+      '0': void
+IntervalePayment: 30
+loyerShop: 50
+isAhead-Version: 'false'

@@ -19,15 +19,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Utils.Uconfig;
 
 
 public class ServeurManageurUpdate {
 	public static int NeedUpdate;
-	private static String branch = "devlopement";
+	private static String branch = branch();
+	private static String branch() {
+		if(Uconfig.getConfig("isAhead-Version").equals("true")) return "https://github.com/SISIG48/ServeurManageur/blob/devlopement";
+		else return "https://github.com/SISIG48/ServeurManageur/blob/main";
+	}
+
 	public static Boolean DoUpdate(CommandSender sender) {
     	logs.add("Maj start by : " + sender.getName());
         try {
-        	URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/" + branch + "/ServeurManageur.jar?raw=true");
+        	URL url = new URL(branch + "/ServeurManageur.jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur.jar");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -48,10 +54,11 @@ public class ServeurManageurUpdate {
         
     }
     
+
 	public static Boolean DoSpecificUpdate(CommandSender sender, String version) {
-    	logs.add("Maj start by : " + sender.getName());
+    	logs.add("Maj start by : " + sender.getName() + " v: " + version);
         try {
-        	URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/" + branch + "/old/data/ServeurManageur%20"+ version +".jar?raw=true");
+        	URL url = new URL(branch + "/old/data/ServeurManageur%20"+ version +".jar?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur.jar");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -87,9 +94,9 @@ public class ServeurManageurUpdate {
 	}
 
 	public static Boolean CheckUpdate() {
-    	logs.add("Start Tchecking Update from : https://github.com/SISIG48/ServeurManageur/blob/main/ServeurManageur.jar?raw=true");
+    	logs.add("Start Tchecking Update from : " + branch + "/ServeurManageur.jar?raw=true");
     	try {
-    		URL url = new URL("https://github.com/SISIG48/ServeurManageur/blob/main/version.dll?raw=true");
+    		URL url = new URL(branch + "/version.dll?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             
             
@@ -116,7 +123,7 @@ public class ServeurManageurUpdate {
             File out = new File(outPath);
             
 			//Check maj
-            if(getFirstLine(out).equals(getFirstLine(dest))) return true;
+            if(getFirstLine(out).equals(getFirstLine(dest))) return false;
             
 			if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
 			
@@ -127,7 +134,7 @@ public class ServeurManageurUpdate {
     		e.printStackTrace();
     	}
     	
-    	return false;
+    	return true;
     	
     	
     }
