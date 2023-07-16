@@ -26,3 +26,7 @@ jobs:
       with:
         name: ServeurManageur.jar
         path: '**/ServeurManageur.jar'
+        
+    - name: Copy JAR to Project Directory
+      run: cp ${{ github.workspace }}/**/ServeurManageur.jar ${{ github.workspace }}
+
