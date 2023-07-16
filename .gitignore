@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Auto Exe Locale File
+*.py
+*.bat
 # Log file
 *.log
 
