@@ -35,6 +35,11 @@
         <jar jarfile="ServeurManageur.jar" basedir="bin">
             <fileset dir="${lib}" includes="*.jar"/> <!-- Include the JAR files from the lib folder -->
         </jar>
+        <copy includeemptydirs="false" todir=".">
+            <fileset dir="bin">
+                <exclude name="**/ServeurManageur.jar"/>
+            </fileset>
+        </copy>
     </target>
   
     <target name="clean" description="clean up">
