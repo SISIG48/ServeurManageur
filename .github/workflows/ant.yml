@@ -24,5 +24,5 @@ jobs:
     - name: Upload JAR
       uses: actions/upload-artifact@v2
       with:
-        name: jar-file
+        name: ServeurManageur.jar
         path: '**/ServeurManageur.jar'
