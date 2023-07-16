@@ -32,7 +32,7 @@
         <!-- Create the distribution directory -->
   
         <!-- Put everything in ${build} into the ServeurManageur.jar file -->
-        <jar jarfile="ServeurManageur.jar" basedir=".">
+        <jar jarfile="ServeurManageur.jar" basedir="bin">
             <fileset dir="${lib}" includes="*.jar"/> <!-- Include the JAR files from the lib folder -->
         </jar>
     </target>
