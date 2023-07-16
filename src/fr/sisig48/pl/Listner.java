@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -31,7 +29,6 @@ import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.JobsMenu;
-import fr.sisig48.pl.Menu.MenuPP;
 import fr.sisig48.pl.Menu.ShopMenu;
 import fr.sisig48.pl.NetherStar.NetherStarMenu;
 import fr.sisig48.pl.Sociale.Friends;
@@ -39,7 +36,6 @@ import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
 import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.State.Spawn;
-import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.MaxMoneyException;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -183,7 +179,7 @@ public class Listner implements Listener {
 	
 	}
 
-	@EventHandler
+	/*@EventHandler
 	public void OnPlayerPickupItemEvent(PlayerPickupItemEvent e) {
 		Player player = e.getPlayer();
 		Item block = e.getItem();
@@ -218,7 +214,7 @@ public class Listner implements Listener {
 
 		}
 		player.updateInventory();
-	}
+	}*/
 	
 	
 }

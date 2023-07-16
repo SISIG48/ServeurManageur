@@ -9,7 +9,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
@@ -137,7 +136,7 @@ public class Main extends JavaPlugin {
 		
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("removal")
 	@Override
 	public void onDisable() {
 		Mine.AutoFill.stop();

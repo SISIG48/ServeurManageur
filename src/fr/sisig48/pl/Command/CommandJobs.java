@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
-import org.bukkit.entity.Villager.Type;
 
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;

@@ -1,6 +1,5 @@
 package fr.sisig48.pl.Menu;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
