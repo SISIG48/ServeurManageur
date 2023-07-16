@@ -34,21 +34,23 @@ public class ServeurManageurUpdate {
     	logs.add("Maj start by : " + sender.getName());
         try {
         	URL url = new URL(branch + "/ServeurManageur.jar?raw=true");
-            ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+            Bukkit.getConsoleSender().sendMessage("§aStart maj from : §d" + branch);
+        	ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream("plugins/ServeurManageur.jar");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             fos.close();
             rbc.close();
             
             Note();
-            
-            
-            Bukkit.dispatchCommand(sender, "rl");
+            Thread.sleep(1000);
+            Bukkit.reload();
             logs.add("Maj end");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } catch (InterruptedException e) {
+			e.printStackTrace();
+		}
         logs.add("Maj err");
         return false;
         
@@ -67,8 +69,9 @@ public class ServeurManageurUpdate {
             
             Note();
             
-            
-            Bukkit.dispatchCommand(sender, "rl");
+            File dest = new File("plugins/ServeurManageur/version.dll");
+            if(dest.exists()) dest.delete();
+            Bukkit.shutdown();
             logs.add("Maj end");
             return true;
         } catch (IOException e) {
@@ -123,7 +126,10 @@ public class ServeurManageurUpdate {
             File out = new File(outPath);
             
 			//Check maj
-            if(getFirstLine(out).equals(getFirstLine(dest))) return false;
+            String l1 = getFirstLine(out);
+            String l2 = getFirstLine(dest);
+            Bukkit.getConsoleSender().sendMessage("§d" + l1.split("\\?")[1] + " " + " §4" + l2.split("\\?")[1]);
+            if(l1.equals(l2)) return false;
             
 			if(Bukkit.getOfflinePlayer(UUID.fromString("a305901d-5c11-41eb-9eb3-13d1bfbf33e7")).isOnline()) Bukkit.getPlayer("SISIG48").sendMessage("! §aNO MAJ");	
 			
