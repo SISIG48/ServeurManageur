@@ -71,7 +71,7 @@ public class ServeurManageurUpdate {
             
             File dest = new File("plugins/ServeurManageur/version.dll");
             if(dest.exists()) dest.delete();
-            Bukkit.shutdown();
+            Bukkit.reload();
             logs.add("Maj end");
             return true;
         } catch (IOException e) {

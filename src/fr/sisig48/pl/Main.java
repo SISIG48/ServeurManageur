@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.JobsHouse.MainHouse;
+import fr.sisig48.pl.Automating.AutoReload;
 import fr.sisig48.pl.Automating.Mine;
 import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Command.CommandBug;
@@ -131,6 +132,7 @@ public class Main extends JavaPlugin {
 		getCommand("house").setExecutor(new CommandHouse());
 		getCommand("shop").setExecutor(new CommandShop());
 		new Uconfig(this);
+		AutoReload.initiate();
 		loadThread.start();
 		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
 		
@@ -152,8 +154,7 @@ public class Main extends JavaPlugin {
 						+ "§4réessayer plus tard \n"
 						+ "\n"
 						+ "§dServer error, please wait. \n"
-						+ "§4try again later \n"
-						+ "§8[Code : 1]");
+						+ "§4try again later");
 			} else {
 				e.sendMessage("§6Attention certain bug son lié a ce reload,");
 				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
