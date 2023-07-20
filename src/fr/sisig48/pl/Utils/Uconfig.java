@@ -1,7 +1,11 @@
 package fr.sisig48.pl.Utils;
 
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.sisig48.pl.Main;
 import fr.sisig48.pl.logs;
@@ -9,9 +13,56 @@ import fr.sisig48.pl.Automating.Mine;
 
 public class Uconfig {
 	
+	public FileConfiguration conf;
+	public File file;
 	static FileConfiguration config;
 	protected static Main main;
-	public Uconfig(Main main) {
+	public Uconfig(File config) {
+		conf = YamlConfiguration.loadConfiguration(config);
+		file = config;
+	}
+	
+	//
+
+	public String get(String path) {
+		return conf.getString(path);
+	}
+	
+	final public FileConfiguration getConfig() {
+		return conf;
+	}
+	
+	public void set(String Path, String it) {
+		conf.set(Path, it);
+		logs.add("Config : " + Path + " have set to \"" + it + "\"");
+		saving();
+		return;
+	}
+	
+	
+	public void reload() {
+		logs.add("Config Reloading");
+		Mine.isChange = true;
+		main.reloadConfig();
+		return;
+	}
+	
+	public void saving() {
+		logs.add("Config Saving");
+		try {
+			conf.save(file.getPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean AlreadySet(String path) {
+		return conf.isSet(path);
+	}
+	
+	
+	//Static = base config file
+	public static void intit(Main main) {
 		config = main.getConfig();
 		Uconfig.main = main;
 		

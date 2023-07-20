@@ -33,7 +33,6 @@ public class ShopMenu {
 	}
 	
 	public static boolean TcheckShopMenuAction(Player p, ItemStack it) {
-		Bukkit.getConsoleSender().sendMessage("exe");
 		PlayerJobs pj = new PlayerJobs(p);
 				
 		//Inventory object var
@@ -64,8 +63,6 @@ public class ShopMenu {
 		//Get the good inventory
 		if(sellItem.equals(openInv.getItem(invCo - 5)) && openInv.getItem(invCo - 5).getItemMeta().getCustomModelData() != 131) {
 			if(it.getItemMeta().hasCustomModelData() && it.getItemMeta().getCustomModelData() == 1251) return true;
-			//
-			Bukkit.getConsoleSender().sendMessage("ok");
 			
 			//XP
 			pj.MaterialAddXp(it.getType(), it.getAmount());
@@ -88,7 +85,7 @@ public class ShopMenu {
 			
 			return true;
 			
-		} else Bukkit.getConsoleSender().sendMessage("no");
+		}
 		return false;
 	}
 }

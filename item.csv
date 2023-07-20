@@ -16,3 +16,6 @@ CustomModel;Type;Name;Category;Zone;Description
 129;Exception;BELL;Interface;JobsMenu;Show JobsTree
 130;Detect;HOPPER;Interface;ShopMenu;Sell Item
 131;Detect;#;Interface;ShopMenu;Undo SELL
+132;Detect;CHEST;Menu;MenuPP/Profils;To loot box
+133;Detect;CHEST;Menu;LootBoxMenu;Free box
+134#;Detect;ENDER_CHEST;Menu;Payloot box;

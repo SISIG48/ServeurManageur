@@ -21,6 +21,7 @@ import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandFriends;
 import fr.sisig48.pl.Command.CommandHouse;
 import fr.sisig48.pl.Command.CommandJobs;
+import fr.sisig48.pl.Command.CommandLootBox;
 import fr.sisig48.pl.Command.CommandMenu;
 import fr.sisig48.pl.Command.CommandMine;
 import fr.sisig48.pl.Command.CommandRe;
@@ -38,7 +39,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class Main extends JavaPlugin {
-	public static JavaPlugin Plug = null;
+	public static JavaPlugin Plug;
 	public static ConsoleCommandSender sec = Bukkit.getConsoleSender();
 	protected FileConfiguration config = getConfig();
 	private static Thread loadThread = new Thread(new Runnable() {
@@ -71,7 +72,6 @@ public class Main extends JavaPlugin {
 			MainHouse.init();
 				sec.sendMessage("§8Loading Jobs Office PNJ");
 			
-			Plug = getProvidingPlugin(getClass());
 			
 			Bukkit.getScheduler().runTask(Plug, () -> {
 				Entity e;
@@ -119,6 +119,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		logs.add("Plugin Starting");
+		Plug = getProvidingPlugin(getClass());
 		getServer().getPluginManager().registerEvents(new Listner(this), this);
 		reloadConfig();
 		getCommand("mine").setExecutor(new CommandMine());
@@ -131,7 +132,8 @@ public class Main extends JavaPlugin {
 		getCommand("menu").setExecutor(new CommandMenu());
 		getCommand("house").setExecutor(new CommandHouse());
 		getCommand("shop").setExecutor(new CommandShop());
-		new Uconfig(this);
+		getCommand("lootbox").setExecutor(new CommandLootBox());
+		Uconfig.intit(this);
 		AutoReload.initiate();
 		loadThread.start();
 		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);

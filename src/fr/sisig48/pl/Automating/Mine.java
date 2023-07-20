@@ -11,10 +11,8 @@ import fr.sisig48.pl.Main;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Uconfig;
 
-public class Mine extends Uconfig {
-	public Mine(Main main) {
-		super(main);
-	}
+public class Mine {
+	
 	public static Thread AutoFill = new Thread(new Runnable() {
 		
 		
@@ -45,7 +43,6 @@ public class Mine extends Uconfig {
 			}
 		}
 	}, "AutoMineFill Thread");
-	static Main Plug = null;
 
 	public static void SetFillMineAt(Player player) {
 		Uconfig.setConfig("location.mine.zone.w", String.valueOf(player.getLocation().getWorld().getName()));
@@ -64,11 +61,9 @@ public class Mine extends Uconfig {
 	public static boolean isChange = true;
 	public static String x,y,z,x2,y2,z2;
 	public static World world;
-	@SuppressWarnings("static-access")
 	public static void FillMine() {
 		Bukkit.getConsoleSender().sendMessage("§6La mine se renove");
-		Plug = main.getPlugin(main.getClass());
-		Bukkit.getScheduler().runTask(Plug, () -> {
+		Bukkit.getScheduler().runTask(Main.Plug, () -> {
 			//exe si le fichier config a changer
 			if(isChange) {
 				

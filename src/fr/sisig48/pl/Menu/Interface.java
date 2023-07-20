@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Economie.LootBox;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Item;
 import fr.sisig48.pl.Utils.Uconfig;
@@ -35,15 +36,13 @@ public class Interface {
 	}
 	
 	public static Boolean GetActonIfInMainMenu(Player players, ItemStack current, Inventory inv) {
-		if(players == null) {return false;}
+		if(players == null || current == null) {return false;}
 		player = players;
-		if(current == null) {return false;}
-		try {
-			if(current.getItemMeta().getCustomModelData() == 125) return true;
-		} catch (Exception e) {}
+		int model = current.getItemMeta().getCustomModelData();
+		if(model == 125) return true;
 		if(inventory == null) {
 			player.closeInventory();
-			return false;  
+			return false;
 		}
 		if(JobsMenu.TcheckJobsMenuAction(players, current)) return true;
 		if(!inventory.contains(inv)) return GetActonIfInMenuEco(current, player);
@@ -62,7 +61,7 @@ public class Interface {
 				
 				
 			case PLAYER_HEAD :
-				switch(current.getItemMeta().getCustomModelData()) {
+				switch(model) {
 					case 124:
 						try {
 							EconomieMenu.OpenMenuEcoPerso(players);
@@ -70,12 +69,12 @@ public class Interface {
 							e.printStackTrace();
 						}	
 						break;
-					case 125:
+					case 126:
+						MenuPP.OpenProfileMenu(players);
 						break;
 					case 128 : try {
 						EconomieMenu.OpenMenuEcoFriends(players);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					default:
@@ -95,7 +94,6 @@ public class Interface {
 				try {
 					EconomieMenu.OpenMenuEcoFriends(players);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -103,29 +101,32 @@ public class Interface {
 			case ENDER_CHEST :
 			
 			try {
-				switch(current.getItemMeta().getCustomModelData()) {
+				switch(model) {
 					case 123 : EconomieMenu.OpenMenuEcoPublicMoney(players);
 					break;
 					case 128 : EconomieMenu.OpenMenuEcoFriendsMoney(players);
 					break;
+					case 134 :
+					LootBox.openLootBox(player, LootBox.getLootBox(current));
+					break;
 						
 				}
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				player.sendMessage("§4Error, contact the §adev-staff");
 				e.printStackTrace();
 			}
 				break;
 			
 			case ITEM_FRAME:
-				if(current.getItemMeta().getCustomModelData() != 127) break;
+				if(model != 127) break;
 				MenuTP.OpenMenuTP(players);
 				logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Enter to MenuTP");
 				break;
 			
 				
 			case ENDER_PEARL:
-				if(current.getItemMeta().getCustomModelData() != 127) break;
+				if(model != 127) break;
 				try {
 					logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Teleported to spawn");
 					if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) ) {
@@ -136,31 +137,41 @@ public class Interface {
 						player.sendMessage("§aVous avez été tp au §4spawn");
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
 				
 			
 			case DEEPSLATE_GOLD_ORE:
-				if(current.getItemMeta().getCustomModelData() != 127) break;
+				if(model != 127) break;
 			try {
 				player.teleport(Spawn.GetMineInSpawnLocation());
 				player.sendMessage("§aVous avez été tp a la §4mine");
 				logs.add("Player : UUID : " + player.getUniqueId() + " | Name :" + player.getName() + " Teleported to mine");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 				
 				break;
+			case CHEST:
+				switch(model) {
+				case 132: 
+					LootBox.openInv(players);
+					break;
 				
+				case 133:
+					LootBox.openLootBox(players, 0);
+					break;
+					
+				default: return false;
+				}
+				break;
+				
+			
 			default:
-				JobsMenu.TcheckJobsMenuAction(players, current);
-				return true;
+				return false;
 				
 		}
-		JobsMenu.TcheckJobsMenuAction(players, current);
 		return true;
 		
 		
@@ -169,6 +180,5 @@ public class Interface {
 	
 	public static void CloseMenu() {
 		player.closeInventory();
-		
 	}
 }

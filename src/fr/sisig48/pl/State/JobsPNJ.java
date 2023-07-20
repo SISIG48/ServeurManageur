@@ -9,8 +9,6 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.entity.Villager.Type;
 
-import com.earth2me.essentials.MobCompat.VillagerProfession;
-
 import fr.sisig48.pl.Utils.ULocation;
 import fr.sisig48.pl.Utils.Uconfig;
 

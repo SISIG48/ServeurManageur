@@ -1,11 +1,9 @@
 package fr.sisig48.pl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,12 +12,10 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.earth2me.essentials.api.Economy;
 import com.earth2me.essentials.api.NoLoanPermittedException;
@@ -37,9 +33,6 @@ import fr.sisig48.pl.State.JobsPNJ;
 import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.State.Spawn;
 import net.ess3.api.MaxMoneyException;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-
 
 @SuppressWarnings("deprecation")
 public class Listner implements Listener {
@@ -53,13 +46,13 @@ public class Listner implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		
 		Player player = event.getPlayer();
-		player.sendMessage("§aBienvenu sur le serveur");
-		player.sendMessage("§eSi tu a un problème contact le staff sur le Â§4discord Â§eou");
-		player.sendMessage("§eexécute la command §4/bug [arg...]");
-		if(player.isOp()) {
-			player.sendMessage("");
-			player.sendMessage("§4Vous ête administrateur sur ce serveur :");
-			player.sendMessage("  §e- /help ServeurManageur pour obtenir la list des command disponible");
+		player.sendMessage("§aBienvenue sur le serveur");
+		player.sendMessage("§eSi tu as un problème, contacte le staff sur le §4discord §eou");
+		player.sendMessage("§eexécute la commande §4/bug [arg...]");
+		if (player.isOp()) {
+		    player.sendMessage("");
+		    player.sendMessage("§4Vous êtes administrateur sur ce serveur :");
+		    player.sendMessage("  §e- /help ServeurManager pour obtenir la liste des commandes disponibles");
 		}
 		
 		try {
@@ -76,7 +69,7 @@ public class Listner implements Listener {
 		for(OfflinePlayer p : f.get()) {
 			if(p.isOnline()) {
 				i++;
-				p.getPlayer().sendMessage("§e"+ player.getName() + "§a c'est connecter");
+				p.getPlayer().sendMessage("§e"+ player.getName() + "§a s'est connecter");
 			}
 			
 		}
@@ -105,7 +98,7 @@ public class Listner implements Listener {
 		try {
 			player.teleport(Spawn.GetSpawnLocation());
 			Economy.divide(player.getName(), 2);
-			player.sendMessage("§4Vous ête mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
+			player.sendMessage("§4Vous êtes mort et §4§lavez perdu §2" + Economy.getMoney(player.getName()));
 		} catch (NoLoanPermittedException | UserDoesNotExistException | MaxMoneyException | IOException e) {
 			e.printStackTrace();
 		}
@@ -124,25 +117,15 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void OnIteract(PlayerInteractEvent event) {
-		if(event.getPlayer() == null) return;
-		if(event.getItem() == null || event.getItem().getItemMeta() == null) return;
+		if(event.getPlayer() == null || event.getItem() == null || event.getItem().getItemMeta() == null) return;
 		
 		ItemStack is = event.getItem();
 		Player player = event.getPlayer();
 		Boolean isVania = !event.getItem().getItemMeta().hasCustomModelData();
 
-		if(!isVania) {
-			int it = is.getItemMeta().getCustomModelData();
-			event.setCancelled(NetherStarMenu.HasMenu(player, it, is));
-			if(event.isCancelled()) return;
-		}
-		
-		event.setCancelled(ShopMenu.TcheckShopMenuAction(player, is));
-		
-		
+		if(!isVania) event.setCancelled(NetherStarMenu.HasMenu(player, is.getItemMeta().getCustomModelData(), is));
 	}
 		
-	
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
 		if(!event.getItemDrop().getItemStack().getItemMeta().hasCustomModelData()) return;
@@ -164,13 +147,12 @@ public class Listner implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		ItemStack current = event.getCurrentItem();
 		Boolean isVania = !current.getItemMeta().hasCustomModelData();
-
-		
 		
 		if(!isVania) {
+			int mod = current.getItemMeta().getCustomModelData();
 			try {
 				if(Interface.GetActonIfInMainMenu(player, current, inv)) event.setCancelled(true);
-				else event.setCancelled(NetherStarMenu.HasMenu(player, current.getItemMeta().getCustomModelData(), current));
+				else event.setCancelled(NetherStarMenu.HasMenu(player, mod, current));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -178,7 +160,7 @@ public class Listner implements Listener {
 		if(!event.isCancelled()) event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getCurrentItem()));
 	
 	}
-
+	
 	/*@EventHandler
 	public void OnPlayerPickupItemEvent(PlayerPickupItemEvent e) {
 		Player player = e.getPlayer();
