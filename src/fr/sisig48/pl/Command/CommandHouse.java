@@ -20,7 +20,11 @@ public class CommandHouse implements CommandExecutor {
 				switch (arg[0]) {
 				case "add":
 					HouseData.addLoc(p.getLocation());
-					p.sendMessage("Shop ajouter");
+					p.sendMessage("§aShop ajouter");
+					return true;
+				case "delete":
+					HouseData.delLoc(p.getLocation());
+					p.sendMessage("§4Shop suprimé");
 					return true;
 
 				}
