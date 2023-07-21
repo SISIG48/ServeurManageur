@@ -16,8 +16,8 @@ public class AutoReload {
         Calendar calendar = Calendar.getInstance();
 
         // Définissez l'heure d'exécution à minuit
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
 
         // Si l'heure actuelle est déjà passée, ajoutez un jour pour fixer l'heure d'exécution au lendemain
         if (calendar.getTime().compareTo(new Date()) < 0) {
@@ -28,17 +28,17 @@ public class AutoReload {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                //0H00
+                //23H59
             	Bukkit.broadcastMessage("§d/§4Avertissement§d\\ §aLe serveur va redémarrer dans §6une minute");
                 Bukkit.broadcastMessage("§d/§4Warning§d\\ §aThe server will restart in §6a minute");
-            	try {Thread.sleep(30000);} catch (InterruptedException e) {e.printStackTrace();}
+            	try {Thread.sleep(20000);} catch (InterruptedException e) {e.printStackTrace();}
 
-            	//0H00 30s
+            	//23H59 30s
             	Bukkit.broadcastMessage("§d/§4Avertissement§d\\ §aLe serveur va redémarrer dans §630 second");
             	Bukkit.broadcastMessage("§d/§4Warning§d\\ §aThe server will restart in §630 seconds");
             	try {Thread.sleep(30000);} catch (InterruptedException e) {e.printStackTrace();}
                 
-            	//0H01 Restart
+            	//0H00 - 10s : Restart
             	Bukkit.reload();
             }
         };
