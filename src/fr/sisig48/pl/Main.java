@@ -27,6 +27,7 @@ import fr.sisig48.pl.Command.CommandMine;
 import fr.sisig48.pl.Command.CommandRe;
 import fr.sisig48.pl.Command.CommandShop;
 import fr.sisig48.pl.Command.CommandSpawn;
+import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
@@ -113,6 +114,8 @@ public class Main extends JavaPlugin {
 			sec.sendMessage("§8Start Payment");
 			for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
 			sec.sendMessage("§daddon loading sucess");
+			
+			XpCounter.Count();
 		}
 	}, "init SM addon");
 	

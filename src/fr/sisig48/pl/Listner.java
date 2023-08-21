@@ -44,7 +44,7 @@ public class Listner implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		
+		fr.sisig48.pl.users.Interface.launch();
 		Player player = event.getPlayer();
 		player.sendMessage("§aBienvenue sur le serveur");
 		player.sendMessage("§eSi tu as un problème, contacte le staff sur le §4discord §eou");
@@ -58,9 +58,9 @@ public class Listner implements Listener {
 		try {
 			logs.PlayerConect(player);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		ServeurManageurUpdate.SendMaj();
 		NetherStarMenu.GiveMenu(player);
 		Friends f = new Friends(player);
