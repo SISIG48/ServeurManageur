@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
 import org.bukkit.Instrument;
 import org.bukkit.Material;
 import org.bukkit.Note;
@@ -21,10 +20,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.noise.OctaveGenerator;
 
 import fr.sisig48.pl.Main;
 import fr.sisig48.pl.Menu.Interface;
@@ -33,6 +30,7 @@ import fr.sisig48.pl.Utils.Item;
 import fr.sisig48.pl.Utils.Uconfig;
 import net.ess3.api.Economy;
 
+@SuppressWarnings("deprecation")
 public class LootBox {
 	protected final static ArrayList<String> Rmythique = new ArrayList<String>(), Rlegend = new ArrayList<String>(), Rrare = new ArrayList<String>(), Runcommon = new ArrayList<String>(), Rcommon = new ArrayList<String>();
 	private static String path = "nextGive";
@@ -55,7 +53,6 @@ public class LootBox {
 	
 	
 	//Detection du prochain mois
-	@SuppressWarnings("deprecation")
 	private static Date configDate() {
 		init();
 		String dateString = config.get(path);
@@ -101,7 +98,6 @@ public class LootBox {
 	}
 	
 	//Re planification de la box
-	@SuppressWarnings("deprecation")
 	public static void resetBox() {
 		Calendar calendar = Calendar.getInstance();
         

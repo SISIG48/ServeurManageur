@@ -10,6 +10,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.Utils.Item;
 
@@ -33,9 +34,9 @@ public class ShopMenu {
 	}
 	
 	public static boolean TcheckShopMenuAction(Player p, ItemStack it) {
-		PlayerJobs pj = new PlayerJobs(p);
-				
+		
 		//Inventory object var
+		PlayerJobs pj = new PlayerJobs(p);
 		InventoryView openInv = p.getOpenInventory();
 		Inventory PlayerInv = p.getInventory();
 		int invCo = openInv.countSlots() - PlayerInv.getSize();
@@ -56,17 +57,18 @@ public class ShopMenu {
 			meta.setLore(Arrays.asList("§dNon vendable"));
 			it.setItemMeta(meta);
 			p.getInventory().addItem(it);
+			
+			XpCounter.delItem(it);
 			return true;
 		}
 		
-		
+		ItemMeta meta = openInv.getItem(invCo - 5).getItemMeta();
 		//Get the good inventory
-		if(sellItem.equals(openInv.getItem(invCo - 5)) && openInv.getItem(invCo - 5).getItemMeta().getCustomModelData() != 131) {
+		if(sellItem.equals(openInv.getItem(invCo - 5)) || (meta != null && meta.hasCustomModelData() && meta.getCustomModelData() == 131)) {
 			if(it.getItemMeta().hasCustomModelData() && it.getItemMeta().getCustomModelData() == 1251) return true;
 			
-			//XP
 			pj.MaterialAddXp(it.getType(), it.getAmount());
-
+			
 			//detect item from player inventory
 			int n = 0;
 			for(int i = 0; i < PlayerInv.getSize(); i++) if(PlayerInv.getItem(i) != null && PlayerInv.getItem(i).equals(it)) n = i;
@@ -75,7 +77,7 @@ public class ShopMenu {
 			PlayerInv.setItem(n, new ItemStack(Material.AIR));
 			
 			//Change item info
-			ItemMeta meta = it.getItemMeta();
+			meta = it.getItemMeta();
 			meta.setCustomModelData(131);
 			meta.setLore(Arrays.asList("§8Vendu"));
 			it.setItemMeta(meta);
@@ -83,6 +85,7 @@ public class ShopMenu {
 			//Place item in shop
 			openInv.setItem(invCo - 5, it);
 			
+			XpCounter.addItem(it);
 			return true;
 			
 		}

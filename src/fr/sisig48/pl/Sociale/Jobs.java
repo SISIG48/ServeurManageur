@@ -6,15 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.JobsHouse.HouseData;
 
 public enum Jobs {
@@ -44,7 +41,6 @@ public enum Jobs {
     static ArrayList<String> line = new ArrayList<String>();
     public static Jobs[] All = values();
 	private int PayMent;
-    private JobsIXp JobsXp = new JobsIXp();
 	private HouseData hd;
     
     Jobs(String name, String jobs, Boolean enable, int id, int prix, ItemStack item_cost, String rule, int PayMent) {
@@ -77,17 +73,8 @@ public enum Jobs {
     	return hd;
     }
     
-    public Float getXpGain(Material m) {
-    	return JobsXp.getXpGain(m);
-    }
-    
     public int getNextPosibilities() {
         return rules.size();
-    }
-    
-    void addXpGain(Material m, Float f) {
-    	JobsXp.ALF.add(f);
-    	JobsXp.MAL.add(m);
     }
     
     public Boolean isEnable() {
@@ -249,110 +236,8 @@ public enum Jobs {
     	return;
     }
     
-    public static void init() {
-    	JobsItemXp.init();
-    }
-}
-class JobsIXp {
-	ArrayList<Material> MAL = new ArrayList<Material>();
-	ArrayList<Float> ALF = new ArrayList<Float>();
-	public Float getXpGain(Material m) {
-		if(MAL.contains(m)) return ALF.get(MAL.indexOf(m));
-		else return Float.valueOf(0);
-	}
-}
-class JobsItemXp {
-	static boolean isInit = false;
-	static ArrayList<InfoItemXp> MXP = new ArrayList<InfoItemXp>();
-	
-	public static File getFile() {
-        File file = new File("plugins/ServeurManageur/data/jobs/Material.xpJobs");
-    	return file;
-    }
-	
-	
-	public static void init() {
-		try {
-			init2();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
-	static void init2() throws IOException {
-		if(isInit) return;
-		isInit = true;
-		if(!getFile().exists()) {
-			File source = new File("plugins/ServeurManageur.jar");
-			
-			try (JarFile jar = new JarFile(source)) {
-	            JarEntry entry = jar.getJarEntry("Material.xpJobs");
-	            try (InputStream is = jar.getInputStream(entry)) {
-	                Files.copy(is, getFile().toPath());
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		}
-		FileReader MyFileR = new FileReader(getFile());
-	    BufferedReader br = new BufferedReader(MyFileR);    
-	    String r;
-	    ArrayList<String> line = new ArrayList<String>();
-	    while((r = br.readLine()) != null) line.add(r.toString());
-	    MyFileR.close();
-		Material ma = Material.BARRIER;
-		line.remove("?JobXpSettings");
-		ArrayList<Material> mal = new ArrayList<Material>();
-		for (String e : line) {
-			String[] temp = e.split("\\s*:\\s*");
-		    if(temp.length == 1 && temp[0].length() > 2) ma = Material.valueOf(temp[0]);
-		    if(temp.length == 2 && !temp[0].isEmpty()) Jobs.valueOf(temp[0]).addXpGain(ma, Float.valueOf(temp[1]));
-		    mal.add(ma);
-		}
-	 }
-	
-	@SuppressWarnings("static-access")
-	static void sleep(int i) {
-		try {
-			Thread.currentThread().sleep(i);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-}
-
-class InfoItemXp {
-	private Material m; 
-	private ArrayList<InfoItemXpUnit> j;
-	public InfoItemXp(Material ma, ArrayList<InfoItemXpUnit> IIXP) {
-		m = ma;
-		j = IIXP;
-	}
-	
-	Material getMaterial() {
-		return m;
-	}
-	
-	ArrayList<InfoItemXpUnit> getInfoItemXpUnit() {
-		return j;
-	}
-	
-}
-
-class InfoItemXpUnit {
-	private Jobs j;
-	private Float x;
-	public InfoItemXpUnit(Jobs jo, float xp) {
-		j = jo;
-		x = xp;
-	}
-	
-	Jobs getJobs() {
-		return j;
-	}
-	
-	Float getXp() {
-		return x;
+	float getXpGain(Material m) {
+		return XpCounter.getXp(m);
 	}
 }

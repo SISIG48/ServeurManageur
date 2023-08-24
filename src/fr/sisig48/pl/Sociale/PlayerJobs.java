@@ -195,7 +195,6 @@ public class PlayerJobs {
 	}
 	
 	public static void load() {
-		Jobs.init();
 		reload();
 	}
 	

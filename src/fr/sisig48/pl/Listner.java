@@ -36,7 +36,7 @@ import net.ess3.api.MaxMoneyException;
 
 @SuppressWarnings("deprecation")
 public class Listner implements Listener {
-	
+
 	Main main;
 	public Listner(Main main) {
 		this.main = main;
@@ -44,7 +44,6 @@ public class Listner implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		fr.sisig48.pl.users.Interface.launch();
 		Player player = event.getPlayer();
 		player.sendMessage("§aBienvenue sur le serveur");
 		player.sendMessage("§eSi tu as un problème, contacte le staff sur le §4discord §eou");
@@ -161,42 +160,6 @@ public class Listner implements Listener {
 	
 	}
 	
-	/*@EventHandler
-	public void OnPlayerPickupItemEvent(PlayerPickupItemEvent e) {
-		Player player = e.getPlayer();
-		Item block = e.getItem();
-		if((player == null) || e.isCancelled() || (block.getItemStack().getItemMeta().hasCustomModelData() && block.getItemStack().getItemMeta().getCustomModelData() == 122)) return;
-		ItemMeta m = block.getItemStack().getItemMeta();
-		int i = 0;
-		if(!player.isSneaking()) {
-			PlayerJobs Pjobs = new PlayerJobs(player);
-			ArrayList<String> lore = new ArrayList<String>();
-			if(m.getLore() != null) lore.addAll(m.getLore());
-			lore.remove("§dXp encore dans l'objet");
-			lore.remove("§dreprenez l'objet pour récupérer l'XP.");
-			m.setLore(lore);
-			m.setCustomModelData(122);
-			block.getItemStack().setItemMeta(m);
-			ItemStack IS;
-			while((i++)<36) if((IS = player.getInventory().getItem(i)) == block.getItemStack()) IS.setItemMeta(m);
-			Pjobs.MaterialAddXp(block.getItemStack().getType(), block.getItemStack().getAmount());
-		} else {
-			ArrayList<String> lore = new ArrayList<String>();
-			lore.remove("§dXp encore dans l'objet");
-			lore.remove("§dreprenez l'objet pour récupérer l'XP.");
-			
-			lore.add("§dXp encore dans l'objet");
-			lore.add("§dreprenez l'objet pour récupérer l'XP.");
-			
-			m.setLore(lore);
-			block.getItemStack().setItemMeta(m);
-			ItemStack IS;
-			while((i++)<36) if((IS = player.getInventory().getItem(i)) == block.getItemStack()) IS.setItemMeta(m);
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§dL'expérience est restée dans l'objet §8(sneaking)"));
-
-		}
-		player.updateInventory();
-	}*/
 	
 	
 }

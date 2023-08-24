@@ -113,9 +113,10 @@ public class Main extends JavaPlugin {
 			
 			sec.sendMessage("§8Start Payment");
 			for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
-			sec.sendMessage("§daddon loading sucess");
 			
+			sec.sendMessage("§8Start xp");
 			XpCounter.Count();
+			sec.sendMessage("§daddon loading sucess");
 		}
 	}, "init SM addon");
 	
@@ -167,6 +168,7 @@ public class Main extends JavaPlugin {
 		}
 		PayPal.thread.stop();
 		logs.add("Plugin Stoping");
+		XpCounter.save();
 	}
 	
 	@SuppressWarnings("deprecation")

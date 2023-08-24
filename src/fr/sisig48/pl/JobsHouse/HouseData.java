@@ -61,10 +61,6 @@ public class HouseData {
 		return new File("plugins/ServeurManageur/data/jobs/house/location.data");
 	}
 	
-	private Jobs jobs() {
-		return jobs;
-	}
-	
 	public int getHousePrice() {
 		return PriceHouse;
 	}
@@ -107,8 +103,6 @@ public class HouseData {
 		}
 		MyFileR.close();
 		    
-		int i = 0;
-		int rs = line.size() -1;
 		if(line.size() != 0 &&!line.get(0).equalsIgnoreCase("?HouseData")) line.add(0, "?HouseData");
 		extrudeInfo();
 		save();
@@ -269,7 +263,6 @@ public class HouseData {
 	
 	private static void delHouse1(Location loc, Player p) {
 		Jobs j = new PlayerJobs(p).get();
-		int i = -1;
 		ArrayList<String> line = new ArrayList<String>(j.getHouseData().line);
 		for(String e : line) {
 			String[] t = e.split(" ");

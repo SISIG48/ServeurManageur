@@ -1,14 +1,12 @@
 package fr.sisig48.pl.Menu;
 
 import java.math.BigDecimal;
-import java.security.KeyStore.Entry.Attribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

@@ -98,7 +98,7 @@ public class Uconfig {
 		main.saveConfig();
 	}
 	
-	private static boolean isSet(String path) {
+	public static boolean isSet(String path) {
 		return config.isSet(path);
 	}
 	
