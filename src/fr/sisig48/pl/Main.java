@@ -147,12 +147,19 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("removal")
 	@Override
 	public void onDisable() {
+		
+		//Fermeture des threads
 		Mine.AutoFill.stop();
 		loadThread.stop();
+		PayPal.thread.stop();
+		AutoReload.delTimer();
+		
+		// Sauvegarde
 		reloadConfig();
 		saveConfig();
 		Friends.saveAll();
 		PlayerJobs.saveAll();
+		XpCounter.save();
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
 			if(!(e.getName().equals("SISIG48"))) {
@@ -166,9 +173,7 @@ public class Main extends JavaPlugin {
 				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
 			}
 		}
-		PayPal.thread.stop();
 		logs.add("Plugin Stoping");
-		XpCounter.save();
 	}
 	
 	@SuppressWarnings("deprecation")

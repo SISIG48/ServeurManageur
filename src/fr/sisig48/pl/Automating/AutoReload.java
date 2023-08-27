@@ -5,10 +5,28 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.bukkit.Bukkit;
+import fr.sisig48.pl.Economie.XpCounter;
+import fr.sisig48.pl.Sociale.Friends;
+import fr.sisig48.pl.Sociale.PlayerJobs;
+import fr.sisig48.pl.Utils.Uconfig;
 
 public class AutoReload {
-	public static void initiate() {
+	private static TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+        	// Sauvegarde
+    		Uconfig.reloadConfig();
+    		Uconfig.saveConfig();
+    		Friends.saveAll();
+    		PlayerJobs.saveAll();
+    		XpCounter.save();
+    		
+    		initiate();
+    		task.cancel();
+        }
+    };
+	
+    public static void initiate() {
         // Créez une instance de Timer
         Timer timer = new Timer();
 
@@ -16,34 +34,19 @@ public class AutoReload {
         Calendar calendar = Calendar.getInstance();
 
         // Définissez l'heure d'exécution à minuit
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 1);
 
         // Si l'heure actuelle est déjà passée, ajoutez un jour pour fixer l'heure d'exécution au lendemain
-        if (calendar.getTime().compareTo(new Date()) < 0) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
+        if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
 
-        // Définissez la tâche à exécuter
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                //23H59
-            	Bukkit.broadcastMessage("§d/§4Avertissement§d\\ §aLe serveur va redémarrer dans §6une minute");
-                Bukkit.broadcastMessage("§d/§4Warning§d\\ §aThe server will restart in §6a minute");
-            	try {Thread.sleep(20000);} catch (InterruptedException e) {e.printStackTrace();}
-
-            	//23H59 30s
-            	Bukkit.broadcastMessage("§d/§4Avertissement§d\\ §aLe serveur va redémarrer dans §630 second");
-            	Bukkit.broadcastMessage("§d/§4Warning§d\\ §aThe server will restart in §630 seconds");
-            	try {Thread.sleep(30000);} catch (InterruptedException e) {e.printStackTrace();}
-                
-            	//0H00 - 10s : Restart
-            	Bukkit.reload();
-            }
-        };
+        
 
         // Planifiez l'exécution de la tâche à l'heure définie
         timer.schedule(task, calendar.getTime());
     }
+	
+	public static void delTimer() {
+		task.cancel();
+	}
 }
