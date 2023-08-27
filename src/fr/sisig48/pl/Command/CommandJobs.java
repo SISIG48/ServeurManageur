@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 
+import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
@@ -38,6 +40,9 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor {
 				return true;
 			case "save" :
 				PlayerJobs.saveAll();
+				return true;
+			case "xp" :
+				for(Material m : Material.values()) if(XpCounter.getXp(m) != 0) sender.sendMessage("§aXp pour §4" + m.name() + " §a: §d" + XpCounter.getXp(m));
 				return true;
 			case "reset" :
 				for(Jobs jo : Jobs.All) jo.getFile().delete();
@@ -83,16 +88,25 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor {
 			switch(arg[0]) {
 			case "set" :
 				p.add(Jobs.valueOf(arg[1]));
-				sender.sendMessage("§aYou have set : §4" + p.get().getName());
+				sender.sendMessage("§aVous avez définie sur : §4" + p.get().getName());
 				p.save();
 				return true;
-			case "setXp" :
-				p.setXp(Integer.valueOf(arg[1]));
-				return true;
+			case "xp" : 
+				switch(arg[1]){
+				case "set" :
+					p.setXp(Integer.valueOf(arg[2]));
+					return true;
+				case "get" :
+					sender.sendMessage("§aVotre xp est de : §4" + p.getXp());
+					return true;
+				case "info" :
+					for(Material m : Material.values()) if(XpCounter.getXp(m) != 0) sender.sendMessage("§aXp pour §4" + m.name() + " §a: §d" + XpCounter.getXp(m));
+					return true;
+				}
 			case "get" :
 				@SuppressWarnings("deprecation") OfflinePlayer playerGet = Bukkit.getOfflinePlayer(arg[1]);
-				if(playerGet == null || !playerGet.hasPlayedBefore()) sender.sendMessage("§4Player : §6" + arg[1] + " §4does not exist");
-				else sender.sendMessage("§6Jobs of §4" + arg[1] + " §6is §4" + new PlayerJobs(playerGet).get().getName());
+				if(playerGet == null || !playerGet.hasPlayedBefore()) sender.sendMessage("§4Player : §6" + arg[1] + " §4n'existe pas");
+				else sender.sendMessage("§6Jobs de §4" + arg[1] + " §6est §4" + new PlayerJobs(playerGet).get().getName());
 				return true;
 			case "rl" :
 				PlayerJobs.reload();
