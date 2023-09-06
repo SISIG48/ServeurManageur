@@ -238,6 +238,6 @@ public enum Jobs {
     
 
 	float getXpGain(Material m) {
-		return XpCounter.getXp(m);
+		return XpCounter.getXp(m, this);
 	}
 }

@@ -9,9 +9,13 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class logs {
+	public static void send(String s) {
+		Bukkit.getConsoleSender().sendMessage(s);
+	}
 	public static void add(String info) {
 
 	    

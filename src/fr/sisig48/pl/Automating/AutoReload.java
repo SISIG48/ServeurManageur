@@ -21,8 +21,8 @@ public class AutoReload {
     		PlayerJobs.saveAll();
     		XpCounter.save();
     		
-    		initiate();
     		task.cancel();
+    		initiate();
         }
     };
 	
@@ -39,8 +39,6 @@ public class AutoReload {
 
         // Si l'heure actuelle est déjà passée, ajoutez un jour pour fixer l'heure d'exécution au lendemain
         if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
-
-        
 
         // Planifiez l'exécution de la tâche à l'heure définie
         timer.schedule(task, calendar.getTime());

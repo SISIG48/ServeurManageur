@@ -133,6 +133,7 @@ public class Main extends JavaPlugin {
 		getCommand("bug").setExecutor(new CommandBug());
 		getCommand("friends").setExecutor(new CommandFriends());
 		getCommand("jobs").setExecutor(new CommandJobs());
+		getCommand("jobs").setTabCompleter(new CommandJobs());
 		getCommand("menu").setExecutor(new CommandMenu());
 		getCommand("house").setExecutor(new CommandHouse());
 		getCommand("shop").setExecutor(new CommandShop());

@@ -7,31 +7,43 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.Main;
+import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Utils.Uconfig;
 
 public class XpCounter {
 	private final static String path = getPath();
 	private final static ArrayList<String> lines = new ArrayList<String>();
 	private final static String fileName = "sell";
-	private static int maxLine = 10000;
+	private static int maxLine = maxLine();
 	
 	public static void Count() {
+		read();
 		regularLine.load();
 		maxLine = maxLine + regularLine.getSup();
 		delLines();
-		read();
 	}
 	
-	public static float getXp(Material m) {
-		return new ItemXp(m).getXp();
+	private static int maxLine() {
+		if(!Uconfig.isSet("xp.line")) Uconfig.setConfig("xp.line", "" + Material.values().length * 10);
+		return Integer.valueOf(Uconfig.getConfig("xp.line"));
+	}
+	
+	public static float getXp(Material m, Jobs jobs) {
+		return new ItemXp(m, jobs).getXp();
 	}
 	
 	private static void read() {
@@ -105,16 +117,28 @@ public class XpCounter {
 
 
 class ItemXp {
-	private static ArrayList<ItemXp> ixs = new ArrayList<ItemXp>();
-	private static int maxXp = maxXp();
-	private static float qtnNullXp = qtnNullXp();
-	private static float maxNullXp = maxNullXp();
-	private static float maxGainXp = maxGainXp();
-	private static int total = 0;
 	private int qtn = 0;
 	private Material it;
 	private ItemXp ix = this;
 	private float xp = 0;
+	private Jobs jobs; 
+	
+	private static String confPath = "xp.gain.";
+	private final static ArrayList<ItemXp> ixs = new ArrayList<ItemXp>();
+	private static int total = 0;
+	private final static File fileXpInfo = new File(XpCounter.getPath() + "xp.itemSave");
+	private final static ArrayList<String> tags = new ArrayList<String>(Arrays.asList("HS", "BAS", "MOYEN", "HAUT"));
+	
+	private static int maxXp = maxXp();
+	private static float qtnNullXp = qtnNullXp();
+	private static float maxNullXp = maxNullXp();
+	private static float maxGainXp = maxGainXp();
+	
+	@SuppressWarnings("unused")
+	private static boolean confInti = initPerConfig();
+	
+	private static ArrayList<String> xpInfo = getXpInfo();
+	
 	public ItemXp(Material it, int qtn) {
 		total = total + qtn;
 		
@@ -136,7 +160,44 @@ class ItemXp {
 		ix.it = it;
 	}
 	
-	public ItemXp(Material it) {
+	@SuppressWarnings("resource")
+	private static ArrayList<String> getXpInfo() {
+		ArrayList<String> info = new ArrayList<String>();
+		if(!fileXpInfo.exists()) {
+			File source = new File("plugins/ServeurManageur.jar");
+	        try (JarFile jar = new JarFile(source)) {
+	            JarEntry entry = jar.getJarEntry("Material.xpJobs");
+	            try (InputStream is = jar.getInputStream(entry)) {Files.copy(is, fileXpInfo.toPath());};
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(fileXpInfo));
+			String r;
+			while((r = br.readLine()) != null) {
+				try {
+					boolean find = false;
+					
+					Material.valueOf(r.split("/")[0]);
+					for(int i = 1; i != r.split("/").length; i++) if(!tags.contains(r.split("/")[i])) for(Jobs j : Jobs.values()) if(j.toString().equals(r.split("/")[i])) find = true;
+					
+					if(find) info.add(r);
+					else logs.send("§4Erreur argument de la ligne invalide : §a" + r);
+				} catch (IllegalArgumentException e) {
+					logs.send("§4Erreur Material invalide : §a" + r.split("/")[0]);
+				} catch (IndexOutOfBoundsException e) {
+					logs.send("§4Erreur ligne invalide : §a" + r);
+				}
+				
+			}
+		} catch (FileNotFoundException e) {} catch (IOException e) {}
+		return info;
+	}
+
+	public ItemXp(Material it, Jobs jobs) {
+		this.jobs = jobs;
 		for(ItemXp i : ixs) {
 			if(i.qtn != 0) i.xp = (total - i.qtn) * maxXp / total; else i.xp = 0;
 			if(i.getMaterial().equals(it)) ix = i;
@@ -154,7 +215,7 @@ class ItemXp {
 	}
 	
 	private static int maxXp() {
-		if(!Uconfig.isSet("xp.base")) Uconfig.setConfig("xp.base", "" + (Material.values().length * 2.5));
+		if(!Uconfig.isSet("xp.base")) Uconfig.setConfig("xp.base", "" + (int) (Material.values().length * 1.75));
 		return Integer.valueOf(Uconfig.getConfig("xp.base"));
 	}
 
@@ -172,9 +233,22 @@ class ItemXp {
 	}
 	
 	public float getXp() {
-		if(ix.xp > maxGainXp) return maxGainXp;
-		if(ixs.size() > qtnNullXp) return maxNullXp;
-		else return ix.xp;
+		float per = 1;
+		Jobs j = jobs;
+		for(String s : xpInfo) if(Material.getMaterial(s.split("/")[0]).equals(ix.it)) for(String st : s.split("/")) {
+			if(tags.contains(st)) for(String tag : tags) if(tag.equals(st)) per = per * (Float.valueOf(Uconfig.getConfig(confPath + tag).split("%")[0]) / 100 + 1);
+			else if (st.equals(j.toString())) per = per * (Float.valueOf(Uconfig.getConfig(confPath + "jobs").split("%")[0]) / 100 + 1);
+		}
+		
+		if(ix.xp > maxGainXp) return maxGainXp * per;
+		if(ixs.size() > qtnNullXp) return maxNullXp * per;
+		else return ix.xp * per;
+	}
+	
+	private static boolean initPerConfig() {
+		for(String s : tags) if(!Uconfig.isSet(confPath + s)) Uconfig.setConfig(confPath + s,  "-100%");
+		if(!Uconfig.isSet(confPath + "jobs")) Uconfig.setConfig(confPath + "jobs", "50%");
+		return true;
 	}
 	
 	public void subQtn(int qtn) {
