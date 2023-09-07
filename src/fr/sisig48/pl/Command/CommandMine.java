@@ -2,6 +2,8 @@ package fr.sisig48.pl.Command;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,12 +11,13 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.Automating.Mine;
 import fr.sisig48.pl.State.Spawn;
 
-public class CommandMine implements CommandExecutor {
+public class CommandMine implements CommandExecutor, TabCompleter {
 
 	
 	@Override
@@ -59,7 +62,6 @@ public class CommandMine implements CommandExecutor {
 					}
 					
 					if ((Bukkit.getPlayer(e) != null) && Bukkit.getPlayer(e).isOnline()) {
-						if (!player.isOp()) {player.sendMessage("§4You can't do this command"); return true;}
 						try {
 							destination = Spawn.GetMineInSpawnLocation();
 							Player p = Bukkit.getPlayer(e);
@@ -88,5 +90,26 @@ public class CommandMine implements CommandExecutor {
 		
 		return false;
 	}
-
+	
+	
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if(!sender.isOp()) return completions;
+        if(args.length == 1) {
+        	completions.add("set");
+        	completions.add("rl");
+        	completions.add("reload");
+        	for(Player p : Bukkit.getOnlinePlayers()) {
+        		completions.add(p.getName());
+        		completions.add(p.getUniqueId().toString());
+        	}
+        } else if(args.length == 2 && args[0].equalsIgnoreCase("set")) {
+        	completions.add("in");
+        	completions.add("out");
+        	completions.add("zone1");
+        	completions.add("zone2");
+        }
+        
+        return completions;
+    }
 }

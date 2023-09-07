@@ -1,16 +1,19 @@
 package fr.sisig48.pl.Command;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.logs;
 
-public class CommandRe implements CommandExecutor {
+public class CommandRe implements CommandExecutor, TabCompleter {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
 		if (!sender.isOp()) return true;
@@ -94,4 +97,16 @@ public class CommandRe implements CommandExecutor {
 		sender.sendMessage("§eVerrUpdate Syetem say : §4You dont need §aUPDATE");
 		return true;
 	}
+	
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (args.length == 1) {
+        	completions.add("get");
+        	completions.add("force");
+        	completions.add("v");
+        	completions.add("news");
+        	completions.add("reload");
+        } 
+        return completions;
+    }
 }

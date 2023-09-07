@@ -1,6 +1,6 @@
 §e---§a§lPLUGIN MANAGEUR§e---
 §eName : §4§lServer Manager
-§eVersion : §8Alpha §a1.0.7 §6§lJobs-UPDATE
+§eVersion : §8Alpha §a1.0.8 §6§lObject-UPDATE
 §eAuthor : §a§lSISIG48
 §eAPI-Version : §a1.13
  

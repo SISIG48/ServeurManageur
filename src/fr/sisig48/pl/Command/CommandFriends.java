@@ -2,16 +2,20 @@ package fr.sisig48.pl.Command;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.Sociale.Friends;
 
-public class CommandFriends implements CommandExecutor {
+public class CommandFriends implements CommandExecutor, TabCompleter {
 
 	@SuppressWarnings({ "deprecation"})
 	@Override
@@ -40,7 +44,7 @@ public class CommandFriends implements CommandExecutor {
 								return true;
 							
 						}
-						Friends.FriendsResquet.add(String.valueOf(player.getUniqueId()) + "/" + String.valueOf(Bukkit.getPlayer(arg[1]).getUniqueId()));
+						paf.addRequest(af.getPlayer());
 						player.sendMessage("§aVous avez envoyer une demmand d'ami a §4" + af.getName());
 						af.getPlayer().sendMessage("§aVous avez reçus une demmand d'ami de §4" + player.getName());
 						
@@ -69,15 +73,14 @@ public class CommandFriends implements CommandExecutor {
 					case "accept" :
 						
 						Player Aaf = Bukkit.getPlayer(arg[1]);
-						String cont = String.valueOf(Bukkit.getPlayer(arg[1]).getUniqueId()) + "/" + String.valueOf(player.getUniqueId());
 						if(!Aaf.isOnline()) {
 							player.sendMessage("§4Erreur: le joueur n'est pas conecter");
 							return true;
 						}
-						Friends Afpl = new Friends(Bukkit.getOfflinePlayer(player.getUniqueId()));
+						Friends Afpl = new Friends(player);
 						Friends Afaf = new Friends(Aaf);
 						
-						if(!Friends.FriendsResquet.contains(cont)) {
+						if(!Afaf.hasRequest(player)) {
 							player.sendMessage("§4Erreur: le joueur ne vous a pas fait de demmande");
 							return true;
 						}
@@ -88,19 +91,14 @@ public class CommandFriends implements CommandExecutor {
 								return true;
 							
 						}
-						for (String r : Friends.FriendsResquet) {
-							String[] j = r.split("/");
-							if(j.length < 2) break;
-							if(!j[1].equals(String.valueOf(player.getUniqueId()))) break;
-							if(!j[0].equals(String.valueOf(Aaf.getUniqueId()))) break;
-							Afpl.add(Aaf);	
-							Afpl.close();
-							Afaf.add(player);
-							Afaf.close();
-							Friends.FriendsResquet.remove(cont);
-							return true;
-						}
+							
+						Afpl.add(Aaf);	
+						Afpl.close();
+						Afaf.add(player);
+						Afaf.close();
+						Afaf.remove(player);
 						
+						return true;
 
 					
 				}
@@ -136,5 +134,21 @@ public class CommandFriends implements CommandExecutor {
 		}
 		return true;
 	}
-
+	
+	
+	//tab complete
+		public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+	        List<String> completions = new ArrayList<>();
+	        if(!(sender instanceof Player)) return completions;
+	        if(args.length == 1) {
+	            completions.add("add");
+	            completions.add("remove");
+	            completions.add("accept");
+	        } else if(args.length == 2) {
+	        	if(args[0].equalsIgnoreCase("add")) for(Player p : Bukkit.getOnlinePlayers()) if(p != (Player) sender) completions.add(p.getName());
+	        	if(args[0].equalsIgnoreCase("remove")) for(OfflinePlayer p : new Friends((OfflinePlayer) sender).get()) completions.add(p.getName());
+	        	if(args[0].equalsIgnoreCase("accept")) for(Player p : Bukkit.getOnlinePlayers()) if(new Friends(p).hasRequest((Player) sender)) completions.add(p.getName());
+	        }
+	        return completions;
+	    }
 }

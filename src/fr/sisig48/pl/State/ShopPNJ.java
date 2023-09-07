@@ -46,6 +46,10 @@ public class ShopPNJ {
 		uuids.add(uuid);
 	}
 	
+	public static void dellUUID(UUID uuid) {
+		uuids.remove(uuid);
+	}
+	
 	public static ArrayList<UUID> getUUIDS() {
 		return uuids;
 	}

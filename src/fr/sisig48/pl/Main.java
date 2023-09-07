@@ -21,7 +21,6 @@ import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandFriends;
 import fr.sisig48.pl.Command.CommandHouse;
 import fr.sisig48.pl.Command.CommandJobs;
-import fr.sisig48.pl.Command.CommandLootBox;
 import fr.sisig48.pl.Command.CommandMenu;
 import fr.sisig48.pl.Command.CommandMine;
 import fr.sisig48.pl.Command.CommandRe;
@@ -77,29 +76,46 @@ public class Main extends JavaPlugin {
 			Bukkit.getScheduler().runTask(Plug, () -> {
 				Entity e;
 				String uuid = " ";
+				
+				
 				//jobs PNJ
-				for(int i = 0; Uconfig.getConfig("location.pnj.jobs." + i) != null; i++) {
-					if((uuid = Uconfig.getConfig("location.pnj.jobs." + i + ".uuid")) == null) continue;
+				int saves = -1; 
+				String path = "location.pnj.jobs.";
+				for(int i = 0; Uconfig.getConfig(path + i) != null; i++) {
+					saves++;
+					if((uuid = Uconfig.getConfig(path + i + ".uuid")) == null) continue;
 					try {
 						e = Bukkit.getEntity(UUID.fromString(uuid));
 						e.teleport(JobsPNJ.getLoc(i));
-						e.setCustomName(Uconfig.getConfig("location.pnj.jobs." + i + ".name"));
+						e.setCustomName(Uconfig.getConfig(path + i + ".name"));
 						JobsPNJ.SetType(e);
 						JobsPNJ.addUUID(e.getUniqueId());
 					} catch (IllegalArgumentException ex) {sec.sendMessage("§dErr : §e" + ex.getMessage() + " §duuid miss : §e" + uuid);}
 				}
 				
+				PNJSave(path, saves);
+				
 				//shop PNJ
-				for(int i = 0; Uconfig.getConfig("location.pnj.shop." + i) != null; i++) {
-					if((uuid = Uconfig.getConfig("location.pnj.shop." + i + ".uuid")) == null) continue;
+				path = "location.pnj.shop.";
+				saves = -1; 
+				for(int i = 0; Uconfig.getConfig(path + i) != null; i++) {
+					saves++;
+					//Vérification de l'existance complete de la save
+					if((uuid = Uconfig.getConfig(path + i + ".uuid")) == null) continue;
 					try {
+						//Modfification PJN
 						e = Bukkit.getEntity(UUID.fromString(uuid));
 						e.teleport(ShopPNJ.getLoc(i));
 						ShopPNJ.addUUID(e.getUniqueId());
-						e.setCustomName(Uconfig.getConfig("location.pnj.shop." + i + ".name"));
+						e.setCustomName(Uconfig.getConfig(path + i + ".name"));
 						ShopPNJ.SetType(e);
+						
+						
 					} catch (IllegalArgumentException ex) {sec.sendMessage("§dErr : §e" + ex.getMessage() + " §duuid miss : §e" + uuid);}
 				}
+				
+				PNJSave(path, saves);
+				
 				sec.sendMessage("§8end load PNJ - Diff");
 				
 			});
@@ -120,6 +136,31 @@ public class Main extends JavaPlugin {
 		}
 	}, "init SM addon");
 	
+	private static void PNJSave(String path, int max) {
+		String[] saveList = {"x", "y", "z", "w", "yaw", "uuid", "name"};
+		
+		//Save réorganisation
+		boolean press = false;
+		for(int i = max; i >= 0; i--) {
+			if(!press) Uconfig.setConfig(path + (i + 1), null);
+			if(Uconfig.getConfig(path + i) == null) {
+				press = false;
+				continue;
+			}
+			if(Uconfig.getConfig(path + i).equals("void")) {
+				if(press) {
+					Uconfig.setConfig(path + (i), null);
+					for(String tag : saveList) Uconfig.setConfig(path + i + "." + tag, Uconfig.getConfig(path + (i+1) + "." + tag));
+					Uconfig.setConfig(path + (i + 1), null);
+					press = true;
+				} else {
+					Uconfig.setConfig(path + (i), null);
+					press = false;
+				}
+			} else press = true;
+		}
+	}
+	
 	@Override
 	public void onEnable() {
 		logs.add("Plugin Starting");
@@ -133,11 +174,9 @@ public class Main extends JavaPlugin {
 		getCommand("bug").setExecutor(new CommandBug());
 		getCommand("friends").setExecutor(new CommandFriends());
 		getCommand("jobs").setExecutor(new CommandJobs());
-		getCommand("jobs").setTabCompleter(new CommandJobs());
 		getCommand("menu").setExecutor(new CommandMenu());
 		getCommand("house").setExecutor(new CommandHouse());
 		getCommand("shop").setExecutor(new CommandShop());
-		getCommand("lootbox").setExecutor(new CommandLootBox());
 		Uconfig.intit(this);
 		AutoReload.initiate();
 		loadThread.start();

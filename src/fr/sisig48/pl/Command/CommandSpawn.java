@@ -1,18 +1,21 @@
 package fr.sisig48.pl.Command;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.logs;
 import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Uconfig;
 
-public class CommandSpawn implements CommandExecutor {
+public class CommandSpawn implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] arg) {
@@ -35,8 +38,7 @@ public class CommandSpawn implements CommandExecutor {
 						return true;
 					}
 					
-					if (Bukkit.getPlayer(e) != null & Bukkit.getPlayer(e).isOnline()) {
-						if (!player.hasPermission("DEFAULT_PERMISSION")) {player.sendMessage("§4You can't do this command"); return false;}
+					if (Bukkit.getPlayer(e) != null && Bukkit.getPlayer(e).isOnline()) {
 						try {
 							Player p = Bukkit.getPlayer(e);
 							p.teleport(Spawn.GetSpawnLocation());
@@ -62,11 +64,18 @@ public class CommandSpawn implements CommandExecutor {
 					return true;
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return false;
 	}
 
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if(args.length == 1 && sender instanceof Player && sender.isOp()) {
+        	completions.add("set");
+        	for(Player p : Bukkit.getOnlinePlayers()) completions.add(p.getName());
+        } 
+        return completions;
+    }	
 }

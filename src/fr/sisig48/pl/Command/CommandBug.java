@@ -3,16 +3,21 @@ package fr.sisig48.pl.Command;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Sociale.Jobs;
 
-public class CommandBug implements CommandExecutor {
+public class CommandBug implements CommandExecutor, TabCompleter {
 	
 	
 	@Override
@@ -56,5 +61,11 @@ public class CommandBug implements CommandExecutor {
 		}
 		return true;
 	}
-
+	
+	//tab complete
+		public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+	        List<String> completions = new ArrayList<>();
+	        if (args.length == 1 && sender.isOp()) completions.add("get");
+	        return completions;
+	    }
 }
