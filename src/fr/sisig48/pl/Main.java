@@ -214,6 +214,7 @@ public class Main extends JavaPlugin {
 			}
 		}
 		logs.add("Plugin Stoping");
+		Bukkit.dispatchCommand(sec, "restart");
 	}
 	
 	@SuppressWarnings("deprecation")
