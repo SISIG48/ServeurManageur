@@ -54,5 +54,9 @@ public class JobsPNJ {
 		v.setVillagerType(type);
 		v.setProfession(proffesion);
 	}
+
+	public static boolean dellUUID(UUID uuid) {
+		return uuids.remove(uuid);
+	}
 	
 }

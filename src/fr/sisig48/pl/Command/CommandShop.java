@@ -83,9 +83,9 @@ public class CommandShop extends ShopPNJ implements CommandExecutor, TabComplete
 			pnj.setCanPickupItems(false);
 			pnj.setCollidable(false);
 			pnj.setCustomName(name);
-			ShopPNJ.SetType(pnj);
 			pnj.setCustomNameVisible(true);
 			pnj.setInvulnerable(true);
+			ShopPNJ.SetType(pnj);
 			
 			
 			//Créeation de la sauvegarde (location) PNJ
@@ -102,7 +102,7 @@ public class CommandShop extends ShopPNJ implements CommandExecutor, TabComplete
 	
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if (args.length == 1) for(UUID uuid : ShopPNJ.getUUIDS()) completions.add(uuid.toString());
+        if(args.length == 1) for(UUID uuid : ShopPNJ.getUUIDS()) completions.add(uuid.toString());
         return completions;
     }
 }

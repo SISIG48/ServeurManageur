@@ -21,6 +21,7 @@ import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
+import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.Utils.Uconfig;
 
 public class CommandJobs extends JobsPNJ implements CommandExecutor, TabCompleter {
@@ -153,38 +154,51 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 			}
 			
 		}
-		
-		String r = "-";
-		int n = 0;
-		if(arg.length == 1) {
+		String path = "location.pnj.jobs.";
+		int n = -1;
+		if(arg.length == 1 && arg[0].length() == 36) {
 			try {
-				String uuids;
-				for(int i = 0; (r = Uconfig.getConfig("location.pnj.jobs."+ i)) != null && (uuids = Uconfig.getConfig("location.pnj.jobs."+ r +".uuid")) != null && !uuids.equals(arg[0]); n = i++);
-				r = Uconfig.getConfig("location.pnj.jobs."+ n +".uuid");
-				if(r != null && r.equals(arg[0])) {
+				
+				if(JobsPNJ.getUUIDS().contains(UUID.fromString(arg[0]))) {
+					//UUID Entrer
 					UUID uuid = UUID.fromString(arg[0]);
+					
+					@SuppressWarnings("unused")
+					//Detection emplacement de save
+					String temp = "";
+					for(int i = 0; (temp = Uconfig.getConfig(path + i)) != null ; i++) try{if(Uconfig.getConfig(path + i + ".uuid").equals(uuid.toString())) n = i;} catch (NullPointerException e) {};
+					if(n == -1) sender.sendMessage("§4Erreur interne");
+					
+					//Recupération du nom sauvegarder
+					String name = Uconfig.getConfig(path + n + ".name");
+					
+					//Destruction de la save
+					Uconfig.setConfig(path + n, "void");
+					JobsPNJ.dellUUID(uuid);
+					
+					//Supressions du PNJ
 					Bukkit.getEntity(uuid).remove();
-					sender.sendMessage("§a§l" + arg[0] + " §esuprimé §8§l(§d" + Uconfig.getConfig("location.pnj.jobs."+ n + ".name") + "§8§l)");
-					if(n != -1) Uconfig.setConfig("location.pnj.jobs."+ n, "void");
+					
+					//Message de supression
+					sender.sendMessage("§a§l" + arg[0] + " §esuprimé §8§l(§d" + name + "§8§l)");
 					return true;
 				} else {
 					sender.sendMessage("§4§lUUID non trouvé");
 					return true;
 				}
-			} catch (IllegalArgumentException e) {}
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage("§4§lUUID invalide");
+				return true;
+			}
 		}
 				
-		for(int i = 0; r != null && !r.equals("void") ; n = i++) r = Uconfig.getConfig("location.pnj.jobs."+ i);
-		Location loc = Bukkit.getPlayer(sender.getName()).getLocation();
-		JobsPNJ.setLoc(loc, n);
-		Villager pnj = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-		Uconfig.setConfig("location.pnj.jobs." + n + ".uuid", String.valueOf(pnj.getUniqueId()));
-		JobsPNJ.addUUID(pnj.getUniqueId());
-		pnj.setAI(false);
-		pnj.setCanPickupItems(false);
-		pnj.setCollidable(false);
-		JobsPNJ.SetType(pnj);
-		String name = "§ajobs";
+		//Detection emplacement de save
+		String r = "-";
+		for(int i = 0; r != null && !r.equals("void") ; n = i++) r = Uconfig.getConfig(path + i);
+		
+		
+		//Récupération du nom PNJ
+		String name = "§aJobs §4§lOffice";
 		if(arg.length >= 1) {
 			name = "";
 			int i = 0;
@@ -194,10 +208,25 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 				i++;
 			}
 		}
+		
+		//Création PNJ
+		Location loc = Bukkit.getPlayer(sender.getName()).getLocation();
+		Villager pnj = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+		pnj.setAI(false);
+		pnj.setCanPickupItems(false);
+		pnj.setCollidable(false);
 		pnj.setCustomName(name);
-		Uconfig.setConfig("location.pnj.jobs." + n + ".name", name);
 		pnj.setCustomNameVisible(true);
 		pnj.setInvulnerable(true);
+		JobsPNJ.SetType(pnj);
+		
+		
+		//Créeation de la sauvegarde (location) PNJ
+		JobsPNJ.setLoc(loc, n);
+		Uconfig.setConfig(path + n + ".name", name);
+		//Sauvegarde UUID
+		Uconfig.setConfig(path + n + ".uuid", String.valueOf(pnj.getUniqueId()));
+		JobsPNJ.addUUID(pnj.getUniqueId());
 		return true;
 	}
 	
@@ -206,8 +235,18 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 	//tab complete
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-
-        if (args.length == 1) {
+        if (!(sender instanceof Player) && args.length == 1) {
+        	completions.add("rl");
+        	completions.add("save");
+			completions.add("xp");
+			completions.add("reset");
+			completions.add("statue");
+			completions.add("setE");
+			completions.add("setD");
+			return completions;
+        }
+			
+        if(args.length == 1) {
             // Complétion pour la première argument (sous-commande principale)
             completions.add("set");
             completions.add("xp");
@@ -218,7 +257,7 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
             completions.add("statue");
             completions.add("sete");
             completions.add("setd");
-
+            for(UUID uuid : JobsPNJ.getUUIDS()) completions.add(uuid.toString());
             // Ajoutez ici d'autres complétions pour les commandes PNJ si nécessaire
         } else if(args.length == 2) {
 	        if (args[0].equalsIgnoreCase("xp")) {
@@ -234,7 +273,6 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 	        } else if(args[0].equalsIgnoreCase("set")) for(Jobs p : Jobs.values()) completions.add(p.toString());
         
         } else if(args[0].equalsIgnoreCase("xp") && args[1].equalsIgnoreCase("set") && args.length == 3) for(int i = 0; i != 10000; i++) completions.add("" + i);
-
         return completions;
     }
 }
