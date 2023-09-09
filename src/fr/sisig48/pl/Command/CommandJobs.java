@@ -231,7 +231,7 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 	        		completions.add(p.getName());
 	        		completions.add(p.getUniqueId().toString());
 	        	}
-	        } else if(args[0].equalsIgnoreCase("set")) for(Jobs p : Jobs.values()) completions.add(p.getName());
+	        } else if(args[0].equalsIgnoreCase("set")) for(Jobs p : Jobs.values()) completions.add(p.toString());
         
         } else if(args[0].equalsIgnoreCase("xp") && args[1].equalsIgnoreCase("set") && args.length == 3) for(int i = 0; i != 10000; i++) completions.add("" + i);
 

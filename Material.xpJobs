@@ -546,7 +546,7 @@ Tube Coral Wall Fan/
 Turtle Egg/
 Twisting Vines/
 Twisting Vines Plant/
-Vines/
+Vine/
 Warped Button/
 Warped Door/
 Warped Fence/
@@ -588,14 +588,14 @@ Yellow Terracotta/
 Yellow Wool/
 Armor Stand/
 Beetroot Seeds/
-Bottle o' Enchanting/
+Experience Bottle/
 Bucket/
 Carrot/
 Cocoa Beans/
 Egg/
 End Crystal/
 Ender Pearl/
-Eye of Ender/
+Ender Eye/
 Fire Charge/
 Firework Rocket/
 Item Frame/
@@ -605,7 +605,7 @@ Nether Wart/
 Painting/
 Potato/
 Pumpkin Seeds/
-Redstone Dust/
+Redstone/
 Snowball/
 String/
 Sweet Berries/
@@ -633,8 +633,7 @@ Cooked Salmon/
 Cookie/
 Cyan Dye/
 Dried Kelp/
-Empty Map/
-Enchanted Golden Apple/
+Map/
 Glass Bottle/
 Gold Ingot/
 Golden Apple/
@@ -642,10 +641,10 @@ Golden Carrot/
 Gray Dye/
 Green Dye/
 Honey Bottle/
-Ink Sac?/
+Ink Sac/
 Iron Axe/
-Iron Ingot?/
-Lapis Lazuli?/
+Iron Ingot/
+Lapis Lazuli/
 Light Blue Dye/
 Light Gray Dye/
 Lime Dye/
@@ -659,21 +658,21 @@ Pufferfish/
 Pumpkin Pie/
 Purple Dye/
 Rabbit Stew/
-Raw Beef/
-Raw Chicken/
-Raw Cod/
-Raw Mutton/
-Raw Porkchop/
-Raw Rabbit/
-Raw Salmon/
+Beef/
+Chicken/
+Cod/
+Mutton/
+Porkchop/
+Rabbit/
+Salmon/
 Red Dye/
 Rotten Flesh/
 Spectral Arrow/
 Spider Eye/
-Steak/
+Cooked Beef/
 Sugar/
 Tropical Fish/
-Turtle Shell/
+Turtle Helmet/
 Wheat/
 White Dye/
 Yellow Dye/
@@ -686,7 +685,7 @@ Clay Ball/
 Clock/
 Coal/
 Diamond/
-Dragon's Breath/HAUT/
+Dragon Breath/HAUT/
 Emerald/
 Feather/
 Fermented Spider Eye/
@@ -704,7 +703,7 @@ Leather/
 Magma Cream/
 Nautilus Shell/
 Nether Brick/
-Nether Quartz/
+Quartz/
 Nether Star/
 Netherite Ingot/
 Netherite Scrap/
@@ -714,8 +713,12 @@ Popped Chorus Fruit/
 Prismarine Crystals/
 Prismarine Shard/
 Rabbit Hide/
-Rabbit's Foot/
+Rabbit Foot/
 Scute/
 Shulker Shell/
-Slimeball/
+Slime ball/
 Stick/
+Dragon Egg/HAUT
+Enchanted Golden Apple/HAUT
+Elytra/HAUT
+Totem of Undying/HAUT

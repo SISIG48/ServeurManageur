@@ -48,6 +48,7 @@ public class ShopMenu {
 			//Undo xp
 			Material m = it.getType();
 			pj.MaterialSubXp(m, it.getAmount());
+			XpCounter.delItem(it);
 			
 			//Undo item
 			p.getOpenInventory().setItem(invCo - 5, sellItem);
@@ -58,20 +59,23 @@ public class ShopMenu {
 			it.setItemMeta(meta);
 			p.getInventory().addItem(it);
 			
-			XpCounter.delItem(it);
 			return true;
 		}
 		
 		ItemMeta meta = openInv.getItem(invCo - 5).getItemMeta();
 		//Get the good inventory
+		//Sell
 		if(sellItem.equals(openInv.getItem(invCo - 5)) || (meta != null && meta.hasCustomModelData() && meta.getCustomModelData() == 131)) {
+			XpCounter.addItem(it);
 			if(it.getItemMeta().hasCustomModelData() && it.getItemMeta().getCustomModelData() == 1251) return true;
 			
 			pj.MaterialAddXp(it.getType(), it.getAmount());
 			
+			it = new ItemStack(it.getType(), it.getAmount());
+			
 			//detect item from player inventory
-			int n = 0;
-			for(int i = 0; i < PlayerInv.getSize(); i++) if(PlayerInv.getItem(i) != null && PlayerInv.getItem(i).equals(it)) n = i;
+			int n = -1;
+			for(int i = 0; i < PlayerInv.getSize() && n == -1; i++) if(PlayerInv.getItem(i) != null && PlayerInv.getItem(i).equals(it)) n = i;
 			
 			//delete item
 			PlayerInv.setItem(n, new ItemStack(Material.AIR));
@@ -85,7 +89,6 @@ public class ShopMenu {
 			//Place item in shop
 			openInv.setItem(invCo - 5, it);
 			
-			XpCounter.addItem(it);
 			return true;
 			
 		}

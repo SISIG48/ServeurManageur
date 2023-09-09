@@ -200,9 +200,9 @@ public class PlayerJobs {
 	
 	public void MaterialAddXp(Material m, int count) {
 		Player p = (Player) pj.player;
-		if(pj.xp >= 10000) {pj.xp = 10000;return;}
-		if(pj.jobs.getXpGain(m) == 0) return;
 		Float Gxp = pj.jobs.getXpGain(m);
+		if(pj.xp >= 10000) {pj.xp = 10000;return;}
+		if(Gxp == 0) return;
 		int i = 1;
 		
 		
@@ -222,9 +222,9 @@ public class PlayerJobs {
 	
 	public void MaterialSubXp(Material m, int count) {
 		Player p = (Player) pj.player;
-		if(pj.xp > 0) {pj.xp = 0;return;}
-		if(pj.jobs.getXpGain(m) == 0) return;
 		Float Gxp = pj.jobs.getXpGain(m);
+		if(pj.xp > 0) {pj.xp = 0;return;}
+		if(Gxp == 0) return;
 		int i = 1;
 		
 		
