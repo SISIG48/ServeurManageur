@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.JobsHouse.MainHouse;
-import fr.sisig48.pl.Automating.AutoReload;
+import fr.sisig48.pl.Automating.AutoSave;
 import fr.sisig48.pl.Automating.Mine;
 import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Command.CommandBug;
@@ -26,6 +28,8 @@ import fr.sisig48.pl.Command.CommandMine;
 import fr.sisig48.pl.Command.CommandRe;
 import fr.sisig48.pl.Command.CommandShop;
 import fr.sisig48.pl.Command.CommandSpawn;
+import fr.sisig48.pl.Economie.EconomieMarchant;
+import fr.sisig48.pl.Economie.ObjectPrice;
 import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
@@ -133,6 +137,7 @@ public class Main extends JavaPlugin {
 			sec.sendMessage("§8Start xp");
 			XpCounter.Count();
 			sec.sendMessage("§daddon loading sucess");
+			AutoSave.initiate();
 		}
 	}, "init SM addon");
 	
@@ -178,10 +183,8 @@ public class Main extends JavaPlugin {
 		getCommand("house").setExecutor(new CommandHouse());
 		getCommand("shop").setExecutor(new CommandShop());
 		Uconfig.intit(this);
-		AutoReload.initiate();
 		loadThread.start();
 		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
-		
 	}
 	
 	@SuppressWarnings("removal")
@@ -192,14 +195,11 @@ public class Main extends JavaPlugin {
 		Mine.AutoFill.stop();
 		loadThread.stop();
 		PayPal.thread.stop();
-		AutoReload.delTimer();
+		AutoSave.del();
 		
 		// Sauvegarde
-		reloadConfig();
+		AutoSave.save();
 		saveConfig();
-		Friends.saveAll();
-		PlayerJobs.saveAll();
-		XpCounter.save();
 		for(Player e : Bukkit.getOnlinePlayers()) {
 			
 			if(!(e.getName().equals("SISIG48"))) {
@@ -214,7 +214,7 @@ public class Main extends JavaPlugin {
 			}
 		}
 		logs.add("Plugin Stoping");
-		Bukkit.dispatchCommand(sec, "restart");
+		//Bukkit.dispatchCommand(sec, "restart");
 	}
 	
 	@SuppressWarnings("deprecation")

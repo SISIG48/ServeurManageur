@@ -111,7 +111,7 @@ public class XpCounter {
 	}
 	
 	private static void delLines() {
-		while(lines.size() > maxLine) lines.remove(lines.size() - 1);
+		while(lines.size() > maxLine) if(lines.size() > maxLine) lines.remove(lines.size() - 1);
 	}
 }
 
@@ -188,9 +188,9 @@ class ItemXp {
 					
 					if(find) info.add(r);
 				} catch (IllegalArgumentException e) {
-					logs.send("§4Erreur Material invalide : §a" + r.split("/")[0]);
+					logs.send("§8§lErreur Material invalide : §a" + r.split("/")[0]);
 				} catch (IndexOutOfBoundsException e) {
-					logs.send("§4Erreur ligne invalide : §a" + r);
+					logs.send("§8§lErreur ligne invalide : §a" + r);
 				}
 				
 			}
@@ -207,22 +207,18 @@ class ItemXp {
 	}
 	
 	private static float maxNullXp() {
-		if(!Uconfig.isSet("xp.min")) Uconfig.setConfig("xp.min", "1");
 		return Float.valueOf(Uconfig.getConfig("xp.min"));
 	}
 	
 	private static float qtnNullXp() {
-		if(!Uconfig.isSet("xp.qtn")) Uconfig.setConfig("xp.qtn", "40%");
 		return (Integer.valueOf(Uconfig.getConfig("xp.qtn").split("%")[0]) * Material.values().length / 100);
 	}
 	
 	private static float maxXp() {
-		if(!Uconfig.isSet("xp.base")) Uconfig.setConfig("xp.base", "5");
 		return Float.valueOf(Uconfig.getConfig("xp.base")) * ixs.size();
 	}
 
 	private static float maxGainXp() {
-		if(!Uconfig.isSet("xp.max")) Uconfig.setConfig("xp.max", "7.5");
 		return Float.valueOf(Uconfig.getConfig("xp.max"));
 	}
 	
@@ -241,9 +237,8 @@ class ItemXp {
 			if(st.equals(j.toString())) per = per * (Float.valueOf(Uconfig.getConfig(confPath + "jobs").split("%")[0]) / 100 + 1);
 			else if(tags.contains(st)) for(String tag : tags) if(tag.equals(st)) per = per * (Float.valueOf(Uconfig.getConfig(confPath + tag).split("%")[0]) / 100 + 1);
 		}
-		logs.send("" + ix.xp);
 		if(ix.xp > maxGainXp) return maxGainXp * per;
-		//if(ixs.size() < qtnNullXp) return maxNullXp * per;
+		if(ixs.size() < qtnNullXp) return maxNullXp * per;
 		else return ix.xp * per;
 	}
 	
@@ -332,7 +327,10 @@ class regularLine {
 	
 	private static final File getFile() {
 		File file = new File(path + fileName + ".itemSave");
-		if(!file.exists()) try {file.createNewFile();} catch (IOException e) {e.printStackTrace();}
+		if(!file.exists()) try {
+			file.getParentFile().mkdir();
+			file.createNewFile();
+		} catch (IOException e) {e.printStackTrace();}
 		return file;
 	}
 	

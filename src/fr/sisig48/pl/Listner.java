@@ -7,7 +7,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -23,10 +31,13 @@ import com.earth2me.essentials.api.UserDoesNotExistException;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
 import fr.sisig48.pl.Automating.PayPal;
+import fr.sisig48.pl.Menu.EconomieMenu;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.JobsMenu;
+import fr.sisig48.pl.Menu.MenuPP;
+import fr.sisig48.pl.Menu.MenuTP;
+import fr.sisig48.pl.Menu.NetherStarMenu;
 import fr.sisig48.pl.Menu.ShopMenu;
-import fr.sisig48.pl.NetherStar.NetherStarMenu;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
@@ -116,50 +127,50 @@ public class Listner implements Listener {
 	
 	@EventHandler
 	public void OnIteract(PlayerInteractEvent event) {
-		if(event.getPlayer() == null || event.getItem() == null || event.getItem().getItemMeta() == null) return;
-		
-		ItemStack is = event.getItem();
+		ItemStack it = event.getItem();
 		Player player = event.getPlayer();
-		Boolean isVania = !event.getItem().getItemMeta().hasCustomModelData();
-
-		if(!isVania) event.setCancelled(NetherStarMenu.HasMenu(player, is.getItemMeta().getCustomModelData(), is));
+		if(player == null || it == null) return;
+		event.setCancelled(NetherStarMenu.HasMenu(player, it));
 	}
 		
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		if(!event.getItemDrop().getItemStack().getItemMeta().hasCustomModelData()) return;
 		Player player = event.getPlayer();
-		int it = event.getItemDrop().getItemStack().getItemMeta().getCustomModelData();
+		ItemStack it = event.getItemDrop().getItemStack();
+		if(it == null || player == null) return;
 		event.setCancelled(NetherStarMenu.HasMenu(player, it));
-		
-		
 	}
 
 
 	@EventHandler
 	public void OnClick(InventoryClickEvent event) {
-		//Not null
-		if(event.getCurrentItem() == null || event.getCurrentItem().getItemMeta() == null) return;
-		
 		//Init variable
-		Inventory inv = event.getInventory();
 		Player player = (Player) event.getWhoClicked();
 		ItemStack current = event.getCurrentItem();
-		Boolean isVania = !current.getItemMeta().hasCustomModelData();
+		Inventory inv = event.getInventory();
+		Boolean playerInventory = player.getInventory().equals(event.getClickedInventory());
 		
-		if(!isVania) {
-			int mod = current.getItemMeta().getCustomModelData();
-			try {
-				if(Interface.GetActonIfInMainMenu(player, current, inv)) event.setCancelled(true);
-				else event.setCancelled(NetherStarMenu.HasMenu(player, mod, current));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if(!event.isCancelled()) event.setCancelled(ShopMenu.TcheckShopMenuAction(player, event.getCurrentItem()));
-	
+		if(current == null) return;
+		
+		event.setCancelled(true);
+		if(
+				   ShopMenu.TcheckShopMenuAction(player, current, inv, playerInventory) 
+				|| Interface.GetActonInMenu(player, current, inv, playerInventory) 
+				|| JobsMenu.TcheckJobsMenuAction(player, current, inv, playerInventory)
+				|| MenuPP.TcheckMainMenuAction(player, current, inv, playerInventory)
+				|| MenuTP.TcheckTPMenuAction(player, current, inv, playerInventory)
+				|| EconomieMenu.TcheckEconomyMenuAction(player, current, inv, playerInventory)); 
+		else event.setCancelled(false);
+
+			
+		
 	}
 	
+	@EventHandler
+	public void OnCloseMenu(InventoryCloseEvent event) {
+		Interface.delInventory(event.getInventory());
+		ShopMenu.onClose(event.getInventory(), (Player) event.getPlayer());
+	}
 	
 	
 }

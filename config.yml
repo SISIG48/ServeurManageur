@@ -1,3 +1,4 @@
+autoSave: '30'
 location:
   spawn:
     x: '0'
@@ -40,3 +41,24 @@ location:
 IntervalePayment: 30
 loyerShop: 50
 isAhead-Version: 'false'
+xp:
+  base: '5'
+  qtn: '40%'
+  min: '0.2'
+  max: '7.5'
+  line: '8967'
+  gain:
+    HS: '-70%'
+    BAS: '-20%'
+    MOYEN: '-5%'
+    HAUT: '50%'
+    jobs: '50%'
+shop:
+  marchant:
+    sell: '4%'
+    buy: '8%'
+  shop:
+    sell: '8%'
+    buy: '10%'
+    base: '3%'
+

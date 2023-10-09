@@ -13,8 +13,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.JobsHouse.HouseData;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -198,7 +200,9 @@ public class PlayerJobs {
 		reload();
 	}
 	
-	public void MaterialAddXp(Material m, int count) {
+	public void MaterialAddXp(ItemStack it) {
+		Material m = it.getType();
+		int count = it.getAmount();
 		Player p = (Player) pj.player;
 		Float Gxp = pj.jobs.getXpGain(m);
 		if(pj.xp >= 10000) {pj.xp = 10000;return;}
@@ -210,7 +214,7 @@ public class PlayerJobs {
 		Float initial = pj.xp;
 		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
 		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
-		
+		XpCounter.addItem(it);
 		
 		
 		String round = String.valueOf(Math.round((pj.xp-initial)*1000));
@@ -220,8 +224,9 @@ public class PlayerJobs {
 		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
 	}
 	
-	public void MaterialSubXp(Material m, int count) {
-		Player p = (Player) pj.player;
+	public void MaterialSubXp(ItemStack it) {
+		Material m = it.getType();
+		int count = it.getAmount();Player p = (Player) pj.player;
 		Float Gxp = pj.jobs.getXpGain(m);
 		if(pj.xp > 0) {pj.xp = 0;return;}
 		if(Gxp == 0) return;
@@ -232,6 +237,7 @@ public class PlayerJobs {
 		Float initial = pj.xp;
 		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) - pj.xp;
 		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) - pj.xp;
+		XpCounter.delItem(it);
 		
 		//
 		String round = String.valueOf(Math.round((initial - pj.xp)*1000));
@@ -256,6 +262,7 @@ class dataJobs {
 
 	static void reload() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/jobs.txt");
+		file.getParentFile().mkdirs();
 		if(!file.exists()) file.createNewFile();
 		
 	    FileReader MyFileR = new FileReader("plugins/ServeurManageur/data/jobs.txt");
@@ -290,7 +297,10 @@ class dataJobs {
 	//test GITHUB
 	static void save() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/jobs.txt");
-		if(!file.exists()) file.createNewFile();
+		if(!file.exists()) {
+			file.getParentFile().mkdir();
+			file.createNewFile();
+		}
 		FileWriter MyFileW = new FileWriter("plugins/ServeurManageur/data/jobs.txt");
 	    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
 

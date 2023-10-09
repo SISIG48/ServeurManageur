@@ -113,6 +113,7 @@ public enum Jobs {
     
     private void JobsInfoInit() throws IOException {
 			if(!getFile().exists()) {
+				getFile().getParentFile().mkdirs();
 				getFile().createNewFile();
 				line = new ArrayList<String>();
 				line.add("?JobSettings");
@@ -235,9 +236,21 @@ public enum Jobs {
     	}
     	return;
     }
+    private int houseactivate = 0;
+    public boolean haveHouse() {
+		return houseactivate > 0;
+	}
+    public void addUsedHouse(int count) {
+    	houseactivate = houseactivate + count;
+	}
     
 
 	float getXpGain(Material m) {
 		return XpCounter.getXp(m, this);
+	}
+	
+	public static Jobs get(String name) {
+		for(Jobs j : values()) if(j.getName().equals(name)) return j;
+		return NOT;
 	}
 }

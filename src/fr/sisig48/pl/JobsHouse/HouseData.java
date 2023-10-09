@@ -67,6 +67,7 @@ public class HouseData {
 	
 	private void init() throws IOException {
 		if(!getLocFile().exists()) {
+			getLocFile().getParentFile().mkdirs();
 			getLocFile().createNewFile();
 			lineLoc.add("?HouseLocationData");
 			FileWriter MyFileW = new FileWriter(getLocFile());
@@ -79,6 +80,7 @@ public class HouseData {
 		
 		if(!getFile().exists()) {
 			int i = 1;
+			getFile().getParentFile().mkdirs();
 			getFile().createNewFile();
 			line.add("?HouseData");
 			line.add("Price: 0");
@@ -132,10 +134,12 @@ public class HouseData {
 					Location loc = new Location(Bukkit.getWorld(temp[3]), Double.valueOf(temp[0]), Double.valueOf(temp[1]), Double.valueOf(temp[2]));
 				 	Player p = Bukkit.getPlayer(UUID.fromString(temp[4]));
 				 	if(p == null) continue;
-				 	new PlayerJobs(p).setHouse(loc);
+				 	PlayerJobs pj = new PlayerJobs(p);
+				 	pj.setHouse(loc);
 				 	HouseListInfo hl = HouseList.getHouseByLocation(loc);
 				 	if(hl == null) delHouse(loc, p);
 				 	hl.isEnable(false);
+				 	pj.get().addUsedHouse(1);
 				 } 
 			 }
 		 }
@@ -263,6 +267,7 @@ public class HouseData {
 	
 	private static void delHouse1(Location loc, Player p) {
 		Jobs j = new PlayerJobs(p).get();
+		
 		ArrayList<String> line = new ArrayList<String>(j.getHouseData().line);
 		for(String e : line) {
 			String[] t = e.split(" ");
@@ -273,6 +278,7 @@ public class HouseData {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		j.addUsedHouse(-1);
 		double rx = loc.getX();
 		double ry = loc.getY();
 		double rz = loc.getZ();
@@ -288,6 +294,7 @@ public class HouseData {
 	
 	public static void delAllHouse(Player p) {
 		Jobs j = new PlayerJobs(p).get();
+		j.addUsedHouse(-1);
 		ArrayList<String> line = new ArrayList<String>(j.getHouseData().line);
 		for(String e : line) {
 			String[] t = e.split(" ");
@@ -326,6 +333,7 @@ public class HouseData {
 			HouseList.getHouseByLocation(loc).isEnable(true);
 			return; 
 		}
+		j.addUsedHouse(1);
 		Bukkit.getConsoleSender().sendMessage("§4§lNew house for : §d" + p.getName());
 		logs.add("§4§lNew house for : §d" + p.getName());
 		HouseData hd = j.getHouseData();

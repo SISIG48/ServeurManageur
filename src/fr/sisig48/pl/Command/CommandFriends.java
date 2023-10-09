@@ -96,8 +96,6 @@ public class CommandFriends implements CommandExecutor, TabCompleter {
 						Afpl.close();
 						Afaf.add(player);
 						Afaf.close();
-						Afaf.remove(player);
-						
 						return true;
 
 					

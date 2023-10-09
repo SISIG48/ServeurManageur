@@ -3,12 +3,10 @@ package fr.sisig48.pl.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Utils.Uconfig;

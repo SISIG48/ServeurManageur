@@ -21,7 +21,6 @@ import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.State.JobsPNJ;
-import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.Utils.Uconfig;
 
 public class CommandJobs extends JobsPNJ implements CommandExecutor, TabCompleter {

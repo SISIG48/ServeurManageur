@@ -63,11 +63,11 @@ public class Friends {
 	}
 	
 	public List<Player> getRequest(Player p) {
-		return FriendsResquest;
+		return fi.FriendsResquest;
 	}
 	
 	public boolean hasRequest(Player p) {
-		return FriendsResquest.contains(p);
+		return fi.FriendsResquest.contains(p);
 	}
 	
 	public List<OfflinePlayer> get() {
@@ -155,6 +155,7 @@ class Friendsdata {
 
 	static void reload() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/friends.txt");
+		file.getParentFile().mkdirs();
 		if(!file.exists()) file.createNewFile();
 		
 	    FileReader MyFileR = new FileReader("plugins/ServeurManageur/data/friends.txt");
@@ -189,7 +190,10 @@ class Friendsdata {
 	//test GITHUB
 	static void save() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/friends.txt");
-		if(!file.exists()) file.createNewFile();
+		if(!file.exists()) {
+			file.getParentFile().mkdir();
+			file.createNewFile();
+		}
 		FileWriter MyFileW = new FileWriter("plugins/ServeurManageur/data/friends.txt");
 	    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
 	    for(String e : line) {    

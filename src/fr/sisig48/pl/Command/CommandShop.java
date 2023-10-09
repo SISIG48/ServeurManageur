@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
 
+import fr.sisig48.pl.logs;
 import fr.sisig48.pl.State.ShopPNJ;
 import fr.sisig48.pl.Utils.Uconfig;
 
@@ -94,6 +95,8 @@ public class CommandShop extends ShopPNJ implements CommandExecutor, TabComplete
 			//Sauvegarde UUID
 			Uconfig.setConfig(path + n + ".uuid", String.valueOf(pnj.getUniqueId()));
 			ShopPNJ.addUUID(pnj.getUniqueId());
+			
+			logs.add("Pnj created " + name + " at: " + loc.toString());
 			return true;
 		}
 		sender.sendMessage("Unknown command. Type \"/help\" for help.");

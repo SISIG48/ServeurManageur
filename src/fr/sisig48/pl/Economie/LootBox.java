@@ -192,6 +192,7 @@ public class LootBox {
 	public static int getLootBox(ItemStack it) {
 		return LootBoxMenu.getLootBox(it);
 	}
+	
 }
 
 
@@ -199,11 +200,11 @@ public class LootBox {
 class LootBoxMenu extends LootBox {
 	final static int RankPaysan = 1, RankEcuyer = 2, RankChevalier = 3, RankSeigneur = 4, RankModo = 9;
 	private final static int PricePaysan = 100, PriceEcuyer = 200, PriceChevalier = 300, PriceSeigneur = 400;
-	private final static ItemStack paysan = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankPaysan), "§dPrix : " + PricePaysan).toArray(new String[0]), 134);
-	private final static ItemStack ecuyer = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankEcuyer), "§dPrix : " + PriceEcuyer).toArray(new String[0]), 134);
-	private final static ItemStack chevalier = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankChevalier), "§dPrix : " + PriceChevalier).toArray(new String[0]), 134);
-	private final static ItemStack seigneur = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankSeigneur), "§dPrix : " + PriceSeigneur).toArray(new String[0]), 134);
-	private final static ItemStack modo = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aCrée un cadeau", Arrays.asList("§8" + PlayerRank.getRank(RankModo), "?").toArray(new String[0]), 134);
+	private final static ItemStack paysan = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankPaysan), "§dPrix : " + PricePaysan).toArray(new String[0]));
+	private final static ItemStack ecuyer = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankEcuyer), "§dPrix : " + PriceEcuyer).toArray(new String[0]));
+	private final static ItemStack chevalier = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankChevalier), "§dPrix : " + PriceChevalier).toArray(new String[0]));
+	private final static ItemStack seigneur = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aLoot box", Arrays.asList("§8" + PlayerRank.getRank(RankSeigneur), "§dPrix : " + PriceSeigneur).toArray(new String[0]));
+	private final static ItemStack modo = Item.GiveItemLore(Material.ENDER_CHEST, 1, "§aCrée un cadeau", Arrays.asList("§8" + PlayerRank.getRank(RankModo), "?").toArray(new String[0]));
 	
 	private static File file = initFile();
 	final static Uconfig config = new Uconfig(file);
@@ -216,15 +217,16 @@ class LootBoxMenu extends LootBox {
 		if(config.get(path) == null) config.set(path, "1");
 		int result = Integer.valueOf(config.get(path));
 		int size = 27;
+		p.closeInventory();
 		Inventory e = Bukkit.createInventory(p, size, "LootBox");
 		p.openInventory(e);
 		Interface.inventory.add(e);
-		GrayExGlass(e, size);
+		Item.GrayExGlass(e, size);
 		int pr = PlayerRank.getPlayerInt(p);
 		
 		ItemStack it;  
-		if(result == 1) it = Item.GiveItem(Material.CHEST, 1, "§aLoot box gratuite", "§e[RECUPERER]", 133);
-		else it = Item.GiveItem(Material.CHEST, 1, "§4Loot box gratuite", "§dDans : " + dayRemaining + " jours", 125);
+		if(result == 1) it = Item.GiveItem(Material.CHEST, 1, "§aLoot box gratuite", "§e[RECUPERER]");
+		else it = Item.GiveItem(Material.CHEST, 1, "§4Loot box gratuite", "§dDans : " + dayRemaining + " jours");
 		
 		e.setItem(4, it);
 		e.setItem((9 + RankPaysan), paysan); //Paysan
@@ -266,8 +268,9 @@ class LootBoxMenu extends LootBox {
 	private static int temp = 0;
 	private static BukkitRunnable rouletteTask;
 	private static void spinLoot(Player p,  int value) {
+		p.closeInventory();
 		Inventory e = Bukkit.createInventory(p, 9, "");
-		GrayExGlass(e, 9);
+		Item.GrayExGlass(e, 9);
 		
 		String lineOBJ = " " + split + " ";
 		String name = "loretag";
@@ -285,7 +288,7 @@ class LootBoxMenu extends LootBox {
 		
 		Material material = Material.getMaterial(m);
 		int amount = Integer.valueOf(info[1]);
-		ItemStack is = Item.GiveItemLore(material, 1, "§" + value + m, Arrays.asList(name, "§8x" + amount).toArray(new String[0]), 125);
+		ItemStack is = Item.GiveItemLore(material, 1, "§" + value + m, Arrays.asList(name, "§8x" + amount).toArray(new String[0]));
 		
 		p.openInventory(e);				
 		ArrayList<String> li = new ArrayList<>();
@@ -330,7 +333,7 @@ class LootBoxMenu extends LootBox {
 		m = m.toUpperCase();
 			
 		Material material = Material.getMaterial(m);
-		ItemStack is = Item.GiveItem(material, 1, " ", null, 125);
+		ItemStack is = Item.GiveItem(material, 1, " ", null);
 		e.setItem(4, is);
 			
 	}
@@ -344,15 +347,6 @@ class LootBoxMenu extends LootBox {
 	
 	
 	
-	
-	//
-	private static void GrayExGlass(Inventory e, int in) {
-		ItemStack it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", null, 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(in - 9, it); e.setItem(in - 8, it); e.setItem(in - 7, it); e.setItem(in - 6, it); e.setItem(in - 5, it); e.setItem(in - 4, it); e.setItem(in - 3, it); e.setItem(in - 2, it); e.setItem(in - 1, it);
-	}
-
-		
 	private static File initFile() {
 		File file = new File("plugins/ServeurManageur/lootBox.yml");
 		if(!file.exists())try {file.createNewFile();} catch (IOException e) {e.printStackTrace();}

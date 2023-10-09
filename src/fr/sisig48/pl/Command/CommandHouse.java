@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import fr.sisig48.pl.JobsHouse.HouseData;
 import fr.sisig48.pl.JobsHouse.HouseList;
-import fr.sisig48.pl.JobsHouse.HouseListInfo;
 
 public class CommandHouse implements CommandExecutor, TabCompleter {
 
