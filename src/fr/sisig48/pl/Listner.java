@@ -34,6 +34,7 @@ import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Menu.EconomieMenu;
 import fr.sisig48.pl.Menu.Interface;
 import fr.sisig48.pl.Menu.JobsMenu;
+import fr.sisig48.pl.Menu.LootStorage;
 import fr.sisig48.pl.Menu.MenuPP;
 import fr.sisig48.pl.Menu.MenuTP;
 import fr.sisig48.pl.Menu.NetherStarMenu;
@@ -151,7 +152,6 @@ public class Listner implements Listener {
 		Boolean playerInventory = player.getInventory().equals(event.getClickedInventory());
 		
 		if(current == null) return;
-		
 		event.setCancelled(true);
 		if(
 				   ShopMenu.TcheckShopMenuAction(player, current, inv, playerInventory) 
@@ -159,11 +159,9 @@ public class Listner implements Listener {
 				|| JobsMenu.TcheckJobsMenuAction(player, current, inv, playerInventory)
 				|| MenuPP.TcheckMainMenuAction(player, current, inv, playerInventory)
 				|| MenuTP.TcheckTPMenuAction(player, current, inv, playerInventory)
-				|| EconomieMenu.TcheckEconomyMenuAction(player, current, inv, playerInventory)); 
+				|| EconomieMenu.TcheckEconomyMenuAction(player, current, inv, playerInventory)
+				|| new LootStorage(player).TcheckLootMenuAction(player, current, inv, playerInventory)); 
 		else event.setCancelled(false);
-
-			
-		
 	}
 	
 	@EventHandler

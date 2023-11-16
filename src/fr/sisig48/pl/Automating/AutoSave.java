@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Economie.EconomieData;
 import fr.sisig48.pl.Economie.EconomieMarchant;
 import fr.sisig48.pl.Economie.ObjectPrice;
 import fr.sisig48.pl.Economie.XpCounter;
@@ -47,6 +48,8 @@ public class AutoSave {
 		Friends.saveAll();
 		PlayerJobs.saveAll();
 		XpCounter.save();
+		EconomieData.saveInfo();
+		WebAuto.SaveChange();
 		EconomieMarchant.save();
 		ObjectPrice.save();
 	}

@@ -51,7 +51,7 @@ public class CommandHouse implements CommandExecutor, TabCompleter {
 	    	if(HouseData.getLoc().contains(p.getLocation())) completions.add("delete");
 	    	for(int i = 0 ; i != HouseList.getSlots() ; i++) completions.add("" + i);
 		}
-	         
+		for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);    
 	    return completions;
 	}
 }

@@ -7,6 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.Economie.LootBox;
+import fr.sisig48.pl.Utils.Item;
 
 public class Interface {
 
@@ -14,6 +15,7 @@ public class Interface {
 	
 	public static Boolean GetActonInMenu(Player player, ItemStack current, Inventory inv, boolean playerInventory) {
 		if(player == null || current == null) {return false;}
+		if(current.equals(Item.GrayExGlass()) || LootBox.isLoot(current)) return true;
 		if(!inventory.contains(inv)) return false;
 		else if(playerInventory) return true;
 		switch(current.getType()) {

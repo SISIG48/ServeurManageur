@@ -73,9 +73,11 @@ public class CommandSpawn implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if(args.length == 1 && sender instanceof Player && sender.isOp()) {
+        	String current = args[0];
         	completions.add("set");
         	for(Player p : Bukkit.getOnlinePlayers()) completions.add(p.getName());
         } 
+        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
         return completions;
     }	
 }

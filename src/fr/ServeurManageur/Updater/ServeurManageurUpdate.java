@@ -97,7 +97,7 @@ public class ServeurManageurUpdate {
 	}
 
 	public static Boolean CheckUpdate() {
-    	logs.add("Start Tchecking Update from : " + branch + "/ServeurManageur.jar?raw=true");
+    	logs.add("Start Tchecking Update from : " + branch + "/version.dll?raw=true");
     	try {
     		URL url = new URL(branch + "/version.dll?raw=true");
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());

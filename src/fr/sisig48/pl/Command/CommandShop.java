@@ -106,6 +106,7 @@ public class CommandShop extends ShopPNJ implements CommandExecutor, TabComplete
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if(args.length == 1) for(UUID uuid : ShopPNJ.getUUIDS()) completions.add(uuid.toString());
+        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
         return completions;
     }
 }

@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.ServeurManageur.Updater.ServeurManageurUpdate;
@@ -18,6 +16,7 @@ import fr.sisig48.pl.JobsHouse.MainHouse;
 import fr.sisig48.pl.Automating.AutoSave;
 import fr.sisig48.pl.Automating.Mine;
 import fr.sisig48.pl.Automating.PayPal;
+import fr.sisig48.pl.Automating.WebAuto;
 import fr.sisig48.pl.Command.CommandBug;
 import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandFriends;
@@ -26,10 +25,10 @@ import fr.sisig48.pl.Command.CommandJobs;
 import fr.sisig48.pl.Command.CommandMenu;
 import fr.sisig48.pl.Command.CommandMine;
 import fr.sisig48.pl.Command.CommandRe;
+import fr.sisig48.pl.Command.CommandSave;
 import fr.sisig48.pl.Command.CommandShop;
 import fr.sisig48.pl.Command.CommandSpawn;
-import fr.sisig48.pl.Economie.EconomieMarchant;
-import fr.sisig48.pl.Economie.ObjectPrice;
+import fr.sisig48.pl.Command.CommandWeb;
 import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
@@ -41,6 +40,8 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.sisig48.web.WebServer;
+
 
 public class Main extends JavaPlugin {
 	public static JavaPlugin Plug;
@@ -136,10 +137,19 @@ public class Main extends JavaPlugin {
 			
 			sec.sendMessage("§8Start xp");
 			XpCounter.Count();
-			sec.sendMessage("§daddon loading sucess");
-			AutoSave.initiate();
+			
+			webStart();
+			
+	        sec.sendMessage("§daddon loading sucess");
+	        AutoSave.initiate();
 		}
 	}, "init SM addon");
+	
+	private static void webStart() {
+		WebServer.setPath(Main.Plug.getDataFolder().getPath().replace("\\", "/") + "/web");
+		WebAuto.SaveChange();
+		new WebServer(443).start();
+	}
 	
 	private static void PNJSave(String path, int max) {
 		String[] saveList = {"x", "y", "z", "w", "yaw", "uuid", "name"};
@@ -182,6 +192,8 @@ public class Main extends JavaPlugin {
 		getCommand("menu").setExecutor(new CommandMenu());
 		getCommand("house").setExecutor(new CommandHouse());
 		getCommand("shop").setExecutor(new CommandShop());
+		getCommand("save").setExecutor(new CommandSave());
+		getCommand("web").setExecutor(new CommandWeb());
 		Uconfig.intit(this);
 		loadThread.start();
 		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);
@@ -190,8 +202,8 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("removal")
 	@Override
 	public void onDisable() {
-		
 		//Fermeture des threads
+		WebServer.stopAll();
 		Mine.AutoFill.stop();
 		loadThread.stop();
 		PayPal.thread.stop();

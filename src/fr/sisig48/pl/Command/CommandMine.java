@@ -109,7 +109,7 @@ public class CommandMine implements CommandExecutor, TabCompleter {
         	completions.add("zone1");
         	completions.add("zone2");
         }
-        
+        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
         return completions;
     }
 }

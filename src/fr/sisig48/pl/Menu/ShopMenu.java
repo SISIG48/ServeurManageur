@@ -1,20 +1,29 @@
 package fr.sisig48.pl.Menu;
 
+import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Instrument;
 import org.bukkit.Material;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.earth2me.essentials.api.Economy;
+
 import fr.sisig48.pl.Main;
 import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Economie.Economie;
+import fr.sisig48.pl.Economie.EconomieESS;
 import fr.sisig48.pl.Economie.EconomieMarchant;
 import fr.sisig48.pl.Economie.ObjectPrice;
 import fr.sisig48.pl.JobsHouse.HouseData;
@@ -22,11 +31,15 @@ import fr.sisig48.pl.JobsHouse.HouseList;
 import fr.sisig48.pl.JobsHouse.HouseListInfo;
 import fr.sisig48.pl.Sociale.Jobs;
 import fr.sisig48.pl.Utils.Item;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class ShopMenu {
 	
 	//Object
-	private static Material[] survival = SurvilalItem();
+	private static Material[] survival = Item.getMaterials();
 	
 	//Main inventaire
 	private static ItemStack admin = Item.GiveItem(Material.PAINTING, 1, "§dAdmin shop", null);
@@ -41,6 +54,14 @@ public class ShopMenu {
 	private static ItemStack retour = Item.GiveItem(Material.BARRIER, 1, "§d§oRetour", null);
 	
 	//AdminShop menu
+	private static ItemStack adminStone = Item.GiveItemLore(Material.STONE, 64, "§dStone §8x64", Arrays.asList("§ePrix: §a30", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminDirt = Item.GiveItemLore(Material.DIRT, 64, "§dDirt §8x64", Arrays.asList("§ePrix: §a10", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminIron = Item.GiveItemLore(Material.IRON_INGOT, 16, "§dIron ingot §8x16", Arrays.asList("§ePrix: §a40", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminGold = Item.GiveItemLore(Material.GOLD_INGOT, 16, "§dGold ingot §8x16", Arrays.asList("§ePrix: §a80", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminWater = Item.GiveItemLore(Material.WATER_BUCKET, 1, "§dWater bucket §8x1", Arrays.asList("§ePrix: §a5", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminBread = Item.GiveItemLore(Material.BREAD, 64, "§dBread §8x64", Arrays.asList("§ePrix: §a20", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminSteak = Item.GiveItemLore(Material.COOKED_BEEF, 64, "§dSteak §8x64", Arrays.asList("§ePrix: §a35", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
+	private static ItemStack adminWood = Item.GiveItemLore(Material.OAK_LOG, 64, "§dOak log §8x64", Arrays.asList("§ePrix: §a20", "§8[§6CLIQUE ICI POUR ACHTER§8]"));
 	private static Inventory adminMenu = adminMenu();
 	
 	//Marchant menu
@@ -104,14 +125,33 @@ public class ShopMenu {
 	}
 
 	private static Inventory adminMenu() {
-		Inventory e = Bukkit.createInventory(null , 27, "Admin Shop");
-		Item.GrayExGlass(e, 27);
+		Inventory e = Bukkit.createInventory(null , 54, "Admin Shop");
+		for(int i = 0; i < 45; i++) e.setItem(i, Item.GrayExGlass());
+		for(int i = 45; i < 54; i++) e.setItem(i, Item.GiveItem(Material.WHITE_STAINED_GLASS_PANE, 1, "", null));
+		
+		//Item a vendre
+		e.setItem(10, adminStone);
+		e.setItem(12, adminDirt);
+		e.setItem(14, adminIron);
+		e.setItem(16, adminGold);
+		e.setItem(28, adminWater);
+		e.setItem(30, adminBread);
+		e.setItem(32, adminSteak);
+		e.setItem(34, adminWood);
 		
 		//Elements
-		e.setItem(13, indisponible);
+		e.setItem(49, retour);
 		return e;
 	}
 	
+	/* Inv:
+	 * 0  1  2  3  4  5  6  7  8
+	 * 9  10 11 12 13 14 15 16 17
+	 * 18 19 20 21 22 23 24 25 26
+	 * 27 28 29 30 31 32 33 34 35
+	 * 36 37 38 39 40 41 42 43 44
+	 * 45 46 47 48 49 50 51 52 53
+	 */
 	private static ArrayList<Inventory> marchantMenu() {
 		ArrayList<Inventory> invs = new ArrayList<Inventory>();
 		
@@ -212,8 +252,6 @@ public class ShopMenu {
 	}
 	
 	private static ItemStack VoiretoItem(Material m) {
-		
-		
 		ItemStack it = new ItemStack(Material.ORANGE_DYE);
 		ItemMeta meta = it.getItemMeta();
 		meta.setDisplayName("§6Voire - Prix moyen unitaire : " + Economie.roundPrice(ObjectPrice.getObject(m).getPrice()));
@@ -408,14 +446,20 @@ public class ShopMenu {
 		return invs;
 	}
 	
-	/* Inv:
-	 * 0  1  2  3  4  5  6  7  8
-	 * 9  10 11 12 13 14 15 16 17
-	 * 18 19 20 21 22 23 24 25 26
-	 * 27 28 29 30 31 32 33 34 35
-	 * 36 37 38 39 40 41 42 43 44
-	 * 45 46 47 48 49 50 51 52 53
-	 */
+	@SuppressWarnings("deprecation")
+	private static void openWebView(Material m, Player p) {
+		p.closeInventory();
+		TextComponent msgl = new TextComponent("§e[§e§lAFFICHER LES INFO POUR " + m.name().toLowerCase().replace("_", " ") +"§e]");
+		msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eVOIR").create()));
+		try {
+			msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://" + InetAddress.getLocalHost().getHostAddress() + "/?type=" + m.name().toLowerCase().replace("_", "%20")));
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		p.spigot().sendMessage(msgl);
+	}
+	
 	
 	//Action dans le menu
 	public static boolean TcheckShopMenuAction(Player p, ItemStack it, Inventory inv, boolean playerInventory) {
@@ -429,6 +473,39 @@ public class ShopMenu {
 			return true;
 		} 
 		
+		//Admin shop
+		if(adminMenu.equals(inv)) {
+			if(it.equals(retour)) OpenShop(p);
+			if(it.equals(Item.GrayExGlass()) || it.getType().equals(Material.WHITE_STAINED_GLASS_PANE)) return true;
+				try {
+					if(playerInventory) {
+						for(ItemStack c : inv.getStorageContents()) {
+							if(c.getType().equals(it.getType())) {
+								BigDecimal price = new BigDecimal(Double.valueOf(c.getItemMeta().getLore().get(0).replace("§ePrix: §a", ""))*it.getAmount()/c.getAmount()/4);
+								p.getInventory().remove(it);
+								Economy.add(p.getUniqueId(), price);
+								p.sendMessage("§a§lVous avez gagner : §6" + price.doubleValue());
+								p.playNote(p.getLocation(), Instrument.PIANO, Note.flat(1, Tone.A));
+							}
+						}
+					} else {
+						BigDecimal price = new BigDecimal(it.getItemMeta().getLore().get(0).replace("§ePrix: §a", ""));
+						if(Economy.hasEnough(p.getUniqueId(), price)) {
+							Economy.subtract(p.getUniqueId(), price);
+							if(Item.isInventoryFull(p.getInventory())) new LootStorage(p).addItem(new ItemStack(it.getType(), it.getAmount()));
+							else p.getInventory().addItem(new ItemStack(it.getType(), it.getAmount()));
+						} else {
+							p.playNote(p.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
+							p.sendMessage("§4Argent insufisant");
+							return true;
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+			return true;
+		}
 		
 		//Regarde les pages du shop
 		if(shopMenu.contains(inv)){
@@ -477,7 +554,7 @@ public class ShopMenu {
 			else if(it.equals(précédentePage) && index != 0) OpenMarchantShop(p, survival[index-1]);
 			else if(it.equals(retour)) OpenMarchantShop(p, (int) (Math.nextUp((index) / 36) + 1));
 			else if(it.equals(AchetertoItem(m))) OpenMarchantTrade(p, m, 1);
-			else if(it.equals(VoiretoItem(m))) OpenMarchantTrade(p, m, 1);
+			else if(it.equals(VoiretoItem(m))) openWebView(m, p);
 			else if(it.equals(VendretoItem(m))) OpenSelectSellObject(p, m);
 			return true;
 		} 
@@ -494,7 +571,7 @@ public class ShopMenu {
 			if(it.equals(prochainePage) && (index + 1) != shopMenuDetail.size()) OpenShopMenu(p, survival[index+1]);
 			else if(it.equals(précédentePage) && index != 0) OpenShopMenu(p, survival[index-1]);
 			else if(it.equals(retour)) OpenShopMenu(p, (int) (Math.nextUp((index) / 36) + 1));
-			else if(it.equals(VoiretoItem(m))) return true;
+			else if(it.equals(VoiretoItem(m))) openWebView(m, p);
 			else if(it.equals(AchatVendretoItem(m))) OpenShopSellMenu(p, m);
 			return true;
 		}
@@ -612,40 +689,5 @@ public class ShopMenu {
 			return true;
 		} else return false;
 	}
-	
-	private static Material[] SurvilalItem() {
-		ArrayList<Material> m = new ArrayList<Material>(Arrays.asList(Material.values()));
-		String[] list = ("AIR,LIGHT,COMMAND_BLOCK,COMMAND_BLOCK_MINECART,CHAIN_COMMAND_BLOCK,REPEATING_COMMAND_BLOCK,BARRIER," +
-				"STRUCTURE_VOID,STRUCTURE_BLOCK,JIGSAW,DEBUG_STICK,KNOWLEDGE_BOOK,WATER,LAVA,TALL_SEAGRASS,PISTON_HEAD," +
-				"MOVING_PISTON,WALL_TORCH,FIRE,SOUL_FIRE,REDSTONE_WIRE,OAK_WALL_SIGN,SPRUCE_WALL_SIGN,BIRCH_WALL_SIGN," +
-				"ACACIA_WALL_SIGN,JUNGLE_WALL_SIGN,DARK_OAK_WALL_SIGN,MANGROVE_WALL_SIGN,REDSTONE_WALL_TORCH,SOUL_WALL_TORCH,NETHER_PORTAL," +
-				"ATTACHED_PUMPKIN_STEM,ATTACHED_MELON_STEM,PUMPKIN_STEM,MELON_STEM,WATER_CAULDRON,LAVA_CAULDRON,POWDER_SNOW_CAULDRON," +
-				"END_PORTAL,COCOA,TRIPWIRE,POTTED_OAK_SAPLING,POTTED_SPRUCE_SAPLING,POTTED_BIRCH_SAPLING,POTTED_JUNGLE_SAPLING," +
-				"POTTED_ACACIA_SAPLING,POTTED_DARK_OAK_SAPLING,POTTED_MANGROVE_PROPAGULE,POTTED_FERN,POTTED_DANDELION,POTTED_POPPY,POTTED_BLUE_ORCHID," +
-				"POTTED_ALLIUM,POTTED_AZURE_BLUET,POTTED_RED_TULIP,POTTED_ORANGE_TULIP,POTTED_WHITE_TULIP,POTTED_PINK_TULIP,POTTED_OXEYE_DAISY," +
-				"POTTED_CORNFLOWER,POTTED_LILY_OF_THE_VALLEY,POTTED_WITHER_ROSE,POTTED_RED_MUSHROOM,POTTED_BROWN_MUSHROOM,POTTED_DEAD_BUSH,POTTED_CACTUS," +
-				"CARROTS,POTATOES,SKELETON_WALL_SKULL,WITHER_SKELETON_WALL_SKULL,ZOMBIE_WALL_HEAD,PLAYER_WALL_HEAD,CREEPER_WALL_HEAD," +
-				"DRAGON_WALL_HEAD,WHITE_WALL_BANNER,ORANGE_WALL_BANNER,MAGENTA_WALL_BANNER,LIGHT_BLUE_WALL_BANNER,YELLOW_WALL_BANNER,LIME_WALL_BANNER," +
-				"PINK_WALL_BANNER,GRAY_WALL_BANNER,LIGHT_GRAY_WALL_BANNER,CYAN_WALL_BANNER,PURPLE_WALL_BANNER,BLUE_WALL_BANNER,BROWN_WALL_BANNER," +
-				"GREEN_WALL_BANNER,RED_WALL_BANNER,BLACK_WALL_BANNER,BEETROOTS,END_GATEWAY,FROSTED_ICE,KELP_PLANT,DEAD_TUBE_CORAL_WALL_FAN," +
-				"DEAD_BRAIN_CORAL_WALL_FAN,DEAD_BUBBLE_CORAL_WALL_FAN,DEAD_FIRE_CORAL_WALL_FAN,DEAD_HORN_CORAL_WALL_FAN,TUBE_CORAL_WALL_FAN,BRAIN_CORAL_WALL_FAN," +
-				"BUBBLE_CORAL_WALL_FAN,FIRE_CORAL_WALL_FAN,HORN_CORAL_WALL_FAN,BAMBOO_SAPLING,POTTED_BAMBOO,VOID_AIR,CAVE_AIR,BUBBLE_COLUMN," +
-				"SWEET_BERRY_BUSH,WEEPING_VINES_PLANT,TWISTING_VINES_PLANT,CRIMSON_WALL_SIGN,WARPED_WALL_SIGN,POTTED_CRIMSON_FUNGUS,POTTED_WARPED_FUNGUS," +
-				"POTTED_CRIMSON_ROOTS,POTTED_WARPED_ROOTS,CANDLE_CAKE,WHITE_CANDLE_CAKE,ORANGE_CANDLE_CAKE,MAGENTA_CANDLE_CAKE,LIGHT_BLUE_CANDLE_CAKE," +
-				"YELLOW_CANDLE_CAKE,LIME_CANDLE_CAKE,PINK_CANDLE_CAKE,GRAY_CANDLE_CAKE,LIGHT_GRAY_CANDLE_CAKE,CYAN_CANDLE_CAKE,PURPLE_CANDLE_CAKE," +
-				"BLUE_CANDLE_CAKE,BROWN_CANDLE_CAKE,GREEN_CANDLE_CAKE,RED_CANDLE_CAKE,BLACK_CANDLE_CAKE,POWDER_SNOW,CAVE_VINES,CAVE_VINES_PLANT," +
-				"BIG_DRIPLEAF_STEM,POTTED_AZALEA_BUSH,POTTED_FLOWERING_AZALEA_BUSH,BAMBOO_WALL_HANGING_SIGN,BAMBOO_WALL_SIGN").split(",");
-		
-		for(String s : list) {
-			try {
-				m.remove(Material.valueOf(s));
-			} catch (IllegalArgumentException e) {
-				fr.sisig48.pl.logs.send("§8" + s + " n'existe pas dans votre version (" + Main.Plug.getServer().getBukkitVersion() + ")");
-			}
-		}
-		
-		return m.toArray(new Material[0]);
-	}
-	
 }
 

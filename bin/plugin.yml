@@ -39,3 +39,11 @@ commands:
     description: Spawn Shop PNJ
     usage: /shop [UUID for delete | NAME for CREATE]
     permission : admin.command
+  save:
+    description: Save
+    usage: /save
+    permission : admin.command
+  web:
+    description: Manage server web
+    usage: /web
+    permission : admin.command

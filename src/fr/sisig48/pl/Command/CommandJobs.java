@@ -235,35 +235,33 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if (!(sender instanceof Player) && args.length == 1) {
+        	String current = args[0];
         	completions.add("rl");
         	completions.add("save");
-			completions.add("xp");
-			completions.add("reset");
-			completions.add("statue");
-			completions.add("setE");
-			completions.add("setD");
+        	completions.add("xp");
+        	completions.add("reset");
+        	completions.add("statue");
+        	completions.add("setE");
+        	completions.add("setD");
 			return completions;
         }
 			
         if(args.length == 1) {
-            // Complétion pour la première argument (sous-commande principale)
-            completions.add("set");
-            completions.add("xp");
-            completions.add("get");
-            completions.add("rl");
-            completions.add("save");
-            completions.add("reset");
-            completions.add("statue");
-            completions.add("sete");
-            completions.add("setd");
+        	completions.add("set");
+        	completions.add("xp");
+        	completions.add("get");
+        	completions.add("rl");
+        	completions.add("save");
+        	completions.add("reset");
+        	completions.add("statue");
+        	completions.add("sete");
+        	completions.add("setd");
             for(UUID uuid : JobsPNJ.getUUIDS()) completions.add(uuid.toString());
-            // Ajoutez ici d'autres complétions pour les commandes PNJ si nécessaire
         } else if(args.length == 2) {
 	        if (args[0].equalsIgnoreCase("xp")) {
-	            // Complétion pour la deuxième argument lorsque la sous-commande est "xp"
-		        completions.add("set");
-		        completions.add("get");
-		        completions.add("info");
+	        	completions.add("set");
+	        	completions.add("get");
+	        	completions.add("info");
 	        } else if(args[0].equalsIgnoreCase("get")) {
 	        	for(OfflinePlayer p : Bukkit.getOfflinePlayers()) {
 	        		completions.add(p.getName());
@@ -272,6 +270,7 @@ public class CommandJobs extends JobsPNJ implements CommandExecutor, TabComplete
 	        } else if(args[0].equalsIgnoreCase("set")) for(Jobs p : Jobs.values()) completions.add(p.toString());
         
         } else if(args[0].equalsIgnoreCase("xp") && args[1].equalsIgnoreCase("set") && args.length == 3) for(int i = 0; i != 10000; i++) completions.add("" + i);
+        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
         return completions;
     }
 }

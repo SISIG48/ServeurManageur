@@ -139,14 +139,15 @@ public class CommandFriends implements CommandExecutor, TabCompleter {
 	        List<String> completions = new ArrayList<>();
 	        if(!(sender instanceof Player)) return completions;
 	        if(args.length == 1) {
-	            completions.add("add");
-	            completions.add("remove");
-	            completions.add("accept");
+	        	completions.add("add");
+	        	completions.add("remove");
+	        	completions.add("accept");
 	        } else if(args.length == 2) {
 	        	if(args[0].equalsIgnoreCase("add")) for(Player p : Bukkit.getOnlinePlayers()) if(p != (Player) sender) completions.add(p.getName());
 	        	if(args[0].equalsIgnoreCase("remove")) for(OfflinePlayer p : new Friends((OfflinePlayer) sender).get()) completions.add(p.getName());
 	        	if(args[0].equalsIgnoreCase("accept")) for(Player p : Bukkit.getOnlinePlayers()) if(new Friends(p).hasRequest((Player) sender)) completions.add(p.getName());
 	        }
+	        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
 	        return completions;
 	    }
 }

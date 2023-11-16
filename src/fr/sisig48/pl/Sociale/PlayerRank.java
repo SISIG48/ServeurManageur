@@ -41,7 +41,7 @@ enum RankList {
 	ECUYER("Ecuyer", 2),
 	MODO("Moderator", 9),
 	BUILDER("Builder", 9),
-	CHEVAL("Chavalier", 3),
+	CHEVAL("Chevalier", 3),
 	SEIGNEUR("Seigneur", 4),
 	RESPONSABLE("Responsable", 9);
 	

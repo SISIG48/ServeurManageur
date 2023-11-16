@@ -15,9 +15,9 @@ import fr.sisig48.pl.Automating.AutoSave;
 
 @SuppressWarnings("unchecked")
 public class ObjectPrice implements Serializable {
-	private static final long serialVersionUID = -7325328618032237522L;
+	private static final long serialVersionUID = 1L;
 	private static ArrayList<ObjectPrice> ops = new ArrayList<ObjectPrice>();
-	private static File saves = new File(Main.Plug.getDataFolder() + "/data/item/AutoObjectPrice.save");
+	private static File saves = new File(Main.Plug.getDataFolder() + "/data/item/ObjectPrice.save");
 	static {
 		if(saves.exists()) {
 			try {
@@ -44,9 +44,13 @@ public class ObjectPrice implements Serializable {
 		
 		//Récupère l'instance existante
 		for(ObjectPrice op : ops) if(op.getMaterial().equals(m)) {
+			//Ajoute le conte
 			op.prix = prix + op.prix;
 			op.quantité = quantité + op.quantité;
 			this.op = op;
+			
+			//Sauvegarde les moyenes
+			EconomieData.addChange(m);
 			return;
 		}
 		
@@ -54,6 +58,9 @@ public class ObjectPrice implements Serializable {
 		op.prix = prix;
 		op.quantité = quantité;
 		ops.add(this);
+		
+		//Sauvegarde les moyens
+		EconomieData.addChange(m);
 	}
 	
 	public Float getChange(Float price) {

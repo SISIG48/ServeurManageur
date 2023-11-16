@@ -68,6 +68,7 @@ public class CommandConfig implements CommandExecutor, TabCompleter {
 	        	completions.add("save");
 	        	completions.add("reload");
 	        } 
+	        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
 	        return completions;
 	    }
 }

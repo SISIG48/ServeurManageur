@@ -15,6 +15,8 @@ import fr.sisig48.pl.Utils.Item;
 public class MenuPP {
 	private static ArrayList<Inventory> inventory = new ArrayList<Inventory>();
 	
+	private static ItemStack lootbox = Item.GiveItem(Material.CHEST, 1, "§dLoot box", "§8Ouvre t-a loot box");
+	private static ItemStack loot = Item.GiveItem(Material.ANVIL, 1, "§aLoot Storage", null);
 	private static Inventory ProfileMenu = ProfileMenu();
 	
 	private static ItemStack economie = Item.GiveItem(Material.PAPER, 1, "§6Economie", "Voir votre economie, et celle du serveur");
@@ -45,16 +47,15 @@ public class MenuPP {
 	}
 	
 	public static void OpenProfileMenu(Player player) {
-		player.closeInventory();
 		player.openInventory(ProfileMenu);
 	}
 	
-	private static ItemStack lootbox = Item.GiveItem(Material.CHEST, 1, "§dLoot box", "§8Ouvre t-a loot box");
 	private static Inventory ProfileMenu() {
 		Inventory e = Bukkit.createInventory(null, 27, "Menu - Profile");
 		
 		//Element
-		e.setItem(13, lootbox);
+		e.setItem(11, lootbox);
+		e.setItem(15, loot);
 		
 		Item.GrayExGlass(e, 27);
 		return e;
@@ -63,7 +64,7 @@ public class MenuPP {
 	public static boolean TcheckMainMenuAction(Player player, ItemStack it, Inventory inv, boolean playerInventory) {
 		if(inventory.contains(inv)) {
 			if(playerInventory) return true;
-			if(profile(player).equals(it)) MenuPP.OpenProfileMenu(player);
+			if(Material.PLAYER_HEAD.equals(it.getType())) MenuPP.OpenProfileMenu(player);
 			else if(economie.equals(it)) EconomieMenu.OpenMenuEco(player);
 			else if(teleport.equals(it)) MenuTP.OpenMenuTP(player);
 			return true;
@@ -71,6 +72,7 @@ public class MenuPP {
 		if(ProfileMenu.equals(inv)) {
 			if(playerInventory) return true;
 			if(lootbox.equals(it)) LootBox.openInv(player);
+			else if(loot.equals(it)) new LootStorage(player).openInv();
 			return true;
 		}
 		return false;

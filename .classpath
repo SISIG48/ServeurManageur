@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-18.0.2">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="H:/simeo/eclipse-workspace/ServeurManageur/lib/spigot.jar"/>
-	<classpathentry kind="lib" path="C:/Users/simeon/Desktop/SERVEUR LOCALE/plugins/EssentialsX-2.20.0-dev+63-991bc61.jar"/>
-	<classpathentry kind="lib" path="C:/Users/simeon/Desktop/SERVEUR LOCALE/plugins/worldedit-bukkit-7.2.12.jar"/>
-	<classpathentry kind="lib" path="H:/simeo/eclipse-workspace/ucanaccess-5.0.1.jar"/>
-	<classpathentry kind="lib" path="H:/simeo/eclipse-workspace/ServeurManageur/lib/PowerRanks.jar"/>
+	<classpathentry kind="lib" path="libs/EssentialsX-2.20.0-dev+63-991bc61.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/PowerRanks.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="patch-module" value="kotlin.stdlib=/ServeurManageur"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/Multiverse-Core-4.3.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/worldedit-bukkit-7.2.12.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/spigot.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

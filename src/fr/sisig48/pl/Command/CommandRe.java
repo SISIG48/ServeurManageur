@@ -107,6 +107,7 @@ public class CommandRe implements CommandExecutor, TabCompleter {
         	completions.add("news");
         	completions.add("reload");
         } 
+        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
         return completions;
     }
 }

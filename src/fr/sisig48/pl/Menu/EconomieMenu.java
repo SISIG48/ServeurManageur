@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.earth2me.essentials.api.Economy;
 
+import fr.sisig48.pl.Economie.Economie;
 import fr.sisig48.pl.Economie.EconomieESS;
 import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Utils.Item;
@@ -62,7 +63,7 @@ public class EconomieMenu {
 		inventory.add(e);
 		
 		//Economie personelle
-		e.setItem(11, Item.GiveItem(Material.ENDER_CHEST, 1, "§6Compte en banque", "Vous avez §4" + EconomieESS.getMoney(player)));
+		e.setItem(11, Item.GiveItem(Material.ENDER_CHEST, 1, "§6Compte en banque", "Vous avez §4" + Economie.roundPrice((float) EconomieESS.getMoney(player))));
 		Item.GrayExGlass(e, 27);
 	}
 	
@@ -274,8 +275,8 @@ public class EconomieMenu {
 		if(inventory.contains(inv)) {
 			try {
 				if(playerInventory) return true;
-				else if(personelle(player).equals(it)) OpenMenuEcoPerso(player);
-				else if(it.getType().equals(Material.PLAYER_HEAD) || amis(player).equals(it)) OpenMenuEcoFriends(player);
+				else if(it.hasItemMeta() && it.getItemMeta().getDisplayName().equals(personelle(player).getItemMeta().getDisplayName())) OpenMenuEcoPerso(player);
+				else if(it.getType().equals(Material.PLAYER_HEAD) || it.getType().equals(Material.BARRIER)) OpenMenuEcoFriends(player);
 				else if(argentAmis.equals(it)) OpenMenuEcoFriendsMoney(player);
 				else if(classement.equals(it)) OpenMenuEcoPublic(player);
 				else if(argent.equals(it)) OpenMenuEcoPublicMoney(player);

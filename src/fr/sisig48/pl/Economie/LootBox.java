@@ -21,10 +21,10 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.sisig48.pl.Main;
 import fr.sisig48.pl.Menu.Interface;
+import fr.sisig48.pl.Menu.LootStorage;
 import fr.sisig48.pl.Sociale.PlayerRank;
 import fr.sisig48.pl.Utils.Item;
 import fr.sisig48.pl.Utils.Uconfig;
@@ -32,16 +32,16 @@ import net.ess3.api.Economy;
 
 @SuppressWarnings("deprecation")
 public class LootBox {
-	protected final static ArrayList<String> Rmythique = new ArrayList<String>(), Rlegend = new ArrayList<String>(), Rrare = new ArrayList<String>(), Runcommon = new ArrayList<String>(), Rcommon = new ArrayList<String>();
+	protected final static ArrayList<ItemStack> Rmythique = new ArrayList<ItemStack>(), Rlegend = new ArrayList<ItemStack>(), Rrare = new ArrayList<ItemStack>(), Runcommon = new ArrayList<ItemStack>(), Rcommon = new ArrayList<ItemStack>();
 	private static String path = "nextGive";
 	private final static int nextIn = Calendar.DAY_OF_MONTH;
 	private final static int nextInCount = 8;
 	final static Uconfig config = LootBoxMenu.config;
+	protected final static String pathPossible = "loot.possible";
+	protected final static String pathActual = "loot.this";
+	protected final static String split = "%";
 	private static Date nextMonthDate = configDate();
 	private static long dayRemaining = initUpdate();
-	protected final static String pathActual = "loot.this";
-	protected final static String pathPossible = "loot.possible";
-	protected final static String split = "%";
 	
 	public static void openInv(Player player) {
 		LootBoxMenu.open(player, dayRemaining);
@@ -73,19 +73,28 @@ public class LootBox {
 	}
 	
 	private static void init() {
+		
 		if(config.AlreadySet(pathActual + ".1")) {
 			for (String value : config.getConfig().getConfigurationSection(pathActual).getKeys(false)) {
 				for (String type : config.getConfig().getConfigurationSection(pathActual + "." + value).getKeys(false)) {
-					if(value.equals("1")) Rcommon.add(type + split + config.get(pathActual + "." + value + "." + type));
-					if(value.equals("2")) Runcommon.add(type + split + config.get(pathActual + "." + value + "." + type));
-					if(value.equals("3")) Rrare.add(type + split + config.get(pathActual + "." + value + "." + type));
-					if(value.equals("4")) Rlegend.add(type + split + config.get(pathActual + "." + value + "." + type));
-					if(value.equals("5")) Rmythique.add(type + split + config.get(pathActual + "." + value + "." + type));
+					int amount = Integer.valueOf(config.get(pathActual + "." + value + "." + type));
+					if(value.equals("1")) Rcommon.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dCommun", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("2")) Runcommon.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dPas commun", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("3")) Rrare.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dRare", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("4")) Rlegend.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dLegendaire", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("5")) Rmythique.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dMythique", "§8x" + amount).toArray(new String[0])));
 				}
 			}
 		}
 	}
-
+	
+	public static boolean isLoot(ItemStack it) {
+		if(Rcommon.contains(it) || Rlegend.contains(it) || Rmythique.contains(it) || Rrare.contains(it) || Runcommon.contains(it)) {
+			return true;
+		}
+		return false;
+	}
+	
 	//Vérification fu prochain mois
 	private static long initUpdate() {
         // Calculer le nombre de jours restants
@@ -119,11 +128,11 @@ public class LootBox {
 		int nbCommon = 15 - (nbUnCommon + nbLegend + nbMythique + nbRare);
 		
 		//Variable de trie
-		ArrayList<String> mythique = new ArrayList<String>();
-		ArrayList<String> legend = new ArrayList<String>();
-		ArrayList<String> rare = new ArrayList<String>();
-		ArrayList<String> uncommon = new ArrayList<String>();
-		ArrayList<String> common = new ArrayList<String>();
+		ArrayList<ItemStack> mythique = new ArrayList<ItemStack>();
+		ArrayList<ItemStack> legend = new ArrayList<ItemStack>();
+		ArrayList<ItemStack> rare = new ArrayList<ItemStack>();
+		ArrayList<ItemStack> uncommon = new ArrayList<ItemStack>();
+		ArrayList<ItemStack> common = new ArrayList<ItemStack>();
 		
 		//Reset var
 		Rmythique.clear();
@@ -137,49 +146,50 @@ public class LootBox {
 		config.set(pathActual, "");
 		if(!config.AlreadySet(pathPossible)) config.set(pathPossible, "");
 		for (String type : config.getConfig().getConfigurationSection(pathPossible).getKeys(false)) {
+			if(config.getConfig().getConfigurationSection(pathPossible + "." + type) == null) continue;
 			for (String value : config.getConfig().getConfigurationSection(pathPossible + "." + type).getKeys(false)) {
-				if(value.equals("1")) common.add(type + split + config.get(pathPossible + "." + type + "." + value));
-				if(value.equals("2")) uncommon.add(type + split + config.get(pathPossible + "." + type + "." + value));
-				if(value.equals("3")) rare.add(type + split + config.get(pathPossible + "." + type + "." + value));
-				if(value.equals("4")) legend.add(type + split + config.get(pathPossible + "." + type + "." + value));
-				if(value.equals("5")) mythique.add(type + split + config.get(pathPossible + "." + type + "." + value));
-				
+				int amount = Integer.valueOf(config.get(pathActual + "." + value + "." + type));
+				if(value.equals("1")) common.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dCommun", "§8x" + amount).toArray(new String[0])));
+				if(value.equals("2")) uncommon.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dPas commun", "§8x" + amount).toArray(new String[0])));
+				if(value.equals("3")) rare.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dRare", "§8x" + amount).toArray(new String[0])));
+				if(value.equals("4")) legend.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dLegendaire", "§8x" + amount).toArray(new String[0])));
+				if(value.equals("5")) mythique.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dMythique", "§8x" + amount).toArray(new String[0])));
 			}
 		}
 				
-		String temp;
+		ItemStack temp;
 		//Prise aléatoire
-		for(int i = 0; i < nbMythique; i++) {
+		for(int i = 0; i < nbMythique && i <= mythique.size(); i++) {
 			while(Rmythique.contains(temp = mythique.get((int) (Math.random() * (mythique.size() - 1)))));
 			Rmythique.add(temp);
 		}
 		
-		for(int i = 0; i < nbLegend; i++) {
+		for(int i = 0; i < nbLegend && i <= legend.size(); i++) {
 			while(Rlegend.contains(temp = legend.get((int) (Math.random() * (legend.size() - 1)))));
 			Rlegend.add(temp);
 		}
 		
-		for(int i = 0; i < nbRare; i++) {
+		for(int i = 0; i < nbRare && i <= rare.size(); i++) {
 			while(Rrare.contains(temp = rare.get((int) (Math.random() * (rare.size() - 1)))));
 			Rrare.add(temp);
 		}
 		
-		for(int i = 0; i < nbUnCommon; i++) {
+		for(int i = 0; i < nbUnCommon && i <= uncommon.size(); i++) {
 			while(Runcommon.contains(temp = uncommon.get((int) (Math.random() * (uncommon.size() - 1)))));
 			Runcommon.add(temp);
 		}
 		
-		for(int i = 0; i < nbCommon; i++) {
+		for(int i = 0; i < nbCommon && i <= common.size(); i++) {
 			while(Rcommon.contains(temp = common.get((int) (Math.random() * (common.size() - 1)))));
 			Rcommon.add(temp);
 		}
 		
 		//Import dans les config
-		for(String t : Rcommon) config.set(pathActual + ".1." + t.split(split)[0], t.split(split)[1]);
-		for(String t : Runcommon) config.set(pathActual + ".2." + t.split(split)[0], t.split(split)[1]);
-		for(String t : Rrare) config.set(pathActual + ".3." + t.split(split)[0], t.split(split)[1]);
-		for(String t : Rlegend) config.set(pathActual + ".4." + t.split(split)[0], t.split(split)[1]);
-		for(String t : Rmythique) config.set(pathActual + ".5." + t.split(split)[0], t.split(split)[1]);
+		for(ItemStack t : Rcommon) config.set(pathActual + ".1." + t.getType().name(), String.valueOf(t.getAmount()));
+		for(ItemStack t : Runcommon) config.set(pathActual + ".2." + t.getType().name(), String.valueOf(t.getAmount()));
+		for(ItemStack t : Rrare) config.set(pathActual + ".3." + t.getType().name(), String.valueOf(t.getAmount()));
+		for(ItemStack t : Rlegend) config.set(pathActual + ".4." + t.getType().name(), String.valueOf(t.getAmount()));
+		for(ItemStack t : Rmythique) config.set(pathActual + ".5." + t.getType().name(), String.valueOf(t.getAmount()));
 	}
 	
 	
@@ -217,7 +227,6 @@ class LootBoxMenu extends LootBox {
 		if(config.get(path) == null) config.set(path, "1");
 		int result = Integer.valueOf(config.get(path));
 		int size = 27;
-		p.closeInventory();
 		Inventory e = Bukkit.createInventory(p, size, "LootBox");
 		p.openInventory(e);
 		Interface.inventory.add(e);
@@ -233,6 +242,7 @@ class LootBoxMenu extends LootBox {
 		e.setItem((9 + RankEcuyer), ecuyer); //Ecuyer
 		e.setItem((9 + RankChevalier), chevalier); //Chevalier
 		e.setItem((9 + RankSeigneur ), seigneur); //Seigneur
+		
 		if(pr == RankModo) e.setItem((9 + RankModo), modo); //Modo
 
 	}
@@ -251,93 +261,95 @@ class LootBoxMenu extends LootBox {
 		if(PlayerRank.getPlayerInt(player) < lootNum) return;
 		try {
 			if(lootNum == 0) config.set("players." + player.getUniqueId().toString(), "0");
-			if(lootNum == 1) if(!EconomieESS.HasEnought(player, PricePaysan)) return; else Economy.subtract(player.getUniqueId(), new BigDecimal(PricePaysan));
-			if(lootNum == 2) if(!EconomieESS.HasEnought(player, PriceEcuyer)) return; else Economy.subtract(player.getUniqueId(), new BigDecimal(PriceEcuyer));
-			if(lootNum == 3) if(!EconomieESS.HasEnought(player, PriceChevalier)) return; else Economy.subtract(player.getUniqueId(), new BigDecimal(PriceChevalier));
-			if(lootNum == 4) if(!EconomieESS.HasEnought(player, PriceSeigneur)) return; else Economy.subtract(player.getUniqueId(), new BigDecimal(PriceSeigneur));
-		} catch (Exception e) {return;}
+			if(lootNum == 1) if(!EconomieESS.HasEnought(player, PricePaysan)) {
+				player.playNote(player.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
+				return; 
+			} else Economy.subtract(player.getUniqueId(), new BigDecimal(PricePaysan));
+			if(lootNum == 2) if(!EconomieESS.HasEnought(player, PriceEcuyer)) {
+				player.playNote(player.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
+				return;
+			} else Economy.subtract(player.getUniqueId(), new BigDecimal(PriceEcuyer));
+			if(lootNum == 3) if(!EconomieESS.HasEnought(player, PriceChevalier)) {
+				player.playNote(player.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
+				return; 
+			} else Economy.subtract(player.getUniqueId(), new BigDecimal(PriceChevalier));
+			if(lootNum == 4) if(!EconomieESS.HasEnought(player, PriceSeigneur)) {
+				player.playNote(player.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
+				return;
+			} else Economy.subtract(player.getUniqueId(), new BigDecimal(PriceSeigneur));
+		} catch (Exception e) {player.playNote(player.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));return;}
 		
 		
-		float r = new Random().nextFloat(100);
+		float r = (float) (Math.random() * 100);
 		float per = getPercent(lootNum, 1);
 		int i = 1;
 		for(i = 2 ; (r > per && i != 5) ; i++) per = per + getPercent(lootNum, i);
 		spinLoot(player, i-1);
 	}
-	
-	private static int temp = 0;
-	private static BukkitRunnable rouletteTask;
+
 	private static void spinLoot(Player p,  int value) {
 		p.closeInventory();
 		Inventory e = Bukkit.createInventory(p, 9, "");
 		Item.GrayExGlass(e, 9);
 		
-		String lineOBJ = " " + split + " ";
-		String name = "loretag";
+		ItemStack obj = new ItemStack(Material.AIR);
 		
-		if(value == 1 && (name = "§dCommun") != null) lineOBJ = Rcommon.get((int) (Math.random() * (Rcommon.size() - 1)));
-		if(value == 2 && (name = "§dPas-Commun") != null) lineOBJ = Runcommon.get((int) (Math.random() * (Runcommon.size() - 1)));
-		if(value == 3 && (name = "§dRare") != null) lineOBJ = Rrare.get((int) (Math.random() * (Rrare.size() - 1)));
-		if((value == 4 || (value == 5 && Rmythique.size() == 0))  && (name = "§dLegendaire") != null) lineOBJ = Rlegend.get((int) ((Math.random() * (Rlegend.size() - 1))));
-		if(value == 5 && Rmythique.size() != 0 && (name = "§dMythique") != null) lineOBJ = Rmythique.get((int) (Math.random() * (Rmythique.size() - 1)));
-		
-		String[] info = lineOBJ.split(split);
-		String m = info[0].replace(" ", "_");
-		m = m.toUpperCase();
+		if(value == 1) obj = Rcommon.get((int) (Math.random() * (Rcommon.size() - 1)));
+		if(value == 2) obj = Runcommon.get((int) (Math.random() * (Runcommon.size() - 1)));
+		if(value == 3) obj = Rrare.get((int) (Math.random() * (Rrare.size() - 1)));
+		if((value == 4 || (value == 5 && Rmythique.size() == 0))) obj = Rlegend.get((int) ((Math.random() * (Rlegend.size() - 1))));
+		if(value == 5 && Rmythique.size() != 0) obj = Rmythique.get((int) (Math.random() * (Rmythique.size() - 1)));
 		
 		
-		Material material = Material.getMaterial(m);
-		int amount = Integer.valueOf(info[1]);
-		ItemStack is = Item.GiveItemLore(material, 1, "§" + value + m, Arrays.asList(name, "§8x" + amount).toArray(new String[0]));
+		Material material = obj.getType();
+		int amount = obj.getAmount();
 		
 		p.openInventory(e);				
-		ArrayList<String> li = new ArrayList<>();
+		ArrayList<ItemStack> li = new ArrayList<>();
 		li.addAll(Rcommon);
 		li.addAll(Rlegend);
 		li.addAll(Rrare);
 		li.addAll(Runcommon);
 		li.addAll(Rmythique);
-		temp = li.size() - 1;
 		
-		rouletteTask = new BukkitRunnable() {
+		ItemStack it = obj;
+		new Thread(new Runnable() {
 			
+			@SuppressWarnings("static-access")
 			@Override
 			public void run() {
-				if(temp > 0) spiner(e, li.get(temp));
-				temp--;
-				p.playNote(p.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
-				if(temp < 0) {
-					e.setItem(4, is);
-					p.playSound(p, Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
-					rouletteTask.cancel();
-				}
-				
-			}
-		};
-		int speed = 2;
-		rouletteTask.runTaskTimer(Main.Plug, speed, speed);
-		
+				try {
+					int temp = li.size() - 1;
+					while(temp > 0) {
+						if(temp > 0) e.setItem(4, Item.GiveItem(li.get(temp).getType(), 1, " ", null));;
+						temp--;
+						p.playNote(p.getLocation(), Instrument.BASS_GUITAR, Note.flat(1, Tone.A));
+						if(temp == 0) {
+							e.setItem(4, it);
+							if(Item.isInventoryFull(p.getInventory(), (Float.valueOf(it.getAmount()) / it.getMaxStackSize()))) new LootStorage(p).addItem(it);
+							else p.getInventory().addItem(new ItemStack(material, amount));
+							p.playSound(p, Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
+							break;
+						}
+						Thread.currentThread().sleep(100);
+					}
+					temp = 0;
+					ItemStack red = Item.GiveItem(Material.RED_STAINED_GLASS_PANE, 1, "", null);
+					while(temp < 9 && e.getViewers().contains(p)) {
+						if(temp == 4) temp++;
+						e.setItem(temp, red);
+						Thread.currentThread().sleep(625);
+						p.playNote(p.getLocation(), Instrument.SNARE_DRUM, Note.flat(1, Tone.A));
+						temp++;
+					}
 					
-				
-				
-		p.getInventory().addItem(new ItemStack(material, amount));
+					Bukkit.getScheduler().runTask(Main.Plug, () -> LootBox.openInv(p));
+				} catch (InterruptedException e) {}
+				return;
+			}
+		}).start();
 		p.updateInventory();
-
-		
-		
 	}
-	
-	private static void spiner(Inventory e, String t) {
-		String[] info = t.split(split);
-		String m = info[0].replace(" ", "_");
-		m = m.toUpperCase();
-			
-		Material material = Material.getMaterial(m);
-		ItemStack is = Item.GiveItem(material, 1, " ", null);
-		e.setItem(4, is);
-			
-	}
-	
 	
 	private static float getPercent(int lootbox, int level) {
 		String conf = percentPath.replace("?", String.valueOf(lootbox)).replace("!", String.valueOf(level));
@@ -346,10 +358,9 @@ class LootBoxMenu extends LootBox {
 	}
 	
 	
-	
 	private static File initFile() {
 		File file = new File("plugins/ServeurManageur/lootBox.yml");
-		if(!file.exists())try {file.createNewFile();} catch (IOException e) {e.printStackTrace();}
+		if(!file.exists()) try {file.createNewFile();} catch (IOException e) {e.printStackTrace();}
 		return file;
 	}
 	
