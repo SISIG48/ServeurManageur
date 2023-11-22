@@ -47,3 +47,5 @@ commands:
     description: Manage server web
     usage: /web
     permission : admin.command
+  account:
+    usage: /account

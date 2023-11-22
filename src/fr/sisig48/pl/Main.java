@@ -17,6 +17,7 @@ import fr.sisig48.pl.Automating.AutoSave;
 import fr.sisig48.pl.Automating.Mine;
 import fr.sisig48.pl.Automating.PayPal;
 import fr.sisig48.pl.Automating.WebAuto;
+import fr.sisig48.pl.Command.CommandAccount;
 import fr.sisig48.pl.Command.CommandBug;
 import fr.sisig48.pl.Command.CommandConfig;
 import fr.sisig48.pl.Command.CommandFriends;
@@ -194,6 +195,7 @@ public class Main extends JavaPlugin {
 		getCommand("shop").setExecutor(new CommandShop());
 		getCommand("save").setExecutor(new CommandSave());
 		getCommand("web").setExecutor(new CommandWeb());
+		getCommand("account").setExecutor(new CommandAccount());
 		Uconfig.intit(this);
 		loadThread.start();
 		for(Player p : Bukkit.getOnlinePlayers()) new PayPal(p);

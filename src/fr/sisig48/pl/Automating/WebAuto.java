@@ -8,14 +8,80 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+
+import com.earth2me.essentials.api.Economy;
+import com.earth2me.essentials.api.UserDoesNotExistException;
 
 import fr.sisig48.pl.Main;
 import fr.sisig48.pl.Economie.EconomieData;
 import fr.sisig48.pl.Economie.EconomieInfo;
+import fr.sisig48.pl.Sociale.PlayerJobs;
+import fr.sisig48.pl.Utils.Utils;
+import net.sisig48.web.WebResponses;
+import net.sisig48.web.WebResponsesData;
+import net.sisig48.web.WebResponsesListener;
+import net.sisig48.web.WebView;
+import nl.svenar.lib.json.simple.JSONObject;
 
 public class WebAuto {
 	private static File in = new File(Main.Plug.getDataFolder() + "/index.html");
 	private static File out = new File(Main.Plug.getDataFolder() + "/web/index.html");
+	
+	static {
+		WebResponses.AddWebResponsesListener(new WebResponsesListener() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public boolean onWebResponse(WebResponsesData data) {
+				if(data.get().length <= 0) return false;
+				
+				if(data.getType().equals("GET")) {
+					String request = data.getRequest();
+					if(request.equals("/account.data")) {
+						if(data.getAccount() == null) WebView.PageUnauthorized(data.getOutputStream()); 
+						else {
+							OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(data.getAccount().getTag()));
+							JSONObject json = new JSONObject();
+							
+							JSONObject minecraft = new JSONObject();
+							minecraft.put("name", player.getName()); 	
+							minecraft.put("uuid", player.getUniqueId().toString());
+							minecraft.put("icon", Utils.getBase64Profile(player.getUniqueId()));
+							minecraft.put("first_player", player.getFirstPlayed());
+							
+							// Information plugin
+							JSONObject info = new JSONObject();
+							try {info.put("money", Economy.getMoneyExact(player.getUniqueId()));} catch (UserDoesNotExistException e) {}
+							info.put("jobs", new PlayerJobs(player).get().getName());
+							info.put("xp", new PlayerJobs(player).getXp());
+							
+							// Information globale du joueur
+							JSONObject playerINFO = new JSONObject();
+							playerINFO.put("minecraft", minecraft);
+							playerINFO.put("external", info);
+							
+							// Information sur le compte
+							JSONObject accountINFO = new JSONObject();
+							accountINFO.put("id", data.getAccount().getId());
+							accountINFO.put("tag", data.getAccount().getTag());
+							accountINFO.put("last-ip", data.getAccount().getIp().getHostAddress());
+							
+							json.put("account", accountINFO);
+							json.put("player", playerINFO);
+							
+							WebView.returnText(json.toJSONString(), data.getOutputStream());
+						}
+						return true;
+					}
+				}
+				return false;
+			}
+		});
+	}
 	
 	@SuppressWarnings("deprecation")
 	public static void SaveChange() {

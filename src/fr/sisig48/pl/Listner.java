@@ -7,15 +7,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -160,7 +153,8 @@ public class Listner implements Listener {
 				|| MenuPP.TcheckMainMenuAction(player, current, inv, playerInventory)
 				|| MenuTP.TcheckTPMenuAction(player, current, inv, playerInventory)
 				|| EconomieMenu.TcheckEconomyMenuAction(player, current, inv, playerInventory)
-				|| new LootStorage(player).TcheckLootMenuAction(player, current, inv, playerInventory)); 
+				|| NetherStarMenu.HasMenu(player, current)
+				|| new LootStorage(player).TcheckLootMenuAction(player, current, inv, playerInventory));
 		else event.setCancelled(false);
 	}
 	

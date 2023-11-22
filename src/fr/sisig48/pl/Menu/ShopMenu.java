@@ -449,15 +449,15 @@ public class ShopMenu {
 	@SuppressWarnings("deprecation")
 	private static void openWebView(Material m, Player p) {
 		p.closeInventory();
-		TextComponent msgl = new TextComponent("§e[§e§lAFFICHER LES INFO POUR " + m.name().toLowerCase().replace("_", " ") +"§e]");
-		msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eVOIR").create()));
 		try {
+			TextComponent msgl = new TextComponent("§e[§e§lAFFICHER LES INFO POUR " + m.name().toLowerCase().replace("_", " ") +"§e]");
+			msgl.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eVOIR").create()));
 			msgl.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://" + InetAddress.getLocalHost().getHostAddress() + "/?type=" + m.name().toLowerCase().replace("_", "%20")));
+			p.spigot().sendMessage(msgl);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		p.spigot().sendMessage(msgl);
 	}
 	
 	

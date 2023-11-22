@@ -43,7 +43,7 @@ public class ServeurManageurUpdate {
             
             Note();
             Thread.sleep(1000);
-            Bukkit.reload();
+            Bukkit.dispatchCommand(sender, "stop");
             logs.add("Maj end");
             return true;
         } catch (IOException e) {

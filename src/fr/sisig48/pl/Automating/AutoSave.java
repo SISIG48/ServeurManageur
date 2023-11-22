@@ -14,6 +14,9 @@ import fr.sisig48.pl.Sociale.Friends;
 import fr.sisig48.pl.Sociale.PlayerJobs;
 import fr.sisig48.pl.Utils.Uconfig;
 
+import net.sisig48.web.WebAccount;
+import net.sisig48.web.WebResponses;
+
 public class AutoSave {
 	private static Thread task = new Thread(new Runnable() {
 		
@@ -45,6 +48,8 @@ public class AutoSave {
 	
 	public static void save() {
 		// Sauvegarde
+		WebResponses.save();
+		WebAccount.save();
 		Friends.saveAll();
 		PlayerJobs.saveAll();
 		XpCounter.save();
