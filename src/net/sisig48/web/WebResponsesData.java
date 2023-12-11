@@ -27,7 +27,7 @@ public class WebResponsesData {
 		cookies = parseCookies(requestList);
 		if(requestList.size() > 0)
 		try {request.addAll(Arrays.asList(URLDecoder.decode(requestList.get(0), StandardCharsets.UTF_8.toString()).split(" ")));} catch (UnsupportedEncodingException e) {}
-		if(getCokkies().get("account") != null && getCokkies().get("pass") != null && getCokkies().get("uuid") != null) account = WebAccount.getUser(Long.valueOf(getCokkies().get("account")), getCokkies().get("pass"), UUID.fromString(getCokkies().get("uuid")), clientSocket.getInetAddress());
+		if(getCokkies().get("account") != null && getCokkies().get("pass") != null && getCokkies().get("uuid") != null) account = WebAccount.getUser(getCokkies().get("account"), getCokkies().get("pass"), UUID.fromString(getCokkies().get("uuid")), clientSocket.getInetAddress());
 		this.in = in;
 		this.out = out;
 	}

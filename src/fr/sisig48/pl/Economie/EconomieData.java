@@ -13,10 +13,9 @@ import java.util.List;
 import org.bukkit.Material;
 
 import fr.sisig48.pl.Main;
-import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Automating.AutoSave;
 
-@SuppressWarnings({ "unchecked", "deprecation" })
+@SuppressWarnings({ "unchecked" })
 public class EconomieData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final transient static File saves = new File(Main.Plug.getDataFolder() + "/data/item/oldData.save");
@@ -43,18 +42,9 @@ public class EconomieData implements Serializable {
 			}
 		}
 		
-		logs.send("§4" + list.size());
 		for(EconomieData ed : list) {
-			logs.send("§8Stone");
 			List<EconomieInfo> r = new ArrayList<EconomieInfo>();
 			for(EconomieInfo ei : ed.edi) r.add(0, ei);
-			
-			if(ed.material.equals(Material.STONE)) {
-				logs.send("§dStone");
-				for(EconomieInfo ei : r) {
-					logs.send("§a" + ei.getPrice() + " (" + ei.getFrom().getMinutes());	
-				}
-			}
 			
 			Date last = Calendar.getInstance().getTime();
 			for(EconomieInfo ei : r) {

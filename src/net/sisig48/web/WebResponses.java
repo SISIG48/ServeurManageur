@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import fr.sisig48.pl.logs;
-
 public class WebResponses {
 	private static String path = WebServer.getPath();
 	private static File login;
@@ -44,7 +42,7 @@ public class WebResponses {
     			while(!(r = in.readLine()).equals("") && r != null) requestList.add(r);
     			WebResponsesData data = new WebResponsesData(clientSocket, requestList, in, out);
     			if(data.getType() != null) {
-    				for(WebResponsesListener l : listener) if(l.onWebResponse(data)) return;
+    				try{for(WebResponsesListener l : listener) if(l.onWebResponse(data)) return;} catch (Exception e) {e.printStackTrace();}
     				
     				String type = data.getType();
     				if(type.equals("GET")) {
@@ -58,22 +56,28 @@ public class WebResponses {
     					if(request.contains("?")) {
     						// Système de conextion au profile
     						if(request.startsWith("/login?")) {
+    							if(request.startsWith("/login?out")) {
+    								if(account == null) WebView.PageUnauthorized(out);
+            						else WebView.returnText(Arrays.asList("id: " + account.getId(), "\r\nLogout"), out, "account=; pass=; uuid=; Expires=Thu, 01 Jan 1970 00:00:00 GMT");
+    								return;
+    							}
+    							
     							try {
-        							if(account == null) { 
-            							request = request.replace("/login?", "");
-            							long id = Long.valueOf(request.split(",")[0].replace("id=", ""));
-            							String pass = request.split(",")[1].replace("pass=", "");
-            							account = WebAccount.getUser(id, pass);
-            							
-            							if(account == null) {
-            								WebView.PageUnauthorized(out);
-            								return;
-            							}
-            							account.setIp(clientSocket.getInetAddress());
-        							}
+            						request = request.replace("/login?", "");
+            						Object id = request.split(",")[0].replace("id=", "");
+            						Object pass = request.split(",")[1].replace("pass=", "");
+            						account = WebAccount.getUser(id, pass);
+            						
+            						if(account == null) {
+            							WebView.PageUnauthorized(out);
+            							return;
+            						}
+            						
+            						account.setIp(clientSocket.getInetAddress());
         							WebView.returnText(Arrays.asList("id: " + account.getId(), "\r\npass: " + account.getTag()), out, "account=" + account.getId() + "; pass=" + account.getPassword() + "; uuid=" + account.getUUID().toString());
         							return;
     							} catch (Exception e) {
+    								e.printStackTrace();
     								WebView.PageBadResquest(out);
     								return;
     							}
@@ -126,14 +130,9 @@ public class WebResponses {
     			} else {
     				WebView.PageBadResquest(out);
     			}
-    		} catch (IOException e) {
-    		}
+    		} catch (Exception e) {}
     		
-    		try {
-    			clientSocket.close();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
+    		try {clientSocket.close();} catch (Exception e) {}
     	});
     	
     	thread.start();

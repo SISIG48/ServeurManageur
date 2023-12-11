@@ -2,8 +2,10 @@ package net.sisig48.web;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Arrays;
@@ -12,63 +14,55 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import fr.sisig48.pl.Automating.AutoSave;
-
 @SuppressWarnings("unchecked")
 public class WebAccount implements Serializable {
 	private static final long serialVersionUID = -5931041720733955615L;
 	private static String path = WebServer.getPath();
-	private static Map<Long, WebAccount> accountList = new HashMap<Long, WebAccount>();
-	private WebAccount wa = this;
-	private long id;
-	private String password;
-	private String perm = "user.member";
-	private String tag;
+	private static Map<String, WebAccount> accountList = new HashMap<String, WebAccount>();
+	private Object id;
+	private Object password;
+	private List<String> perm = Arrays.asList("user.member");
+	private Map<Object, Object> tags = new HashMap<Object, Object>();
 	private UUID uuid = UUID.randomUUID();
 	private InetAddress ip;
 	private static List<String> utf8Characters = Arrays.asList(
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-            "@", "$", "!", "§", "?","*", "/", "-", "'", "\"", "."
+            "@", "$", "!", "§","*", "/", "-", "'", "\"", "."
 		);
 	
 	
-	public WebAccount(long id, String password, String tag) {
-		WebAccount a = accountList.get(id);
-		if(a != null && a.id == id && a.password.equals(password)) {
-				wa = a;
-				return;
-		}
-		wa.uuid = UUID.randomUUID();
-		wa.id = createID();
-		wa.password = createPassword(getId());
-		wa.tag = tag;
-		accountList.put(wa.id, wa);
+	private WebAccount(Object id, Object password, Map<Object, Object> tags) {
+		this.id = id;
+		this.password = password;
+		this.tags = tags;
+		accountList.put(String(id), this);
 	}
 	
-	public WebAccount(String tag) {
-		wa.uuid = UUID.randomUUID();
-		wa.id = createID();
-		wa.password = createPassword(getId());
-		wa.tag = tag;
-		accountList.put(wa.id, wa);
+	private static String String(Object object) {
+		return String.valueOf(object);
 	}
 	
-	public long getId() {
-		return wa.id;
+	public static WebAccount createAccount(Object id, Object password, Map<Object, Object> tags) {
+		if(AlreadySet(id)) return null;
+		return new WebAccount(id, password, tags);
+	}
+	
+	public Object getId() {
+		return id;
 	}
 	
 	public static void delAccount(WebAccount account) {
-		accountList.remove(account.getId());
+		accountList.remove(String(account.getId()));
 	}
 	
-	public String getPassword() {
-		return wa.password;
+	public Object getPassword() {
+		return this.password;
 	}
 	
-	public String getTag() {
-		return wa.tag;
+	public Map<Object, Object> getTag() {
+		return this.tags;
 	}
 	
 	public static long createID() {
@@ -77,42 +71,45 @@ public class WebAccount implements Serializable {
 		return id; 
 	}
 	
-	public static String createPassword(long id) {
+	public static String createPassword() {
 		String pass = "";
 		for(int i = 0; i <= 16; i++) pass = pass + utf8Characters.get((int) ((utf8Characters.size()-1) * Math.random()));
 		return pass;
 	}
 	
-	private static boolean AlreadySet(long id) {
+	public static boolean AlreadySet(Object id) {
 		if(accountList.containsKey(id)) return true;
 		return false;
 	}
 	
-	public void setPerm(String perm) {
-		wa.perm = perm;
+	public void setPerm(List<String> perm) {
+		this.perm = perm;
 	}
 	
-	public String getPerm() {
-		return wa.perm;
+	public List<String> getPerm() {
+		return this.perm;
 	}
+	
+	
 	
 	public boolean hasPermission(String permission) {
-		return permission.equals(getPerm()) || permission.equals(String.valueOf(id));
+		return getPerm().contains(permission) || permission.equals(String.valueOf(id));
 	}
 	
 	public boolean hasPermission(List<String> permission) {
-		return permission.contains(getPerm()) || permission.contains(String.valueOf(id));
+		for(String s : getPerm()) if(permission.contains(s)) return true;
+		return permission.contains(String(id));
 	}
 	
-	public static WebAccount getUser(long id, String password) {
-		WebAccount a = accountList.get(id);
-		if(a != null && a.password.equals(password)) return a;
+	public static WebAccount getUser(Object id, Object password) {
+		WebAccount a = accountList.get(String(id));
+		if(a != null && String(a.password).equals(String(password))) return a;
 		return null;
 	}
 	
-	public static WebAccount getUser(long id, String password, UUID uuid, InetAddress ip) {
+	public static WebAccount getUser(Object id, Object password, UUID uuid, InetAddress ip) {
 		WebAccount a = accountList.get(id);
-		if(a != null && a.password.equals(password) && a.uuid.equals(uuid) && a.ip.equals(ip)) return a;
+		if(a != null && String(a.password).equals(String(password)) && a.uuid.equals(uuid) && a.ip.equals(ip)) return a;
 		return null;
 	}
 	
@@ -121,29 +118,47 @@ public class WebAccount implements Serializable {
 		return null;
 	}
 	
-	public static WebAccount getUser(String tag) {
-		for(WebAccount a : accountList.values()) if(a.tag.equals(tag)) return a;
+	public static WebAccount getUserByTag(Object tag, Object value) {
+		for(WebAccount a : accountList.values()) if(a.tags != null && a.tags.get(tag) != null && a.tags.get(tag).equals(value)) return a;
 		return null;
 	}
 	
 	public UUID getUUID() {
-		return wa.uuid;
+		return this.uuid;
 	}
 	
 	public void setUUID(UUID uuid) {
-		wa.uuid = uuid;
+		this.uuid = uuid;
 	}
 	
 	public InetAddress getIp() {
-		return wa.ip;
+		return this.ip;
 	}
 	
 	public void setIp(InetAddress ip) {
-		wa.ip = ip;
+		this.ip = ip;
 	}
 	
 	public static void save() {
-		AutoSave.SerializableSave(new File(path + "/users.data"), accountList);
+		SerializableSave(new File(path + "/users.data"), accountList);
+	}
+	
+	private static void SerializableSave(File out, Object object) {
+		try {
+			if(!out.exists()) {
+				out.getParentFile().mkdir();
+				out.createNewFile();
+			}
+			FileOutputStream fichierSortie = new FileOutputStream(out);
+			ObjectOutputStream sortieObjet = new ObjectOutputStream(fichierSortie);
+			
+			sortieObjet.writeObject(object);
+			
+			sortieObjet.close();
+			fichierSortie.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	static {
@@ -153,7 +168,7 @@ public class WebAccount implements Serializable {
 				FileInputStream fichierEntree = new FileInputStream(users);
 				ObjectInputStream entreeObjet = new ObjectInputStream(fichierEntree);
 				
-				accountList = (Map<Long, WebAccount>) entreeObjet.readObject();
+				accountList = (Map<String, WebAccount>) entreeObjet.readObject();
 				
 				entreeObjet.close();
 				fichierEntree.close();

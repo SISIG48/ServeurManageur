@@ -149,7 +149,9 @@ public class Main extends JavaPlugin {
 	private static void webStart() {
 		WebServer.setPath(Main.Plug.getDataFolder().getPath().replace("\\", "/") + "/web");
 		WebAuto.SaveChange();
-		new WebServer(443).start();
+		WebServer web = new WebServer(443);
+		web.setMaxUsers(50);
+		web.start();
 	}
 	
 	private static void PNJSave(String path, int max) {
@@ -205,30 +207,25 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		//Fermeture des threads
-		WebServer.stopAll();
-		Mine.AutoFill.stop();
-		loadThread.stop();
-		PayPal.thread.stop();
-		AutoSave.del();
+		try {WebServer.stopAll();} catch (Exception e) {e.printStackTrace();}
+		try {Mine.AutoFill.stop();} catch (Exception e) {e.printStackTrace();}
+		try {loadThread.stop();} catch (Exception e) {e.printStackTrace();}
+		try {PayPal.thread.stop();} catch (Exception e) {e.printStackTrace();}
+		try {AutoSave.del();} catch (Exception e) {e.printStackTrace();}
 		
 		// Sauvegarde
-		AutoSave.save();
-		saveConfig();
+		try {AutoSave.save();} catch (Exception e) {e.printStackTrace();}
+		try {saveConfig();} catch (Exception e) {e.printStackTrace();}
+		
 		for(Player e : Bukkit.getOnlinePlayers()) {
-			
-			if(!(e.getName().equals("SISIG48"))) {
-				e.kickPlayer("§dErreur serveur, veuillez patienter. \n"
+			e.kickPlayer("§dErreur serveur, veuillez patienter. \n"
 						+ "§4réessayer plus tard \n"
 						+ "\n"
 						+ "§dServer error, please wait. \n"
 						+ "§4try again later");
-			} else {
-				e.sendMessage("§6Attention certain bug son lié a ce reload,");
-				e.sendMessage("§6nous vous avons garder la conection car vous ête sur la liste");
-			}
+
 		}
 		logs.add("Plugin Stoping");
-		//Bukkit.dispatchCommand(sec, "restart");
 	}
 	
 	@SuppressWarnings("deprecation")

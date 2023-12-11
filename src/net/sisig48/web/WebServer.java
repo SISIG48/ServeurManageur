@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -25,6 +26,7 @@ public class WebServer {
 	private static char[] password;
 	private ServerSocket serverSocket = null;
 	private int port;
+	private int maxUsers = 1;
 	public static void setPath(String path) {
 		WebServer.path = path;
 	}
@@ -40,10 +42,16 @@ public class WebServer {
 	public static void setPassword(char[] password) {
 		WebServer.password = password;
 	}
-
+	
+	public void setMaxUsers(int amount) {
+		maxUsers = amount;
+	}
+	
 	public void stop() {
 		try {
-			if(serverSocket != null) serverSocket.close();
+			if(serverSocket != null) {
+				serverSocket.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -63,6 +71,7 @@ public class WebServer {
 		start1();
 	}
 	
+	private int current = 0;
 	public void start1() {
 		WebResponses.load();
 		try {
@@ -87,16 +96,31 @@ public class WebServer {
             }
             
             System.out.println("start server on :" + port);
-            while (true) {
+            while(!serverSocket.isClosed()) {
                 try {
-                	new WebResponses(serverSocket.accept());
+                	while(current >= maxUsers) {
+                		try {Thread.sleep(1000);} catch (InterruptedException e) {}
+                	};
+                	Socket s = serverSocket.accept();
+                	current++;
+                	new WebResponses(s);
+                	new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								Thread.sleep(5000);
+							} catch (InterruptedException e) {
+							}
+							current--;
+							return;
+						}
+					}).start();
                 } catch (SocketException e) {
-                	try {
-                		Thread.sleep(1000);
-                	} catch (InterruptedException e1) {
-                		return;
-                	}
+                
                 }
+                
+                
             }
         } catch (IOException | NoSuchAlgorithmException | CertificateException | KeyManagementException | KeyStoreException | UnrecoverableKeyException e) {
             e.printStackTrace();

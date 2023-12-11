@@ -1,10 +1,21 @@
 §e---§a§lPLUGIN MANAGEUR§e---
 §eName : §4§lServer Manager
-§eVersion : §8Alpha §a1.0.8 §6§lObject-UPDATE
+§eVersion : §8Alpha §a1.0.8 §6§lObject-UPDATE RELEASE-1
 §eAuthor : §a§lSISIG48
 §eAPI-Version : §a1.13
  
-§d§lNews indisponible
-    
-§4Notre equipe vous informe que si vous avez des idées,
-§4vous pouvez nous les transmetres sur le discord :
+§9Apotimisation de mise à jours
+§9Système de loot-box
+§9Shop PNJ
+§9Changement du revenue d'xp
+§9Admin SHOP §8(Shop PNJ)
+§9Sauvegarde Automatique
+§9Destruction des maison §8(admin)
+§9Web AUTO hébergé
+    §8Avec système de compte
+    §8Extensible et auto gérable
+§9Tab compete
+§9Désactivation du reload
+    §8Suite à des bug de puissance serv
+§9Sauvegarde des donné +
+    §8Graphique web
