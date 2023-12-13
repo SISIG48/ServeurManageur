@@ -15,7 +15,5 @@
     §8Avec système de compte
     §8Extensible et auto gérable
 §9Tab compete
-§9Désactivation du reload
-    §8Suite à des bug de puissance serv
 §9Sauvegarde des donné +
     §8Graphique web
