@@ -48,15 +48,15 @@ public class AutoSave {
 	
 	public static void save() {
 		// Sauvegarde
-		WebResponses.save();
-		WebAccount.save();
-		Friends.saveAll();
-		PlayerJobs.saveAll();
-		XpCounter.save();
-		EconomieData.saveInfo();
-		WebAuto.SaveChange();
-		EconomieMarchant.save();
-		ObjectPrice.save();
+		try {WebResponses.save();} catch (Exception e) {e.printStackTrace();}
+		try {WebAccount.save();} catch (Exception e) {e.printStackTrace();}
+		try {Friends.saveAll();} catch (Exception e) {e.printStackTrace();}
+		try {PlayerJobs.saveAll();} catch (Exception e) {e.printStackTrace();}
+		try {XpCounter.save();} catch (Exception e) {e.printStackTrace();}
+		try {EconomieData.saveInfo();} catch (Exception e) {e.printStackTrace();}
+		try {WebAuto.SaveChange();} catch (Exception e) {e.printStackTrace();}
+		try {EconomieMarchant.save();} catch (Exception e) {e.printStackTrace();}
+		try {ObjectPrice.save();} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	public static void SerializableSave(File out, Object object) {

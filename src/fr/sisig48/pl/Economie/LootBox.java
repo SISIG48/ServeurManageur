@@ -114,7 +114,7 @@ public class LootBox {
 		calendar.add(Calendar.MONTH, 1);
         calendar.add(nextIn, nextInCount);
         nextMonthDate = calendar.getTime();
-		String date = (nextMonthDate.getYear() + 1900) + "-" + nextMonthDate.getMonth() + "-" + nextMonthDate.getDate();
+		String date = (nextMonthDate.getYear() + 1900) + "-" + (nextMonthDate.getMonth()+1) + "-" + Calendar.getInstance().getTime().getDate();
 		config.set(path, date);
 		for(OfflinePlayer p : Bukkit.getOfflinePlayers()) {
 			config.set("players." + p.getUniqueId().toString(), "1");
@@ -148,12 +148,16 @@ public class LootBox {
 		for (String type : config.getConfig().getConfigurationSection(pathPossible).getKeys(false)) {
 			if(config.getConfig().getConfigurationSection(pathPossible + "." + type) == null) continue;
 			for (String value : config.getConfig().getConfigurationSection(pathPossible + "." + type).getKeys(false)) {
-				int amount = Integer.valueOf(config.get(pathActual + "." + value + "." + type));
-				if(value.equals("1")) common.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dCommun", "§8x" + amount).toArray(new String[0])));
-				if(value.equals("2")) uncommon.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dPas commun", "§8x" + amount).toArray(new String[0])));
-				if(value.equals("3")) rare.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dRare", "§8x" + amount).toArray(new String[0])));
-				if(value.equals("4")) legend.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dLegendaire", "§8x" + amount).toArray(new String[0])));
-				if(value.equals("5")) mythique.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dMythique", "§8x" + amount).toArray(new String[0])));
+				try {
+					int amount = Integer.valueOf(config.get(pathPossible + "." + type + "." + value));
+					if(value.equals("1")) common.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dCommun", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("2")) uncommon.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dPas commun", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("3")) rare.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dRare", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("4")) legend.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dLegendaire", "§8x" + amount).toArray(new String[0])));
+					if(value.equals("5")) mythique.add(Item.GiveItemLore(Material.valueOf(type), amount, "§" + value + type, Arrays.asList("§dMythique", "§8x" + amount).toArray(new String[0])));
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 				
