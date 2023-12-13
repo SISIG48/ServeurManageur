@@ -4,14 +4,19 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class logs {
+	public static void send(String s) {
+		Bukkit.getConsoleSender().sendMessage(s);
+	}
 	public static void add(String info) {
 
 	    
@@ -21,7 +26,9 @@ public class logs {
 	    String content = "Logs - At : " + s.format(date) + " - Logs : " + String.valueOf(info);
 	    FileWriter MyFile;
 		try {
-			MyFile = new FileWriter("plugins/ServeurManageur/logs.txt", true);
+			File file = new File("plugins/ServeurManageur/logs.txt");
+			if(!file.exists()) file.createNewFile();
+			MyFile = new FileWriter(file, true);
 			BufferedWriter bufWriter = new BufferedWriter(MyFile);
 	        bufWriter.newLine();
 	        bufWriter.write(content);

@@ -9,13 +9,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import fr.sisig48.pl.logs;
+import fr.sisig48.pl.Economie.XpCounter;
 import fr.sisig48.pl.JobsHouse.HouseData;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -47,6 +48,7 @@ public class PlayerJobs {
 
 	public void add(Jobs jobs) {
 		remove();
+		delHouse();
 		pj.jobs = jobs;
 		pj.xp = (float) Math.round(pj.xp*1000)/10000;
 		if(pj.jobs != pj.Tjobs) pj.Tjobs = jobs;
@@ -55,7 +57,8 @@ public class PlayerJobs {
 	}
 	
 	public void remove() {
-		if(pj.jobs != null) pj.jobs = Jobs.NOT;
+		if(pj.jobs == Jobs.NOT) pj.xp = 0;
+		pj.jobs = Jobs.NOT;
 	}
 	
 	public Jobs get() {
@@ -67,13 +70,13 @@ public class PlayerJobs {
 		if(pj.xp > 10000) pj.xp = 10000;
 		return pj.xp;
 	}
-	public void setXp(int xp){
+	public void setXp(float xp){
 		pj.xp = xp;
 	}
-	public void addXp(int xp) {
+	public void addXp(float xp) {
 		pj.xp = pj.xp + xp;
 	}
-	public void subXp(int xp) {
+	public void subXp(float xp) {
 		pj.xp = pj.xp - xp;
 	}
 	public BigDecimal getPay() {
@@ -127,6 +130,7 @@ public class PlayerJobs {
 	}
 	
 	public void delHouse() {
+		if(pj.locHouse == null) return;
 		HouseData.delHouse(pj.locHouse, pj.player.getPlayer());
 		pj.locHouse = null;
 	}
@@ -193,24 +197,58 @@ public class PlayerJobs {
 	}
 	
 	public static void load() {
-		Jobs.init();
 		reload();
 	}
 	
-	public void MaterialAddXp(Material m, int count) {
+	public void MaterialAddXp(ItemStack it) {
+		Material m = it.getType();
+		int count = it.getAmount();
 		Player p = (Player) pj.player;
-		if(pj.xp >= 10000) {pj.xp = 10000;return;}
-		if(pj.jobs.getXpGain(m) == 0) return;
 		Float Gxp = pj.jobs.getXpGain(m);
+		if(pj.xp >= 10000) {pj.xp = 10000;return;}
+		if(Gxp == 0) return;
 		int i = 1;
+		
+		
+		//
 		Float initial = pj.xp;
 		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
 		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) + pj.xp;
+		XpCounter.addItem(it);
+		
+		
 		String round = String.valueOf(Math.round((pj.xp-initial)*1000));
 		round = String.valueOf(Float.valueOf(round)/1000);
 		if(round.equals("0.0")) return;
 		String mss = "§aVous avez gagné §4" + round + "§axp";
 		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
+	}
+	
+	public void MaterialSubXp(ItemStack it) {
+		Material m = it.getType();
+		int count = it.getAmount();Player p = (Player) pj.player;
+		Float Gxp = pj.jobs.getXpGain(m);
+		if(pj.xp > 0) {pj.xp = 0;return;}
+		if(Gxp == 0) return;
+		int i = 1;
+		
+		
+		//
+		Float initial = pj.xp;
+		pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) - pj.xp;
+		while((i++) != count) pj.xp = (float) ((2.5/(0.75 + (pj.xp/1000))) * Gxp) - pj.xp;
+		XpCounter.delItem(it);
+		
+		//
+		String round = String.valueOf(Math.round((initial - pj.xp)*1000));
+		round = String.valueOf(Float.valueOf(round)/1000);
+		if(round.equals("0.0")) return;
+		String mss = "§dVous avez perdu §4" + round + "§axp";
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mss));
+	}
+	
+	public void delVarHouse() {
+		pj.locHouse = null;
 	}
 }
 
@@ -224,6 +262,7 @@ class dataJobs {
 
 	static void reload() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/jobs.txt");
+		file.getParentFile().mkdirs();
 		if(!file.exists()) file.createNewFile();
 		
 	    FileReader MyFileR = new FileReader("plugins/ServeurManageur/data/jobs.txt");
@@ -258,7 +297,10 @@ class dataJobs {
 	//test GITHUB
 	static void save() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/jobs.txt");
-		if(!file.exists()) file.createNewFile();
+		if(!file.exists()) {
+			file.getParentFile().mkdir();
+			file.createNewFile();
+		}
 		FileWriter MyFileW = new FileWriter("plugins/ServeurManageur/data/jobs.txt");
 	    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
 

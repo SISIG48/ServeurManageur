@@ -1,15 +1,17 @@
 package fr.sisig48.pl.Command;
 
-import org.bukkit.Bukkit;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.command.TabCompleter;
 
 import fr.sisig48.pl.logs;
 import fr.sisig48.pl.Utils.Uconfig;
 
-public class CommandConfig implements CommandExecutor {
+public class CommandConfig implements CommandExecutor, TabCompleter {
 	
 	//@CommandAlias("hiddencommand")
 	//@CommandPermission("myplugin.admin")
@@ -21,24 +23,22 @@ public class CommandConfig implements CommandExecutor {
 		}
 		if(arg.length < 1) return false;
 		logs.add("Command exucted by : " + sender.getName() + " Command : /config");
-		if(sender instanceof Player) {
-			Player player = Bukkit.getPlayer(sender.getName());
 			switch(arg[0]) {
 				case "save":
 					Uconfig.saveConfig();
-					player.sendMessage("§aSave Complete");
+					sender.sendMessage("§aSave Complete");
 					break;
 				case "rl":
 					Uconfig.reloadConfig();
-					player.sendMessage("§aReload Complete");
+					sender.sendMessage("§aReload Complete");
 					break;
 				case "reload":
 					Uconfig.reloadConfig();
-					player.sendMessage("§aReload Complete");
+					sender.sendMessage("§aReload Complete");
 					break;
 				case "get":
 					if(arg.length < 2) return false;
-					player.sendMessage(Uconfig.getConfig(arg[1]));
+					sender.sendMessage(Uconfig.getConfig(arg[1]));
 					break;
 				case "set":
 					
@@ -52,34 +52,23 @@ public class CommandConfig implements CommandExecutor {
 						i++;
 					}
 					Uconfig.setConfig(arg[1], msg);
-					player.sendMessage("§aConfig \"" + arg[1] + "\" has set to \"" + msg + "\"");
+					sender.sendMessage("§aConfig \"" + arg[1] + "\" has set to \"" + msg + "\"");
 					break;
 			}
 			return true;
-		} else {
-			switch(arg[0]) {
-				case "save":
-					Uconfig.saveConfig();
-					System.out.println("Save Complete");
-					break;
-				case "rl":
-					Uconfig.reloadConfig();
-					System.out.println("Reload Complete");
-					break;
-				case "reload":
-					Uconfig.reloadConfig();
-					System.out.println("Reload Complete");
-					break;
-				case "get":
-					System.out.println(Uconfig.getConfig(arg[1]));
-					break;
-				case "set":
-					Uconfig.setConfig(arg[1], arg[2]);
-					System.out.println("Config \"" + arg[1] + "\" has set to \"" + arg[2] + "\"");
-					break;
-			}
-			return true;
-		}
 	}
-
+	
+	//tab complete
+		public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+	        List<String> completions = new ArrayList<>();
+	        if (args.length == 1) {
+	        	completions.add("set");
+	        	completions.add("get");
+	        	completions.add("rl");
+	        	completions.add("save");
+	        	completions.add("reload");
+	        } 
+	        for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
+	        return completions;
+	    }
 }

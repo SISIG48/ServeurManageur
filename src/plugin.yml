@@ -1,8 +1,8 @@
 name: ServeurManageur
-version: Alpha 1.0.6-friendly
+version: Alpha 1.0.8-Shop Update
 author: Sisig48
 main: fr.sisig48.pl.Main
-softdepend: ['WorldEdit v7.2.12+6240-87f4ae1', 'Essentials v2.20.0-dev+63-991bc61']
+softdepend: ['WorldEdit v7.2.12+6240-87f4ae1', 'Essentials v2.20.0-dev+63-991bc61', 'PowerRanks v1.10.5R2']
 api-version: 1.13
 commands:
   mine:
@@ -21,18 +21,31 @@ commands:
     usage: /config [<save|reload>|<get|set> [CONFIG PATH]]
   bug:
     description: Report bug
-    permission: admin.command
     usage: /bug [bug...]
   friends:
     description: Manage your friends
     usage: /friends [add|remove|accept] <PLAYER_NAME>
   jobs:
-    description: Manage your jobs
+    description: Manage jobb does not use pls
     permission: admin.command
     usage: /jobs [add|remove]
   menu:
     description: Open Menu
-    usage: /jobs menu
+    usage: /menu
   house:
     description: Spawn House
     permission : admin.command
+  shop:
+    description: Spawn Shop PNJ
+    usage: /shop [UUID for delete | NAME for CREATE]
+    permission : admin.command
+  save:
+    description: Save
+    usage: /save
+    permission : admin.command
+  web:
+    description: Manage server web
+    usage: /web
+    permission : admin.command
+  account:
+    usage: /account

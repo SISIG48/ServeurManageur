@@ -1,29 +1,63 @@
 package fr.sisig48.pl.Menu;
 
 
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import fr.sisig48.pl.State.Spawn;
 import fr.sisig48.pl.Utils.Item;
+import fr.sisig48.pl.Utils.Uconfig;
 
 public class MenuTP {
+	private static ItemStack spawn = Item.GiveItem(Material.ENDER_PEARL, 1, "§aSpawn", "Téléportation vers le spawn");
+	private static ItemStack mine = Item.GiveItem(Material.DEEPSLATE_GOLD_ORE, 1, "§aMine", "Téléportation vers la mine");
+	private static Inventory menu = Menu();
 	public static void OpenMenuTP(Player player) {
-		Inventory e = Bukkit.createInventory(player, 36, "Téléporteur");
-		player.openInventory(e);
-		Interface.inventory.add(e);
+		player.closeInventory();
+		player.openInventory(menu);
+	}
+	
+	private static Inventory Menu() {
+		Inventory e = Bukkit.createInventory(null, 36, "Téléporteur");
 		
-		ItemStack it;
-		it = Item.GiveItem(Material.ENDER_PEARL, 1, "§aSpawn", "Téléportation vers le spawn", 127);
-		e.setItem(11, it);
-
-		it = Item.GiveItem(Material.DEEPSLATE_GOLD_ORE, 1, "§aMine", "Téléportation vers la mine", 127);
-		e.setItem(22, it);
-		
-		it = Item.GiveItem(Material.GRAY_STAINED_GLASS_PANE, 1, " ", "null", 125);
-		e.setItem(0, it); e.setItem(1, it); e.setItem(2, it); e.setItem(3, it); e.setItem(4, it); e.setItem(5, it); e.setItem(6, it); e.setItem(7, it); e.setItem(8, it);
-		e.setItem(27, it); e.setItem(28, it); e.setItem(29, it); e.setItem(30, it); e.setItem(31, it); e.setItem(32, it); e.setItem(33, it); e.setItem(34, it); e.setItem(35, it);
+		//Elements
+		e.setItem(11, spawn);
+		e.setItem(22, mine);
+		Item.GrayExGlass(e, 36);
+		return e;
+	}
+	
+	public static boolean TcheckTPMenuAction(Player player, ItemStack it, Inventory inv, boolean playerInventory) {
+		if(menu.equals(inv)) {
+			if(playerInventory) return true;
+			if(spawn.equals(it)) {
+				try {
+					if(player.getLocation().getWorld().getName().equals(Uconfig.getConfig("location.mine.in.w")) ) {
+						player.teleport(Spawn.GetMineOutSpawnLocation());
+						player.sendMessage("§aVous avez été tp au §4spawn");
+					} else {
+						player.teleport(Spawn.GetSpawnLocation());
+						player.sendMessage("§aVous avez été tp au §4spawn");
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(mine.equals(it)) {
+				try {
+					player.teleport(Spawn.GetMineInSpawnLocation());
+					player.sendMessage("§aVous avez été tp a la §4mine");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 }

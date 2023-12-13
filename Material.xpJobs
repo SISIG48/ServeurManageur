@@ -1,736 +1,723 @@
-?JobXpSettings
-
-DIAMOND:
-FORGERON:1.5
-MARCHAND:2.0
-MINEUR:1.8
-BOULANGER:0.5
-
-COBBLESTONE:
-MINEUR:5
-
-EMERALD:
-MAGE:1.8
-MARCHAND:2.5
-MINEUR:2.2
-
-LAPIS_LAZULI:
-MAGE:0.4
-MARCHAND:0.4
-MINEUR:0.4
-
-DIRT:
-BOULANGER:0.1
-FARMEUR:0.1
-MAGE:0.1
-MARCHAND:0.1
-MAIRE:0.1
-MEDECIN:0.1
-MINEUR:1
-
-SAND:
-MAIRE:0.1
-MAGE:0.1
-MARCHAND:0.1
-
-GRAVEL:
-MAIRE:0.1
-MAGE:0.1
-MARCHAND:0.1
-
-CLAY:
-MAIRE:0.3
-MAGE:0.1
-MARCHAND:0.3
-
-LILY_PAD:
-PECHEUR:0.1
-MAGE:0.1
-
-WHEAT:
-BOULANGER:0.4
-FARMEUR:0.4
-MAGE:0.1
-MARCHAND:0.1
-MAIRE:0.1
-MEDECIN:0.1
-
-CARROT:
-FARMEUR:0.2
-MAGE:0.1
-MARCHAND:0.1
-MAIRE:0.1
-MEDECIN:0.1
-
-POTATO:
-BOULANGER:0.2
-FARMEUR:0.2
-MAGE:0.1
-MARCHAND:0.1
-MAIRE:0.1
-MEDECIN:0.1
-
-SUGAR:
-BOULANGER:0.6
-MAGE:0.1
-MARCHAND:0.1
-
-COCOA:
-BOULANGER:0.1
-MAGE:0.1
-MARCHAND:0.1
-
-PUMPKIN:
-BOULANGER:0.2
-FARMEUR:0.2
-MAGE:0.1
-MARCHAND:0.1
-MAIRE:0.1
-MEDECIN:0.1
-
-MELON:
-BOULANGER:0.1
-FARMEUR:0.1
-MAGE:0.1
-MARCHAND:0.1
-MAIRE:0.1
-MEDECIN:0.1
-
-BEEHIVE:
-BOULANGER:0.1
-MAGE:0.1
-MARCHAND:0.1
-
-HONEYCOMB:
-BOULANGER:0.4
-MAGE:0.2
-MARCHAND:0.2
-
-COAL:
-MAGE:0.2
-MARCHAND:0.1
-MINEUR:0.3
-
-LAPIS_BLOCK:
-MAGE:1.0
-MARCHAND:0.5
-
-OBSIDIAN:
-MAGE:0.2
-MARCHAND:0.1
-
-QUARTZ:
-MAGE:0.5
-MARCHAND:0.5
-MINEUR:0.5
-
-GLOWSTONE:
-MAGE:0.5
-MARCHAND:0.5
-
-NETHER_BRICK:
-MAGE:0.1
-MARCHAND:0.1
-
-SOUL_SAND:
-MAGE:0.1
-MARCHAND:0.1
-
-SOUL_SOIL:
-MAGE:0.2
-MARCHAND:0.1
-
-BLACKSTONE:
-MAGE:0.2
-MARCHAND:0.1
-
-BASALT:
-MAGE:0.2
-MARCHAND:0.1
-
-CRIMSON_NYLIUM:
-MAGE:0.2
-MARCHAND:0.1
-
-WARPED_NYLIUM:
-MAGE:0.2
-MARCHAND:0.1
-
-NETHERRACK:
-MAGE:0.1
-MARCHAND:0.1
-MINEUR:0.1
-
-SANDSTONE:
-MAGE:0.3
-MARCHAND:0.2
-
-RED_SANDSTONE:
-MAGE:0.4
-MARCHAND:0.2
-
-SNOW:
-BOULANGER:0.1
-MAGE:0.1
-MARCHAND:0.1
-
-ICE:
-MAGE:0.2
-MARCHAND:0.2
-
-PACKED_ICE:
-MAGE:0.3
-MARCHAND:0.3
-
-BLUE_ICE:
-MAGE:0.5
-MARCHAND:0.5
-
-NETHER_GOLD_ORE:
-MAGE:0.3
-MARCHAND:0.2
-MINEUR:0.4
-
-GOLD_ORE:
-MAGE:0.2
-MARCHAND:0.1
-MINEUR:0.3
-
-IRON_ORE:
-MAGE:0.1
-MARCHAND:0.1
-MINEUR:0.2
-
-DIAMOND_ORE:
-MAGE:1.0
-MARCHAND:0.5
-MINEUR:1.5
-
-EMERALD_ORE:
-MAGE:1.0
-MARCHAND:0.5
-MINEUR:1.5
-
-REDSTONE_ORE:
-MAGE:0.5
-MARCHAND:0.2
-MINEUR:0.8
-
-LAPIS_ORE:
-MAGE:0.5
-MARCHAND:0.2
-MINEUR:0.8
-
-NETHER_QUARTZ_ORE:
-MAGE:0.3
-MARCHAND:0.2
-MINEUR:0.5
-
-ANCIENT_DEBRIS:
-FORGERON:2.0
-MAGE:0.5
-MARCHAND:1.0
-MINEUR:1.5
-
-GRINDSTONE:
-FORGERON:0.2
-MAGE:0.2
-MARCHAND:0.1
-
-ANVIL:
-FORGERON:0.5
-MAGE:0.5
-MARCHAND:0.2
-
-CHAIN:
-FORGERON:0.3
-MAGE:0.2
-MARCHAND:0.2
-
-IRON_BLOCK:
-FORGERON:0.9
-MAGE:0.5
-MARCHAND:0.4
-
-GOLD_BLOCK:
-FORGERON:1.5
-MAGE:1.0
-MARCHAND:0.8
-
-DIAMOND_BLOCK:
-FORGERON:7.0
-MAGE:2.0
-MARCHAND:3.0
-
-EMERALD_BLOCK:
-FORGERON:7.0
-MAGE:2.0
-MARCHAND:3.0
-
-NETHERITE_BLOCK:
-FORGERON:50.0
-MAGE:10.0
-MARCHAND:20.0
-
-IRON_INGOT:
-FORGERON:0.3
-MAGE:0.2
-MARCHAND:0.1
-
-GOLD_INGOT:
-FORGERON:0.5
-MAGE:0.3
-MARCHAND:0.2
-
-DIAMOND:
-FORGERON:3.0
-MAGE:1.0
-MARCHAND:1.5
-
-EMERALD:
-FORGERON:3.0
-MAGE:1.0
-MARCHAND:1.5
-
-NETHERITE_INGOT:
-FORGERON:25.0
-MAGE:5.0
-MARCHAND:10.0
-
-HAY_BLOCK:
-BOULANGER:0.2
-FARMEUR:0.1
-MARCHAND:0.1
-
-WHEAT:
-BOULANGER:0.1
-FARMEUR:0.1
-MARCHAND:0.1
-
-BREAD:
-BOULANGER:0.5
-MARCHAND:0.2
-
-POTATO:
-BOULANGER:0.1
-FARMEUR:0.1
-MARCHAND:0.1
-
-BAKED_POTATO:
-BOULANGER:0.2
-MARCHAND:0.1
-
-CARROT:
-BOULANGER:0.1
-FARMEUR:0.1
-MARCHAND:0.1
-
-GOLDEN_CARROT:
-BOULANGER:0.5
-MARCHAND:0.2
-
-BEETROOT:
-BOULANGER:0.1
-FARMEUR:0.1
-MARCHAND:0.1
-
-BEETROOT_SOUP:
-BOULANGER:0.2
-MARCHAND:0.1
-
-MELON_SLICE:
-FARMEUR:0.1
-MARCHAND:0.1
-
-PUMPKIN:
-FARMEUR:0.1
-MARCHAND:0.1
-
-PUMPKIN_PIE:
-BOULANGER:0.3
-FARMEUR:0.2
-MARCHAND:0.2
-
-SUGAR_CANE:
-BOULANGER:0.1
-MARCHAND:0.1
-
-SUGAR:
-BOULANGER:0.1
-MARCHAND:0.1
-
-HONEY_BOTTLE:
-FARMEUR:0.2
-MARCHAND:0.1
-
-APPLE:
-MAGE:0.1
-MARCHAND:0.1
-
-GOLDEN_APPLE:
-MAGE:1.0
-MARCHAND:0.5
-
-ENCHANTED_GOLDEN_APPLE:
-MAGE:10.0
-MARCHAND:5.0
-
-PORKCHOP:
-BOUCHER:0.2
-MARCHAND:0.1
-
-COOKED_PORKCHOP:
-BOUCHER:0.3
-MARCHAND:0.2
-
-BEEF:
-BOUCHER:0.2
-MARCHAND:0.1
-
-COOKED_BEEF:
-BOUCHER:0.3
-MARCHAND:0.2
-
-CHICKEN:
-BOUCHER:0.1
-MARCHAND:0.1
-
-COOKED_CHICKEN:
-BOUCHER:0.2
-MARCHAND:0.2
-
-MUTTON:
-BOUCHER:0.2
-MARCHAND:0.1
-
-COOKED_MUTTON:
-BOUCHER:0.3
-MARCHAND:0.2
-
-RABBIT_STEW:
-BOULANGER:0.3
-BOUCHER:0.2
-MARCHAND:0.2
-
-COD:
-PECHEUR:0.2
-MARCHAND:0.1
-
-SALMON:
-PECHEUR:0.3
-MARCHAND:0.2
-
-TROPICAL_FISH:
-PECHEUR:0.1
-MARCHAND:0.1
-
-PUFFERFISH:
-PECHEUR:0.5
-MARCHAND:0.2
-
-COOKED_COD:
-PECHEUR:0.3
-MARCHAND:0.2
-
-COOKED_SALMON:
-PECHEUR:0.4
-MARCHAND:0.2
-
-CAKE:
-BOULANGER:1.0
-MARCHAND:0.5
-
-COOKIE:
-BOULANGER:0.2
-MARCHAND:0.1
-
-PUMPKIN_PIE:
-BOULANGER:0.3
-FARMEUR:0.2
-MARCHAND:0.2
-
-BEEF:
-BOUCHER:0.2
-MARCHAND:0.1
-
-COOKED_BEEF:
-BOUCHER:0.3
-MARCHAND:0.2
-
-SWEET_BERRIES:
-FARMEUR:0.1
-MARCHAND:0.1
-
-HONEY_BOTTLE:
-FARMEUR:0.2
-MARCHAND:0.1
-
-GOLD_NUGGET:
-MINEUR:0.1
-MARCHAND:0.1
-
-IRON_NUGGET:
-MINEUR:0.2
-MARCHAND:0.1
-
-GOLD_INGOT:
-MINEUR:1.0
-MARCHAND:0.5
-
-IRON_INGOT:
-MINEUR:0.5
-MARCHAND:0.2
-
-DIAMOND:
-MINEUR:2.0
-MARCHAND:1.0
-
-EMERALD:
-MINEUR:1.5
-MARCHAND:0.8
-
-GLOWSTONE_DUST:
-MAGE:0.2
-MARCHAND:0.1
-
-NETHERITE_INGOT:
-MINEUR:5.0
-MARCHAND:2.5
-
-BLAZE_ROD:
-MAGE:0.5
-MARCHAND:0.2
-
-GHAST_TEAR:
-MAGE:1.0
-MARCHAND:0.5
-
-ENDER_PEARL:
-MAGE:0.8
-MARCHAND:0.4
-
-CHICKEN:
-BOUCHER:0.1
-MARCHAND:0.1
-
-COOKED_CHICKEN:
-BOUCHER:0.2
-MARCHAND:0.2
-
-MUTTON:
-BOUCHER:0.2
-MARCHAND:0.1
-
-COOKED_MUTTON:
-BOUCHER:0.3
-MARCHAND:0.2
-
-PORKCHOP:
-BOUCHER:0.2
-MARCHAND:0.1
-
-COOKED_PORKCHOP:
-BOUCHER:0.3
-MARCHAND:0.2
-
-BREAD:
-BOULANGER:0.5
-MARCHAND:0.2
-
-POTATO:
-FARMEUR:0.1
-MARCHAND:0.1
-
-BAKED_POTATO:
-FARMEUR:0.2
-MARCHAND:0.1
-
-BEETROOT:
-FARMEUR:0.1
-MARCHAND:0.1
-
-BEETROOT_SOUP:
-FARMEUR:0.3
-MARCHAND:0.2
-
-CARROT:
-FARMEUR:0.1
-MARCHAND:0.1
-
-GOLDEN_CARROT:
-FARMEUR:0.3
-MARCHAND:0.2
-
-MELON_SLICE:
-FARMEUR:0.1
-MARCHAND:0.1
-
-PUMPKIN:
-FARMEUR:0.2
-MARCHAND:0.1
-
-WHEAT:
-FARMEUR:0.1
-MARCHAND:0.1
-
-HAY_BLOCK:
-FARMEUR:0.5
-MARCHAND:0.2
-
-DIAMOND_PICKAXE:
-FORGERON:1.5
-MARCHAND:0.8
-
-IRON_PICKAXE:
-FORGERON:0.8
-MARCHAND:0.4
-
-STONE_PICKAXE:
-FORGERON:0.5
-MARCHAND:0.2
-
-WOODEN_PICKAXE:
-FORGERON:0.2
-MARCHAND:0.1
-
-DIAMOND_AXE:
-FORGERON:1.5
-MARCHAND:0.8
-
-IRON_AXE:
-FORGERON:0.8
-MARCHAND:0.4
-
-STONE_AXE:
-FORGERON:0.5
-MARCHAND:0.2
-
-WOODEN_AXE:
-FORGERON:0.2
-MARCHAND:0.1
-
-DIAMOND_SHOVEL:
-FORGERON:1.0
-MARCHAND:0.5
-
-IRON_SHOVEL:
-FORGERON:0.5
-MARCHAND:0.2
-
-STONE_SHOVEL:
-FORGERON:0.3
-MARCHAND:0
-
-WOODEN_SHOVEL:
-FORGERON:0.1
-MARCHAND:0.05
-
-DIAMOND_SWORD:
-FORGERON:1.5
-MARCHAND:0.8
-
-IRON_SWORD:
-FORGERON:0.8
-MARCHAND:0.4
-
-STONE_SWORD:
-FORGERON:0.5
-MARCHAND:0.2
-
-WOODEN_SWORD:
-FORGERON:0.2
-MARCHAND:0.1
-
-LEATHER_BOOTS:
-FORGERON:0.5
-MARCHAND:0.2
-
-IRON_BOOTS:
-FORGERON:1.0
-MARCHAND:0.5
-
-DIAMOND_BOOTS:
-FORGERON:1.5
-MARCHAND:0.8
-
-CHAINMAIL_BOOTS:
-FORGERON:1.2
-MARCHAND:0.6
-
-LEATHER_LEGGINGS:
-FORGERON:1.0
-MARCHAND:0.5
-
-IRON_LEGGINGS:
-FORGERON:2.0
-MARCHAND:1.0
-
-DIAMOND_LEGGINGS:
-FORGERON:3.0
-MARCHAND:1.5
-
-CHAINMAIL_LEGGINGS:
-FORGERON:2.4
-MARCHAND:1.2
-
-LEATHER_CHESTPLATE:
-FORGERON:1.5
-MARCHAND:0.8
-
-IRON_CHESTPLATE:
-FORGERON:3.0
-MARCHAND:1.5
-
-DIAMOND_CHESTPLATE:
-FORGERON:4.5
-MARCHAND:2.3
-
-CHAINMAIL_CHESTPLATE:
-FORGERON:3.6
-MARCHAND:1.8
-
-LEATHER_HELMET:
-FORGERON:1.0
-MARCHAND:0.5
-
-IRON_HELMET:
-FORGERON:2.0
-MARCHAND:1.0
-
-DIAMOND_HELMET:
-FORGERON:3.0
-MARCHAND:1.5
-
-CHAINMAIL_HELMET:
-FORGERON:2.4
-MARCHAND:1.2
-
-BEEF:
-BOUCHER:0.2
-MARCHAND:0.1
-
-APPLE:
-MARCHAND:0.1
-
-GOLDEN_APPLE:
-MARCHAND:1.0
-
-SUGAR:
-BOULANGER:0.1
-MARCHAND:0.05
-
-NETHERITE_SCRAP:
-FORGERON: 7.0
-
-CRYING_OBSIDIAN:
-MAGE: 5.0
-
-LODESTONE:
-MAGE: 4.0
-FORGERON: 2.0
-
-HONEYCOMB_BLOCK:
-BOUCHER: 3.0
-FARMEUR: 1.5
-BOULANGER: 2.0
-MARCHAND: 1.0
+Acacia Button/HS
+Acacia Door/HS
+Acacia Fence/HS
+Acacia Fence Gate/HS
+Acacia Leaves/BAS
+Acacia Log/HS
+Acacia Planks/HS
+Acacia Pressure Plate/HS
+Acacia Sapling/BAS/FARMEUR
+Acacia Sign/HS
+Acacia Slab/HS
+Acacia Stairs/HS
+Acacia Trapdoor/HS
+Acacia Wood/HS
+Activator Rail/BAS
+Allium/BAS/FARMEUR
+Ancient Debris/BAS/MINEUR
+Andesite/HS
+Andesite Slab/HS
+Andesite Stairs/HS
+Andesite Wall/HS
+Anvil/BAS/FORGERON
+Azure Bluet/BAS
+Bamboo/BAS/FARMEUR
+Barrel/HS/BOULANGER
+Basalt/BAS
+Beacon/BAS
+Beetroots/MOYEN/FARMEUR/BOULANGER
+Beehive/BAS/FARMEUR
+Bee Nest/BAS/FARMEUR
+Bell/BAS/FARMEUR
+Birch Button/HS
+Birch Door/HS
+Birch Fence/HS
+Birch Fence Gate/HS
+Birch Leaves/BAS
+Birch Log/HS
+Birch Planks/HS
+Birch Pressure Plate/BAS
+Birch Sapling/BAS/FARMEUR
+Birch Sign/HS
+Birch Slab/HS
+Birch Stairs/HS
+Birch Trapdoor/HS
+Birch Wood/HS
+Black Carpet/BAS
+Black Concrete/BAS
+Black Concrete Powder/BAS
+Black Glazed Terracotta/MOYEN
+Black Stained Glass Pane/MOYEN
+Black Terracotta/BAS
+Black Wool/HS
+Blackstone/BAS
+Blackstone Slab/BAS
+Blackstone Stairs/BAS
+Blackstone Wall/BAS
+Blast Furnace/MOYEN/FORGERON
+Block of Coal/HS/MINEUR/FORGERON
+Block of Diamond/BAS/MINEUR/FORGERON
+Block of Emerald/BAS/MINEUR/FORGERON
+Block of Gold/BAS/MINEUR/FORGERON
+Block of Iron/BAS/MINEUR/FORGERON
+Block of Netherite/MOYEN/MINEUR/FORGERON
+Block of Quartz/BAS/MINEUR/FORGERON
+Block of Redstone/BAS/MINEUR/FORGERON
+Blue Carpet/BAS
+Blue Concrete/BAS
+Blue Concrete Powder/BAS
+Blue Glazed Terracotta/MOYEN
+Blue Ice/MOYEN
+Blue Orchid/MOYEN
+Blue Stained Glass/MOYEN
+Blue Stained Glass Pane/MOYEN
+Blue Terracotta/MOYEN
+Blue Wool/MOYEN
+Bone Block/MOYEN
+Bookshelf/MOYEN
+Brain Coral/MOYEN
+Brain Coral Block/MOYEN
+Brain Coral Fan/MOYEN
+Brain Coral Wall Fan/MOYEN
+Brewing Stand/BAS
+Brick Slab/BAS
+Brick Stairs/BAS
+Brick Wall/BAS
+Bricks/BAS
+Brown Carpet/BAS
+Brown Concrete/BAS
+Brown Concrete Powder/BAS
+Brown Glazed Terracotta/BAS
+Brown Mushroom/MOYEN
+Brown Mushroom Block/MOYEN
+Brown Stained Glass/MOYEN
+Brown Stained Glass Pane/MOYEN
+Brown Terracotta/MOYEN
+Brown Wool/HS
+Bubble Coral/BAS
+Bubble Coral Block/MOYEN
+Bubble Coral Fan/MOYEN
+Bubble Coral Wall Fan/MOYEN
+Cactus/BAS
+Cake/MOYEN/BOULANGER
+Campfire/HS
+Carrots/MOYEN/FARMEUR/BOULANGER
+Cartography Table/BAS
+Carved Pumpkin/BAS
+Cauldron/BAS/BOULANGER
+Chest/HS
+Chiseled Nether Bricks/BAS
+Chiseled Polished Blackstone/BAS
+Chiseled Quartz Block/BAS
+Chiseled Red Sandstone/MOYEN
+Chiseled Sandstone/BAS
+Chiseled Stone Bricks/BAS
+Chorus Flower/MOYEN/FARMEUR
+Chorus Plant/MOYEN/FARMEUR
+Clay/MOYEN
+Coal Ore/HS/MINEUR
+Coarse Dirt/BAS
+Cobblestone/HS
+Cobblestone Slab/HS
+Cobblestone Stairs/HS
+Cobblestone Wall/HS
+Cobweb/BAS
+Cocoa/MOYEN/FARMEUR
+Composter/HS
+Cornflower/MOYEN/FARMEUR
+Cracked Polished Blackstone Bricks/BAS
+Cracked Nether Bricks/BAS
+Cracked Stone Bricks/BAS
+Crafting Table/HS
+Crimson Button/BAS
+Crimson Door/BAS
+Crimson Fence/BAS
+Crimson Fence Gate/BAS
+Crimson Fungus/MOYEN
+Crimson Hyphae/BAS
+Crimson Nylium/BAS
+Crimson Planks/BAS
+Crimson Pressure Plate/BAS
+Crimson Roots/MOYEN
+Crimson Sign/BAS
+Crimson Slab/BAS
+Crimson Stairs/BAS
+Crimson Stem/BAS
+Crimson Trapdoor/BAS
+Crying Obsidian/BAS
+Cut Red Sandstone/MOYEN
+Cut Red Sandstone Slab/MOYEN
+Cut Sandstone/BAS
+Cut Sandstone Slab/BAS
+Cyan Carpet/HS
+Cyan Concrete/BAS
+Cyan Concrete Powder/BAS
+Cyan Glazed Terracotta/MOYEN
+Cyan Stained Glass/MOYEN
+Cyan Stained Glass Pane/MOYEN
+Cyan Terracotta/MOYEN
+Cyan Wool/HS
+Dandelion/MOYEN/FARMEUR
+Dark Oak Button/BAS
+Dark Oak Door/BAS
+Dark Oak Fence/BAS
+Dark Oak Fence Gate/BAS
+Dark Oak Leaves/BAS
+Dark Oak Log/BAS
+Dark Oak Planks/BAS
+Dark Oak Pressure Plate/BAS
+Dark Oak Sapling/MOYEN/FARMEUR
+Dark Oak Sign/BAS
+Dark Oak Slab/BAS
+Dark Oak Stairs/BAS
+Dark Oak Trapdoor/BAS
+Dark Oak Wood/BAS
+Dark Prismarine/MOYEN
+Dark Prismarine Slab/MOYEN
+Dark Prismarine Stairs/MOYEN
+Daylight Detector/MOYEN
+Dead Bush/HS
+Detector Rail/MOYEN
+Diamond Ore/BAS/MINEUR
+Diorite/HS
+Diorite Slab/HS
+Diorite Stairs/HS
+Diorite Wall/HS
+Dirt/HS
+Dispenser/BAS
+Dried Kelp Block/BAS
+Dropper/BAS
+Emerald Ore/BAS/MINEUR
+Enchanting Table/MOYEN
+End Rod/MOYEN
+End Stone/MOYEN
+End Stone Brick Slab/MOYEN
+End Stone Brick Stairs/MOYEN
+End Stone Brick Wall/MOYEN
+End Stone Bricks/MOYEN
+Ender Chest/MOYEN
+Fern/MOYEN/FARMEUR
+Fire Coral/MOYEN
+Fire Coral Block/MOYEN
+Fire Coral Fan/MOYEN
+Fire Coral Wall Fan/MOYEN
+Fletching Table/HS
+Flower Pot/BAS
+Furnace/HS
+Gilded Blackstone/BAS
+Glass/BAS
+Glass Pane/BAS
+Glowstone/BAS
+Gold Ore/HS/MINEUR
+Granite/HS
+Granite Slab/HS
+Granite Stairs/HS
+Granite Wall/HS
+Grass/HS
+Grass Block/HS
+Grass Path/HS
+Gravel/HS
+Gray Carpet/HS
+Gray Concrete/BAS
+Gray Concrete Powder/BAS
+Gray Glazed Terracotta/BAS
+Gray Stained Glass/MOYEN
+Gray Stained Glass Pane/MOYEN
+Gray Terracotta/MOYEN
+Gray Wool/BAS
+Green Carpet/MOYEN
+Green Concrete/MOYEN
+Green Concrete Powder/MOYEN
+Green Glazed Terracotta/MOYEN
+Green Stained Glass/MOYEN
+Green Stained Glass Pane/MOYEN
+Green Terracotta/MOYEN
+Green Wool/BAS
+Grindstone/HS
+Hay Bale/HS
+Heavy Weighted Pressure Plate/BAS
+Honey Block/BAS
+Honeycomb Block/MOYEN
+Hopper/HS
+Horn Coral/MOYEN
+Horn Coral Block/MOYEN
+Horn Coral Fan/MOYEN
+Horn Coral Wall Fan/MOYEN
+Ice/MOYEN
+Iron Bars/HS/FORGERON
+Iron Door/HS/FORGERON
+Iron Ore/HS/MINEUR/FORGERON
+Iron Trapdoor/HS/FORGERON
+Jack o'Lantern/BAS/FORGERON
+Jukebox/HS
+Jungle Button/HS
+Jungle Door/HS
+Jungle Fence/HS
+Jungle Fence Gate/HS
+Jungle Leaves/HS
+Jungle Log/HS
+Jungle Planks/HS
+Jungle Pressure Plate/HS
+Jungle Sapling/HS/FARMEUR
+Jungle Sign/HS
+Jungle Slab/HS
+Jungle Stairs/HS
+Jungle Trapdoor/HS
+Jungle Wood/HS
+Kelp/BAS/FARMEUR
+Ladder/HS
+Lantern/HS/FORGERON
+Lapis Lazuli Block/BAS/MINEUR
+Lapis Lazuli Ore/BAS/MINEUR
+Large Fern/HS
+Lectern/BAS
+Lever/HS
+Light Blue Carpet/BAS
+Light Blue Concrete/BAS
+Light Blue Concrete Powder/BAS
+Light Blue Glazed Terracotta/BAS
+Light Blue Stained Glass/BAS
+Light Blue Stained Glass Pane/BAS
+Light Blue Terracotta/BAS
+Light Blue Wool/HS
+Light Gray Carpet/HS
+Light Gray Concrete/BAS
+Light Gray Concrete Powder/BAS
+Light Gray Glazed Terracotta/BAS
+Light Gray Stained Glass/BAS
+Light Gray Stained Glass Pane/BAS
+Light Gray Terracotta/MOYEN
+Light Gray Wool/HS
+Light Weighted Pressure Plate/HS
+Lilac/BAS
+Lily Pad/BAS
+Lily of the Valley/BAS/FARMEUR
+Lime Carpet/HS
+Lime Concrete/BAS
+Lime Concrete Powder/BAS
+Lime Glazed Terracotta/BAS
+Lime Stained Glass/BAS
+Lime Stained Glass Pane/BAS
+Lime Terracotta/BAS
+Lime Wool/HS
+Lodestone/BAS
+Loom/HS
+Magenta Carpet/HS
+Magenta Concrete/BAS
+Magenta Concrete Powder/BAS
+Magenta Glazed Terracotta/BAS
+Magenta Stained Glass/BAS
+Magenta Stained Glass Pane/BAS
+Magenta Terracotta/BAS
+Magenta Wool/HS
+Magma Block/BAS
+Melon/BAS/FARMEUR
+Mossy Cobblestone/HS
+Mossy Cobblestone Slab/HS
+Mossy Cobblestone Stairs/HS
+Mossy Cobblestone Wall/HS
+Mossy Stone Brick Slab/HS
+Mossy Stone Brick Stairs/HS
+Mossy Stone Brick Wall/HS
+Mossy Stone Bricks/HS
+Mushroom Stem/MOYEN
+Mycelium/BAS
+Nether Brick Fence/BAS
+Nether Brick Slab/BAS
+Nether Brick Stairs/BAS
+Nether Brick Wall/BAS
+Nether Bricks/BAS
+Nether Gold Ore/BAS/MINEUR
+Nether Quartz Ore/BAS/MINEUR
+Nether Sprouts/BAS/FARMEUR
+Nether Wart/BAS/FARMEUR
+Nether Wart Block/BAS
+Netherrack/HS
+Note Block/HS
+Oak Button/HS
+Oak Door/HS
+Oak Fence/HS
+Oak Fence Gate/HS
+Oak Leaves/HS
+Oak Log/HS
+Oak Planks/HS
+Oak Pressure Plate/HS
+Oak Sapling/HS/FARMEUR
+Oak Sign/HS
+Oak Slab/HS
+Oak Stairs/HS
+Oak Trapdoor/HS
+Oak Wood/HS
+Observer/HS/FORGERON
+Obsidian/BAS
+Orange Carpet/HS
+Orange Concrete/BAS
+Orange Concrete Powder/BAS
+Orange Glazed Terracotta/BAS
+Orange Stained Glass/BAS
+Orange Stained Glass Pane/BAS
+Orange Terracotta/BAS
+Orange Tulip/BAS/FARMEUR
+Orange Wool/HS
+Oxeye Daisy/BAS
+Packed Ice/BAS
+Peony/BAS/FARMEUR
+Petrified Oak Slab/HS
+Pink Carpet/HS
+Pink Concrete/BAS
+Pink Concrete Powder/BAS
+Pink Glazed Terracotta/BAS
+Pink Stained Glass/BAS
+Pink Stained Glass Pane/BAS
+Pink Terracotta/BAS
+Pink Tulip/BAS
+Pink Wool/HS
+Piston/HS
+Podzol/HS/FARMEUR
+Polished Andesite/HS/FORGERON
+Polished Andesite Slab/HS
+Polished Andesite Stairs/HS
+Polished Basalt/BAS/FORGERON
+Polished Blackstone/BAS/FORGERON
+Polished Blackstone Brick Slab/BAS
+Polished Blackstone Brick Stairs/BAS
+Polished Blackstone Brick Wall/BAS
+Polished Blackstone Bricks/BAS/FORGERON
+Polished Blackstone Button/BAS
+Polished Blackstone Pressure Plate/BAS
+Polished Blackstone Slab/BAS
+Polished Blackstone Stairs/BAS
+Polished Blackstone Wall/BAS
+Polished Diorite/BAS/FORGERON
+Polished Diorite Slab/BAS
+Polished Diorite Stairs/BAS
+Polished Granite/BAS/FORGERON
+Polished Granite Slab/BAS
+Polished Granite Stairs/BAS
+Poppy/BAS
+Potatoes/BAS/FARMEUR/BOULANGER
+Powered Rail/BAS
+Prismarine/BAS
+Prismarine Brick Slab/BAS
+Prismarine Brick Stairs/BAS
+Prismarine Bricks/BAS
+Prismarine Slab/BAS
+Prismarine Stairs/BAS
+Prismarine Wall/BAS
+Pumpkin/BAS/FARMEUR/BOULANGER
+Purple Carpet/BAS
+Purple Concrete/BAS
+Purple Concrete Powder/BAS
+Purple Glazed Terracotta/BAS
+Purple Stained Glass/BAS
+Purple Stained Glass Pane/BAS
+Purple Terracotta/BAS
+Purple Wool/HS
+Purpur Block/MOYEN
+Purpur Pillar/MOYEN
+Purpur Slab/MOYEN
+Purpur Stairs/MOYEN
+Quartz Bricks/BAS
+Quartz Pillar/BAS
+Quartz Slab/BAS
+Quartz Stairs/BAS
+Rail/HS/FORGERON
+Red Carpet/BAS
+Red Concrete/BAS
+Red Concrete Powder/BAS
+Red Glazed Terracotta/BAS
+Red Mushroom/MOYEN/FARMEUR
+Red Mushroom Block/MOYEN
+Red Nether Brick Slab/BAS
+Red Nether Brick Stairs/BAS
+Red Nether Brick Wall/BAS
+Red Nether Bricks/BAS
+Red Sand/BAS
+Red Sandstone/BAS
+Red Sandstone Slab/BAS
+Red Sandstone Stairs/BAS
+Red Sandstone Wall/BAS
+Red Stained Glass/BAS
+Red Stained Glass Pane/BAS
+Red Terracotta/BAS
+Red Tulip/BAS/FARMEUR
+Red Wool/HS
+Redstone Comparator/BAS/MINEUR/FORGERON
+Redstone Lamp/BAS/MINEUR/FORGERON
+Redstone Ore/HS/MINEUR
+Redstone Repeater/BAS/MINEUR/FORGERON
+Redstone Torch/HS
+Redstone Wall Torch
+Redstone Wire
+Respawn Anchor/MOYEN
+Rose Bush/BAS
+Sand/HS
+Sandstone/BAS
+Sandstone Slab/BAS
+Sandstone Stairs/BAS
+Sandstone Wall/BAS
+Scaffolding/BAS
+Sea Lantern/BAS
+Sea Pickle/BAS
+Seagrass/BAS/FARMEUR
+Shroomlight/MOYEN
+Slime Block/BAS
+Smithing Table/HS/FORGERON
+Smoker/HS/FORGERON
+Smooth Quartz/BAS
+Smooth Quartz Slab/BAS
+Smooth Quartz Stairs/BAS
+Smooth Red Sandstone/BAS
+Smooth Red Sandstone Slab/BAS
+Smooth Red Sandstone Stairs/BAS
+Smooth Sandstone/BAS
+Smooth Sandstone Slab/BAS
+Smooth Sandstone Stairs/BAS
+Smooth Stone/BAS
+Smooth Stone Slab/BAS
+Snow/MOYEN
+Snow Block/MOYEN
+Soul Campfire/MOYEN
+Soul Lantern/HS
+Soul Torch/HS
+Soul Wall Torch
+Soul Sand/BAS
+Soul Soil/BAS
+Sponge/BAS
+Spruce Button/HS
+Spruce Door/HS
+Spruce Fence/HS
+Spruce Fence Gate/HS
+Spruce Leaves/HS
+Spruce Log/HS
+Spruce Planks/HS
+Spruce Pressure Plate/HS
+Spruce Sapling/HS/FARMEUR
+Spruce Sign/HS
+Spruce Slab/HS
+Spruce Stairs/HS
+Spruce Trapdoor/HS
+Spruce Wood/HS
+Sticky Piston/BAS
+Stone/HS
+Stone Brick Slab/HS
+Stone Brick Stairs/HS
+Stone Brick Wall/HS
+Stone Bricks/HS
+Stone Button/HS
+Stone Pressure Plate/HS
+Stone Slab/HS
+Stone Stairs/HS
+Stonecutter/HS
+Stripped Acacia Log/HS
+Stripped Acacia Wood/HS
+Stripped Birch Log/HS
+Stripped Birch Wood/HS
+Stripped Crimson Hyphae/HS
+Stripped Crimson Stem/HS
+Stripped Dark Oak Log/HS
+Stripped Dark Oak Wood/HS
+Stripped Jungle Log/HS
+Stripped Jungle Wood/HS
+Stripped Oak Log/HS
+Stripped Oak Wood/HS
+Stripped Spruce Log/HS
+Stripped Spruce Wood/HS
+Stripped Warped Hyphae/HS
+Stripped Warped Stem/HS
+Sugar Cane/HS/FARMEUR
+Sunflower/BAS/FARMEUR
+Sweet Berry Bush/BAS/FARMEUR
+TNT/BAS
+Tall Grass/HS/FARMEUR
+Tall Seagrass/HS/FARMEUR
+Target/HS
+Terracotta/BAS/FARMEUR
+Torch/HS
+Wall Torch
+Trapped Chest/HS
+Tripwire/HS
+Tripwire Hook/HS
+Tube Coral/BAS/FARMEUR
+Tube Coral Block/BAS/FARMEUR
+Tube Coral Fan/BAS/FARMEUR
+Tube Coral Wall Fan/BAS/FARMEUR
+Turtle Egg/BAS/FARMEUR
+Twisting Vines/BAS/FARMEUR
+Twisting Vines Plant/BAS/FARMEUR
+Vine/BAS/FARMEUR
+Warped Button/HS
+Warped Door/HS
+Warped Fence/HS
+Warped Fence Gate/HS
+Warped Fungus/HS/FARMEUR
+Warped Hyphae/HS
+Warped Nylium/HS
+Warped Planks/HS
+Warped Pressure Plate/HS
+Warped Roots/HS/FARMEUR
+Warped Sign/HS
+Warped Slab/HS
+Warped Stairs/HS
+Warped Stem/HS
+Warped Trapdoor/HS
+Warped Wart Block/HS
+Weeping Vines/HS
+Weeping Vines Plant/HS
+Wet Sponge/BAS
+Wheat/HS/FARMEUR
+White Carpet/HS
+White Concrete/BAS
+White Concrete Powder/BAS
+White Glazed Terracotta/BAS
+White Stained Glass/BAS
+White Stained Glass Pane/BAS
+White Terracotta/BAS
+White Tulip/BAS/FARMEUR
+White Wool/HS
+Wither Rose/MOYEN
+Wither Skeleton Skull/MOYEN
+Yellow Carpet/HS
+Yellow Concrete/BAS
+Yellow Concrete Powder/BAS
+Yellow Glazed Terracotta/BAS
+Yellow Stained Glass/BAS
+Yellow Stained Glass Pane/BAS
+Yellow Terracotta/BAS
+Yellow Wool/HS
+Armor Stand/HS
+Beetroot Seeds/BAS
+Experience Bottle/BAS
+Bucket/HS/PECHEUR
+Carrot/HS/FARMEUR
+Cocoa Beans/BAS/FARMEUR/BOULANGER
+Egg/BAS/HUNTER
+End Crystal/MOYEN
+Ender Pearl/MOYEN/HUNTER
+Ender Eye/MOYEN/HUNTER
+Fire Charge/BAS
+Firework Rocket/BAS
+Item Frame/HS
+Lead/BAS
+Melon Seeds/BAS/FARMEUR
+Nether Wart/BAS/FARMEUR
+Painting/HS
+Potato/BAS
+Pumpkin Seeds/BAS
+Redstone/BAS
+Snowball/BAS
+String/BAS
+Sweet Berries/BAS/BOULANGER
+Wheat Seeds/BAS
+Apple/HS
+Arrow/BAS
+Baked Potato/BAS
+Beetroot/BAS
+Beetroot Soup/BAS
+Black Dye/MOYEN
+Blue Dye/MOYEN
+Bone/BAS/HUNTER
+Bone Meal/BAS/HUNTER
+Bowl/HS
+Bread/HS/BOULANGER
+Brown Dye/MOYEN
+Chorus Fruit/BAS
+Compass/BAS
+Cooked Chicken/HS/HUNTER
+Cooked Cod/HS/HUNTER/PECHEUR
+Cooked Mutton/HS/HUNTER
+Cooked Porkchop/HS/HUNTER
+Cooked Rabbit/HS/HUNTER
+Cooked Salmon/HS/HUNTER/PECHEUR
+Cookie/HS/BOULANGER
+Cyan Dye/BAS
+Dried Kelp/BAS
+Map/MOYEN
+Glass Bottle/HS
+Gold Ingot/HS
+Golden Apple/MOYEN
+Golden Carrot/MOYEN
+Gray Dye/MOYEN
+Green Dye/MOYEN
+Honey Bottle/BAS/BOULANGER
+Ink Sac/BAS
+Iron Axe/HS
+Iron Ingot/HS/FORGERON
+Lapis Lazuli/HS
+Light Blue Dye/MOYEN
+Light Gray Dye/MOYEN
+Lime Dye/MOYEN
+Magenta Dye/MOYEN
+Melon Slice/BAS/BOULANGER
+Name Tag/BAS
+Orange Dye/MOYEN
+Pink Dye/MOYEN
+Poisonous Potato/HS/HUNTER
+Pufferfish/MOYEN/HUNTER/PECHEUR
+Pumpkin Pie/BAS/BOULANGER
+Purple Dye/MOYEN
+Rabbit Stew/BAS
+Beef/HS
+Chicken/HS/HUNTER
+Cod/HS/HUNTER
+Mutton/HS
+Porkchop/HS
+Rabbit/HS/HUNTER
+Salmon/HS/HUNTER/PECHEUR
+Red Dye/MOYEN
+Rotten Flesh/HS
+Spectral Arrow/BAS
+Spider Eye/HS/HUNTER
+Cooked Beef/HS
+Sugar/HS
+Tropical Fish/BAS/HUNTER/PECHEUR
+Turtle Helmet/MOYEN
+Wheat/HS/BOULANGER
+White Dye/MOYEN
+Yellow Dye/MOYEN
+Blaze Powder/BAS/HUNTER
+Blaze Rod/BAS/HUNTER
+Book/BAS
+Brick/BAS
+Charcoal/HS
+Clay Ball/BAS
+Clock/BAS
+Coal/HS/MINEUR
+Diamond/MOYEN/MINEUR
+Dragon Breath/MOYEN/HUNTER
+Emerald/MOYEN/MINEUR
+Feather/BAS/HUNTER
+Fermented Spider Eye/MOYEN
+Firework Star/BAS
+Flint/BAS
+Ghast Tear/MOYEN/HUNTER
+Glistering Melon Slice/BAS
+Glowstone Dust/HS
+Gold Nugget/BAS
+Gunpowder/BAS
+Heart of the Sea/MOYEN
+Honeycomb/BAS
+Iron Nugget/MOYEN/FORGERON
+Leather/BAS/HUNTER
+Magma Cream/BAS/HUNTER
+Nautilus Shell/BAS/HUNTER
+Nether Brick/BAS
+Quartz/BAS
+Nether Star/HAUT
+Netherite Ingot/MOYEN/MINEUR/FORGERON
+Netherite Scrap/MOYEN/MINEUR/FORGERON
+Paper/BAS
+Phantom Membrane/BAS/HUNTER
+Popped Chorus Fruit/BAS
+Prismarine Crystals/BAS
+Prismarine Shard/BAS
+Rabbit Hide/BAS/HUNTER
+Rabbit Foot/BAS/HUNTER
+Scute/BAS/HUNTER
+Shulker Shell/BAS/HUNTER
+Slime ball/BAS/HUNTER
+Stick/BAS
+Dragon Egg/HAUT/HUNTER
+Elytra/HAUT/HUNTER
+Enchanted Golden Apple/HAUT/FARMEUR
+Totem of Undying/HAUT/HUNTER

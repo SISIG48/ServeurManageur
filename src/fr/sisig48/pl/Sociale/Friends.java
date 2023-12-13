@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -17,7 +18,7 @@ import org.bukkit.entity.Player;
 import fr.sisig48.pl.logs;
 
 public class Friends {
-	public static ArrayList<String> FriendsResquet = new ArrayList<String>();
+	private ArrayList<Player> FriendsResquest = new ArrayList<Player>();
 	private static ArrayList<Friends> InstanceList = new ArrayList<Friends>();
 	private static ArrayList<OfflinePlayer> PlayerInstanceList = new ArrayList<OfflinePlayer>();
 	private int nl;
@@ -53,7 +54,23 @@ public class Friends {
 		 return;
 	}
 	
-	public ArrayList<OfflinePlayer> get() {
+	public void addRequest(Player p) {
+		fi.FriendsResquest.add(p);
+	}
+	
+	public boolean dellRequest(Player p) {
+		return fi.FriendsResquest.remove(p);
+	}
+	
+	public List<Player> getRequest(Player p) {
+		return fi.FriendsResquest;
+	}
+	
+	public boolean hasRequest(Player p) {
+		return fi.FriendsResquest.contains(p);
+	}
+	
+	public List<OfflinePlayer> get() {
 		return fi.listFriends;
 	}
 	
@@ -138,6 +155,7 @@ class Friendsdata {
 
 	static void reload() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/friends.txt");
+		file.getParentFile().mkdirs();
 		if(!file.exists()) file.createNewFile();
 		
 	    FileReader MyFileR = new FileReader("plugins/ServeurManageur/data/friends.txt");
@@ -172,7 +190,10 @@ class Friendsdata {
 	//test GITHUB
 	static void save() throws IOException {
 		File file = new File("plugins/ServeurManageur/data/friends.txt");
-		if(!file.exists()) file.createNewFile();
+		if(!file.exists()) {
+			file.getParentFile().mkdir();
+			file.createNewFile();
+		}
 		FileWriter MyFileW = new FileWriter("plugins/ServeurManageur/data/friends.txt");
 	    BufferedWriter bufWriter = new BufferedWriter(MyFileW);
 	    for(String e : line) {    
