@@ -26,7 +26,7 @@ public class WebServer {
 	private static char[] password;
 	private ServerSocket serverSocket = null;
 	private int port;
-	private int maxUsers = 1;
+	private int maxUsers = 5000;
 	public static void setPath(String path) {
 		WebServer.path = path;
 	}
@@ -57,22 +57,66 @@ public class WebServer {
 		}
 	}
 	
-	public void start() {
+	public void start(boolean secure) {
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				start1();
+				if(secure) startHTTPS();
+				else startHTTP();
 			}
 		}, "Thread web :" + port).start();
 	}
 	
-	public void start0() {
-		start1();
+	public void start0(boolean secure) {
+		if(secure) startHTTPS();
+		else startHTTP();
 	}
 	
 	private int current = 0;
-	public void start1() {
+	public void startHTTP() {
+		WebResponses.load();
+		try {
+			try{
+				if(serverSocket == null || !serverSocket.isBound()) serverSocket = new ServerSocket(port);
+			} catch (BindException e) {
+				System.out.println("start failed on :" + port);
+				return;
+			}
+			
+			System.out.println("start server on :" + port);
+			while(!serverSocket.isClosed()) {
+				try {
+					while(current >= maxUsers) {
+						try {Thread.sleep(1000);} catch (InterruptedException e) {}
+					};
+					Socket s = serverSocket.accept();
+					current++;
+					new WebResponses(s);
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								Thread.sleep(5000);
+							} catch (InterruptedException e) {
+							}
+							current--;
+							return;
+						}
+					}).start();
+				} catch (SocketException e) {
+					
+				}
+				
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void startHTTPS() {
 		WebResponses.load();
 		try {
 			File key = new File(path + "/keystore.jks");
@@ -80,7 +124,7 @@ public class WebServer {
 			SSLContext sslContext = SSLContext.getInstance("TLS");
             
 			KeyStore ks = KeyStore.getInstance("JKS");
-            ks.load(new FileInputStream(key), password);
+            try{ks.load(new FileInputStream(key), password);} catch(IOException e) {System.out.println(password); e.printStackTrace();return;}
 
             KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
             kmf.init(ks, password);
@@ -95,7 +139,7 @@ public class WebServer {
             	return;
             }
             
-            System.out.println("start server on :" + port);
+			System.out.println("start server on :" + port);
             while(!serverSocket.isClosed()) {
                 try {
                 	while(current >= maxUsers) {

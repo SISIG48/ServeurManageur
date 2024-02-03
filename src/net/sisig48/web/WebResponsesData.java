@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class WebResponsesData {
 	private Map<String, String> cookies;
@@ -27,7 +26,9 @@ public class WebResponsesData {
 		cookies = parseCookies(requestList);
 		if(requestList.size() > 0)
 		try {request.addAll(Arrays.asList(URLDecoder.decode(requestList.get(0), StandardCharsets.UTF_8.toString()).split(" ")));} catch (UnsupportedEncodingException e) {}
-		if(getCokkies().get("account") != null && getCokkies().get("pass") != null && getCokkies().get("uuid") != null) account = WebAccount.getUser(getCokkies().get("account"), getCokkies().get("pass"), UUID.fromString(getCokkies().get("uuid")), clientSocket.getInetAddress());
+		if(getCokkies().get("account") != null && getCokkies().get("pass") != null && getCokkies().get("token") != null) {
+			account = WebAccount.getUser(getCokkies().get("account"), getCokkies().get("pass"), getCokkies().get("token"), clientSocket.getInetAddress());
+		}
 		this.in = in;
 		this.out = out;
 	}

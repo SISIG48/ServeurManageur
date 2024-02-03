@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,22 +22,22 @@ public class WebAccount implements Serializable {
 	private static String path = WebServer.getPath();
 	private static Map<String, WebAccount> accountList = new HashMap<String, WebAccount>();
 	private Object id;
-	private Object password;
+	private String password;
 	private List<String> perm = Arrays.asList("user.member");
 	private Map<Object, Object> tags = new HashMap<Object, Object>();
-	private UUID uuid = UUID.randomUUID();
+	private String token = createToken();
 	private InetAddress ip;
 	private static List<String> utf8Characters = Arrays.asList(
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-            "@", "$", "!", "§","*", "/", "-", "'", "\"", "."
+            "@", "$", "!", "*", "/", "-", "'", "\"", "."
 		);
 	
 	
 	private WebAccount(Object id, Object password, Map<Object, Object> tags) {
 		this.id = id;
-		this.password = password;
+		this.password = hash(password);
 		this.tags = tags;
 		accountList.put(String(id), this);
 	}
@@ -53,12 +55,12 @@ public class WebAccount implements Serializable {
 		return id;
 	}
 	
-	public static void delAccount(WebAccount account) {
-		accountList.remove(String(account.getId()));
+	public static String createToken() {
+		return hash(UUID.randomUUID().toString() + UUID.randomUUID().toString() + UUID.randomUUID().toString());
 	}
 	
-	public Object getPassword() {
-		return this.password;
+	public static void delAccount(WebAccount account) {
+		accountList.remove(String(account.getId()));
 	}
 	
 	public Map<Object, Object> getTag() {
@@ -103,18 +105,13 @@ public class WebAccount implements Serializable {
 	
 	public static WebAccount getUser(Object id, Object password) {
 		WebAccount a = accountList.get(String(id));
-		if(a != null && String(a.password).equals(String(password))) return a;
+		if(a != null && String(a.password).equals(hash(password))) return a;
 		return null;
 	}
 	
-	public static WebAccount getUser(Object id, Object password, UUID uuid, InetAddress ip) {
+	public static WebAccount getUser(Object id, Object password, String token, InetAddress ip) {
 		WebAccount a = accountList.get(id);
-		if(a != null && String(a.password).equals(String(password)) && a.uuid.equals(uuid) && a.ip.equals(ip)) return a;
-		return null;
-	}
-	
-	public static WebAccount getUser(UUID uuid) {
-		for(WebAccount a : accountList.values()) if(a.uuid != null && a.uuid.equals(uuid)) return a;
+		if(a != null && String(a.password).equals(hash(password)) && a.token.equals(token) && a.ip.equals(ip)) return a;
 		return null;
 	}
 	
@@ -123,12 +120,12 @@ public class WebAccount implements Serializable {
 		return null;
 	}
 	
-	public UUID getUUID() {
-		return this.uuid;
+	public String getUUID() {
+		return this.token;
 	}
 	
-	public void setUUID(UUID uuid) {
-		this.uuid = uuid;
+	public void setUUID(String token) {
+		this.token = token;
 	}
 	
 	public InetAddress getIp() {
@@ -177,4 +174,28 @@ public class WebAccount implements Serializable {
 			}
 		}
 	}
+	
+	private static String hash(Object input) {
+        try {
+            // Créer un objet de MessageDigest avec l'algorithme SHA-256
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            // Mettre la chaîne de caractères dans le message digest
+            md.update(String(input).getBytes());
+
+            // Récupérer le tableau de bytes résultant du hachage
+            byte[] hashedBytes = md.digest();
+
+            // Convertir les bytes en une représentation hexadécimale
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte b : hashedBytes) {
+                stringBuilder.append(String.format("%02x", b));
+            }
+
+            return stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

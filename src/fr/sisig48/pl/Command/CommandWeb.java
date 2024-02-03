@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import net.sisig48.web.WebResponses;
 import net.sisig48.web.WebServer;
 
 public class CommandWeb implements CommandExecutor, TabCompleter{
@@ -16,8 +17,14 @@ public class CommandWeb implements CommandExecutor, TabCompleter{
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if(!sender.isOp() || args.length < 1) return true;
-		if(args[0].equals("start")) new WebServer(80).start();
+		if(args[0].equals("start")) new WebServer(443).startHTTPS();
 		if(args[0].equals("stop")) WebServer.stopAll();
+		if(args[0].equals("rl")) {
+			WebServer.stopAll();
+			WebResponses.load();
+			new WebServer(443).startHTTPS();
+		}
+		if(args[0].equals("http")) new WebServer(80).startHTTP();
 		return true;
 	}
 
@@ -27,6 +34,8 @@ public class CommandWeb implements CommandExecutor, TabCompleter{
         if(args.length == 1 && sender instanceof Player && sender.isOp()) {
         	completions.add("start");
         	completions.add("stop");
+        	completions.add("rl");
+        	completions.add("http");
         } 
         for(String e : completions.toArray(new String[0])) if(args.length > 0 && !e.startsWith(args[args.length-1])) completions.remove(e);
         return completions;

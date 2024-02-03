@@ -13,10 +13,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class WebResponses {
 	private static String path = WebServer.getPath();
 	private static File login;
 	private static List<String> access;
+	private static List<String> accessData = new ArrayList<String>();
 	
 	static {
 		load();
@@ -30,7 +34,7 @@ public class WebResponses {
     }
 	
 	WebResponses(Socket clientSocket) {
-		Thread thread = new Thread(() -> {
+		new Thread(() -> {
     		try (
     				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     				OutputStream out = clientSocket.getOutputStream()
@@ -44,43 +48,22 @@ public class WebResponses {
     			if(data.getType() != null) {
     				try{for(WebResponsesListener l : listener) if(l.onWebResponse(data)) return;} catch (Exception e) {e.printStackTrace();}
     				
+    				// Récupération du compte
+    				WebAccount account = data.getAccount();
+    				
+    				// Récupération des information demmander
+    				String request = data.getRequest();
+    				
     				String type = data.getType();
+    				
+    				//Pour les requete directe
     				if(type.equals("GET")) {
     					
-    					// Récupération du compte
-    					WebAccount account = data.getAccount();
-    					
-    					// Récupération des information demmander
-    					String request = data.getRequest();
-    					
     					if(request.contains("?")) {
-    						// Système de conextion au profile
-    						if(request.startsWith("/login?")) {
-    							if(request.startsWith("/login?out")) {
-    								if(account == null) WebView.PageUnauthorized(out);
-            						else WebView.returnText(Arrays.asList("id: " + account.getId(), "\r\nLogout"), out, "account=; pass=; uuid=; Expires=Thu, 01 Jan 1970 00:00:00 GMT");
-    								return;
-    							}
-    							
-    							try {
-            						request = request.replace("/login?", "");
-            						Object id = request.split(",")[0].replace("id=", "");
-            						Object pass = request.split(",")[1].replace("pass=", "");
-            						account = WebAccount.getUser(id, pass);
-            						
-            						if(account == null) {
-            							WebView.PageUnauthorized(out);
-            							return;
-            						}
-            						
-            						account.setIp(clientSocket.getInetAddress());
-        							WebView.returnText(Arrays.asList("id: " + account.getId(), "\r\npass: " + account.getTag()), out, "account=" + account.getId() + "; pass=" + account.getPassword() + "; uuid=" + account.getUUID().toString());
-        							return;
-    							} catch (Exception e) {
-    								e.printStackTrace();
-    								WebView.PageBadResquest(out);
-    								return;
-    							}
+    						if(request.startsWith("/login?out")) {
+    							if(account == null) WebView.PageUnauthorized(out);
+    							else WebView.returnText(Arrays.asList("id: " + account.getId(), "\r\nLogout"), out, "account=; pass=; uuid=; Expires=Thu, 01 Jan 1970 00:00:00 GMT");
+    							return;
     						} else request = (String) request.subSequence(0, request.lastIndexOf("?")); // Système pour les paramètre dans les URL
     					}
     					
@@ -88,6 +71,7 @@ public class WebResponses {
     					
     					// Récupération locale
     					File Outfile = new File(path + request);
+    					
     					
     					// Vérification de la disponibilité local
     					if(access.contains("!" + request) || !Outfile.getPath().replace("\\", "/").startsWith(path)) {
@@ -114,16 +98,67 @@ public class WebResponses {
     						}
     					}
     					
+    					//Cherche l'extention
+    					String[] filePart = Outfile.getPath().split("\\.");
+    					String ext = WebType.application.getInfo();
+    					if(filePart.length > 1) ext = WebType.getByExtensions(filePart[filePart.length - 1]);
+    					
     					// Renvoie de la page
     					if(Outfile.exists() && Outfile.isFile()) {
-    						for(WebType wt : WebType.values()) if(Outfile.getPath().endsWith(wt.getExt())) { 
-    							WebView.returnData(Outfile, out, wt.getInfo());
-    							return;
-    						}
-    						WebView.returnData(Outfile, out, WebType.text.getInfo());
+    						WebView.returnData(Outfile, out, ext);
     						return;
     					}
     					
+    				}
+    				
+    				//Requete secondaire
+    				if(type.equals("POST")) {
+    					if(request.contains("?")) request = (String) request.subSequence(0, request.lastIndexOf("?")); // Système pour les paramètre dans les URL
+    					int contentLength = getContentLength(requestList);
+    		            if (contentLength > 0) {
+    		                char[] postData = new char[contentLength];
+    		                try {in.read(postData, 0, contentLength);} catch (IOException e) {}
+    		
+    		                
+    		                @SuppressWarnings("deprecation")
+							JsonParser parser = new JsonParser();
+    		                @SuppressWarnings("static-access")
+							JsonObject json = parser.parseString(new String(postData)).getAsJsonObject();
+    		                
+    		                // Système de conextion au profile
+    						if(request.startsWith("/login")) {
+    							
+    							
+	    						try {
+	    							Thread.sleep(500);
+	    							
+	    							//Récupération du compte
+	    							Object id = json.get("user").getAsString();
+	    							Object pass = json.get("password").getAsString();
+	    							account = WebAccount.getUser(id, pass);
+	    							
+	    							// Si le compte est validé
+	    							if(account == null) {
+	    								Thread.sleep(1000);
+	    								WebView.PageUnauthorized(out);
+	    								return;
+	    							}
+	    							
+	    							//Change l'ip destinataire
+	    							account.setIp(data.getSocket().getInetAddress());
+	    							account.setUUID(WebAccount.createToken());
+	    							
+	    							// Définie les cookies et renvoie le compte demmander
+	    							WebView.returnText(Arrays.asList("id: " + account.getId(), "\r\npass: " + pass), out, "account=" + account.getId() + "; pass=" + pass + "; token=" + account.getUUID().toString());
+	    							return;
+	    						} catch (Exception e) {
+	    							e.printStackTrace();
+	    							WebView.PageBadResquest(out);
+	    							return;
+	    						}
+    						}
+    		            }	
+    				
     				}
     				WebView.PageNotFound(out);
     				return;
@@ -131,11 +166,8 @@ public class WebResponses {
     				WebView.PageBadResquest(out);
     			}
     		} catch (Exception e) {}
-    		
     		try {clientSocket.close();} catch (Exception e) {}
-    	});
-    	
-    	thread.start();
+    	}).start();
 	}
 	
 	public static void load() {
@@ -151,38 +183,43 @@ public class WebResponses {
 		return access.remove(data);
 	}
 	
+	private static int getContentLength(List<String> requestList) {
+	    for (String line : requestList) {
+	        if (line.startsWith("Content-Length:")) {
+	            return Integer.parseInt(line.split(":")[1].trim());
+	        }
+	    }
+	    return 0;
+	}
+	
 	public static void save() {
 		File file = new File(path + "/access.txt");
-		if(!file.exists()) {
-			try {
+		
+		try {
+			if(!file.exists()) {
 				file.getParentFile().mkdir();
 				file.createNewFile();
-				FileWriter MyFileW = new FileWriter(file);
-				BufferedWriter bufWriter = new BufferedWriter(MyFileW);
-				
-				List<String> line = new ArrayList<String>();
-				line.add("//Denied file access, write \"!/path/file.ext\"");
-				line.add("//To create a file shortcut, write \"/file/shortcut to /path/file.ext\" ; add \"$\" before file path for set absolute path of the file");
-				line.add("//To define restricted access to a file, write \"/file/shortcut need perm.acces\". ; add \"$\" before file path for set absolute path of the file");
-				line.add("//Use \"//\" to comment out this file");
-				line.addAll(access);
-				
-				for(String s : line) {
-			    	bufWriter.write(s);
-			    	bufWriter.newLine();
-			    }
-			    
-		        bufWriter.close();
-		        MyFileW.close();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
+			FileWriter MyFileW = new FileWriter(file);
+			BufferedWriter bufWriter = new BufferedWriter(MyFileW);
+			
+			for(String s : accessData) {
+			    bufWriter.write(s);
+			    bufWriter.newLine();
+			 }
+			    
+		    bufWriter.close();
+		    MyFileW.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		
 	}
 	
 	private static List<String> getFiles() {
 		List<String> l = new ArrayList<String>();
 		File file = new File(path + "/access.txt");
+		accessData.clear();
 		
 		try {
 			if(!file.exists()) {
@@ -193,10 +230,11 @@ public class WebResponses {
 			    
 			    List<String> line = new ArrayList<String>();
 			    line.add("//Denied file access, write \"!/path/file.ext\"");
-			    line.add("//To create a file shortcut, write \"/file/shortcut to /path/file.ext\" ; add \"$\" before file path for set absolute path of the file");
-			    line.add("//To define restricted access to a file, write \"/file/shortcut need perm.acces (, perm2.acces, ...)\". ; add \"$\" before file path for set absolute path of the file");
-			    line.add("//Use \"//\" to comment out this file");
-			    line.add("\n\r");
+				line.add("//To create a file shortcut, write \"/file/shortcut to /path/file.ext\" ; add \"$\" before file path for set absolute path of the file");
+				line.add("//To define restricted access to a file, write \"/file/shortcut need perm.acces\". ; add \"$\" before file path for set absolute path of the file");
+				line.add("//To define return type (\"ex: video/mp4\"), write \"** [file extensions] [type]");
+				line.add("//Use \"//\" to comment out this file");
+				line.add("\n\r");
 			    line.add("#Password: none");
 			    line.add("#Login-page: /login.html");
 			    
@@ -215,7 +253,9 @@ public class WebResponses {
 			String r;
 			@SuppressWarnings("unused")
 			ArrayList<String> line = new ArrayList<String>();
-			while((r = br.readLine()) != null) if(r.startsWith("//")) continue; else {
+			while((r = br.readLine()) != null) if(!accessData.contains(r) || r.equals("")) if(r.startsWith("//")) accessData.add(r); else {
+				l.add(r);
+				accessData.add(r);
 				if(r.startsWith("#Password:")) {
 					WebServer.setPassword(r.split("#Password: \\s*")[1].toCharArray());
 					continue;
@@ -227,7 +267,12 @@ public class WebResponses {
 					continue;
 				}
 				
-				l.add(r);
+				if(r.startsWith("**")) {
+					String[] args = r.split(" ");
+					if(args.length == 3) WebType.addType(args[1], args[2]);
+					continue;
+				}
+				
 				if(!r.startsWith("!")) {
 					if(r.contains(" to ")) {
 						l.add("!!" + r.split("\\s*to\\s*")[0]);
@@ -239,9 +284,18 @@ public class WebResponses {
 				}
 			}
 			MyFileR.close();
-			if(!l.contains("!/access.txt")) l.add("!/access.txt");
-			if(!l.contains("!/keystore.jks")) l.add("!/keystore.jks");
-			if(!l.contains("!/users.data")) l.add("!/users.data");
+			if(!accessData.contains("!/access.txt")) {
+				l.add("!/access.txt");
+				accessData.add("!/access.txt");				
+			}
+			if(!accessData.contains("!/keystore.jks")) {
+				l.add("!/keystore.jks");
+				accessData.add("!/keystore.jks");
+			}
+			if(!accessData.contains("!/users.data")) {
+				l.add("!/users.data");
+				accessData.add("!/users.data");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
